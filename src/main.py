@@ -1,0 +1,34 @@
+#!/usr/bin/env python3
+"""
+Zedchatbot - Main Application Entry Point.
+Phase 4: Unified entry point for starting the service.
+"""
+
+import sys
+import os
+from pathlib import Path
+
+# Add the project root to sys.path so 'import src' works
+root_path = str(Path(__file__).resolve().parent.parent)
+if root_path not in sys.path:
+    sys.path.insert(0, root_path)
+
+from src.api.web_api import app
+from src.configs.settings import settings
+from src.core.logger import logger
+
+# This file simply exposes the fully-configured 'app' instance from our modular API setup.
+# You can run the application using:
+# uvicorn src.main:app --host 0.0.0.0 --port 8000 --reload
+
+if __name__ == "__main__":
+    import uvicorn
+    
+    logger.info(f"Launching {settings.APP_NAME}...")
+    
+    uvicorn.run(
+        "src.main:app",
+        host=settings.API_HOST,
+        port=settings.API_PORT,
+        reload=settings.DEBUG
+    )

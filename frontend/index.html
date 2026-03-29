@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Zedchatbot | African Community Assistant</title>
+    <meta name="description" content="A multilingual AI assistant for Zambian and Zimbabwean communities, powered by RAG technology." />
+    <!-- Modular CSS -->
+    <link rel="stylesheet" href="./css/main.css" />
+    <link rel="stylesheet" href="./css/layout.css" />
+    <link rel="stylesheet" href="./css/components.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <header class="hero">
+        <span class="eyebrow">Zambia-first RAG assistant</span>
+        <h1>Zedchatbot</h1>
+        <p class="intro">
+          Access trusted information on local services, education, and government 
+          right here. Select your language to get started.
+        </p>
+      </header>
+
+      <div class="chat-card">
+        <div class="controls">
+          <label>
+            Country
+            <select id="country">
+              <option value="zm">Zambia 🇿🇲</option>
+              <option value="zw">Zimbabwe 🇿🇼</option>
+            </select>
+          </label>
+          <label>
+            Language
+            <select id="language">
+              <option value="en">English</option>
+              <option value="bem">Bemba</option>
+              <option value="ny">Nyanja</option>
+              <option value="sn">Shona</option>
+            </select>
+          </label>
+        </div>
+
+        <div id="messages" class="messages">
+          <!-- Initial greeting will be handled by JS -->
+        </div>
+
+        <form id="chat-form" class="composer">
+          <input
+            id="message"
+            name="message"
+            type="text"
+            placeholder="Ask about ZESCO, NHIMA, UNZA, ECZ..."
+            autocomplete="off"
+            required
+          />
+          <button type="submit" id="send-btn">Send</button>
+        </form>
+      </div>
+      
+      <footer style="text-align: center; margin-top: 1rem; font-size: 0.8rem; color: var(--text-secondary);">
+        Powered by Gemini AI • Community Resource Hub
+      </footer>
+    </main>
+
+    <!-- Modular JS using ES6 modules -->
+    <script type="module" src="./js/app.js"></script>
+  </body>
+</html>
+

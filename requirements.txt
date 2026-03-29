@@ -1,0 +1,39 @@
+# Web Framework
+fastapi>=0.110.0
+uvicorn[standard]
+python-dotenv
+python-multipart
+pydantic-settings>=2.2.0
+
+# AI & RAG
+langchain>=0.1.0
+langchain-community
+langchain-core
+langchain-openai
+langchain-google-genai
+google-generativeai
+langchain-huggingface
+langchain-chroma
+openai>=1.0.0
+chromadb>=0.4.0
+sentence-transformers
+tiktoken
+langchain-google-genai
+
+# Multilingual & Detection
+langdetect
+deep-translator
+transformers
+torch
+sentencepiece
+
+# Messaging Integration
+twilio
+
+# Data Processing & Evaluation
+pypdf
+python-docx
+pandas
+matplotlib
+scikit-learn
+pytest
