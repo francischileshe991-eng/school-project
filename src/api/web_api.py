@@ -36,6 +36,12 @@ def create_app() -> FastAPI:
     @app.on_event("startup")
     async def startup_event():
         logger.info(f"Starting {settings.APP_NAME} API...")
+        if settings.PRELOAD_PIPELINE_ON_STARTUP:
+            from src.rag.pipeline import get_pipeline
+
+            logger.info("Preloading RAG pipeline and models into memory...")
+            get_pipeline()
+            logger.info("RAG pipeline and models ready.")
 
     return app
 

@@ -8,6 +8,10 @@ class Settings(BaseSettings):
     GOOGLE_API_KEY: Optional[str] = None
     TWILIO_ACCOUNT_SID: Optional[str] = None
 
+    # LLM Configuration
+    LLM_PROVIDER: str = "ollama"
+    MODEL_NAME: str = "llama3.2:1b"
+
     TWILIO_AUTH_TOKEN: Optional[str] = None
     TWILIO_PHONE_NUMBER: Optional[str] = None
 
@@ -18,6 +22,7 @@ class Settings(BaseSettings):
     API_HOST: str = "0.0.0.0"
     API_PORT: int = 8000
     API_VERSION: str = "v1"
+    PRELOAD_PIPELINE_ON_STARTUP: bool = False
 
     # Paths
     BASE_DIR: Path = Path(__file__).resolve().parent.parent.parent

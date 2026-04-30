@@ -22,3 +22,6 @@ data/processed/zambia/*
 !data/processed/zambia/.gitkeep
 data/processed/zimbabwe/*
 !data/processed/zimbabwe/.gitkeep
+logs/
+zedchatbot.egg-info/
+nul

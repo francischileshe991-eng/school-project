@@ -15,12 +15,17 @@ _EmbeddingsCache = {}
 
 
 def _get_embeddings_instance():
-    """Returns cached embeddings instance or creates a new one."""
-    cache_key = "huggingface_multilingual"
+    """Returns cached embeddings instance (BGE-M3) for native multilingual support."""
+    model_name = getattr(settings, "EMBEDDING_MODEL", "BAAI/bge-m3")
+    cache_key = f"huggingface_{model_name}"
+    
     if cache_key not in _EmbeddingsCache:
-        logger.info("Initializing Multilingual HuggingFace Embeddings")
+        logger.info(f"Initializing Native Multilingual Embeddings: {model_name}")
+        # BGE-M3 is powerful and runs locally via HuggingFaceEmbeddings
         _EmbeddingsCache[cache_key] = HuggingFaceEmbeddings(
-            model_name="sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2"
+            model_name=model_name,
+            model_kwargs={'device': 'cpu'}, # Use 'cuda' if you have a GPU later
+            encode_kwargs={'normalize_embeddings': True}
         )
     return _EmbeddingsCache[cache_key]
 
@@ -28,9 +33,9 @@ def _get_embeddings_instance():
 class ZedVectorStore:
     """Manages country-specific ChromaDB vector stores."""
 
-    def __init__(self, use_gemini: bool = False):
+    def __init__(self, use_ollama: bool = True):
         self.base_path = settings.vector_store_full_path
-        self.use_gemini = use_gemini
+        self.use_ollama = use_ollama
         self.embeddings = _get_embeddings_instance()
 
     def _get_country_db_path(self, country_code: str) -> str:
@@ -72,16 +77,32 @@ class ZedVectorStore:
             raise VectorStoreError(f"Failed to index documents: {e}")
 
     def similarity_search(
-        self, country_code: str, query: str, k: int = 4
+        self, 
+        country_code: str, 
+        query: str, 
+        k: int = 4
     ) -> List[Document]:
         """Performs a similarity search in the country-specific database."""
         vector_db = self.get_vector_store(country_code)
 
         try:
-            logger.debug(
-                f"Searching {country_code.upper()} vector store for: '{query}'"
-            )
+            logger.debug(f"Searching {country_code.upper()} vector store for: '{query}'")
             return vector_db.similarity_search(query, k=k)
         except Exception as e:
             logger.error(f"Similarity search failed for {country_code}: {e}")
             raise VectorStoreError(f"Search operation failed: {e}")
+
+    def similarity_search_with_relevance(
+        self, 
+        country_code: str, 
+        query: str, 
+        k: int = 4
+    ) -> List[tuple[Document, float]]:
+        """Performs a search and returns documents with their relevance scores."""
+        vector_db = self.get_vector_store(country_code)
+        try:
+            return vector_db.similarity_search_with_relevance_scores(query, k=k)
+        except Exception as e:
+            logger.error(f"Relevance search failed: {e}")
+            return []
+

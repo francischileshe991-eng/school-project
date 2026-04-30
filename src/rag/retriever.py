@@ -19,22 +19,28 @@ class ZedRetriever:
         self, 
         query: str, 
         country_code: str, 
-        top_k: int = 3
+        top_k: int = 3,
+        threshold: float = 999.0 # Effectively disabled
     ) -> List[Document]:
         """
         Retrieves the most relevant document chunks for a given query.
+        Uses distance scoring (Lower distance = Better match).
         """
         logger.info(f"Retriever: Searching for '{query[:50]}...' in {country_code.upper()}")
         
         try:
-            # We use the similarity search from our vector store implementation
-            docs = self.vector_store.similarity_search(
-                country_code=country_code,
-                query=query,
+            # Get docs with their distance scores
+            # Note: similarity_search_with_score returns (doc, distance)
+            results = self.vector_store.get_vector_store(country_code).similarity_search_with_score(
+                query, 
                 k=top_k
             )
-            logger.info(f"Retriever: Found {len(docs)} relevant chunks.")
-            return docs
+            
+            # Filter results: Keep documents where distance is LESS than threshold
+            relevant_docs = [doc for doc, distance in results if distance <= threshold]
+            
+            logger.info(f"Retriever: Found {len(relevant_docs)} relevant chunks (Threshold: {threshold}).")
+            return relevant_docs
         except Exception as e:
             logger.error(f"Retriever: Failed to fetch documents: {e}")
             return []

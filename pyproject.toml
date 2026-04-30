@@ -41,6 +41,11 @@ dependencies = [
 dev = [
     "pytest"
 ]
+translation = [
+    "transformers",
+    "torch",
+    "sentencepiece"
+]
 
 [tool.setuptools]
 package-dir = {"" = "."}

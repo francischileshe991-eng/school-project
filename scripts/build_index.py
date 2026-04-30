@@ -18,7 +18,7 @@ def build_zambia_index():
     logger.info("Starting build_index for Zambia...")
     
     loader = ZedDocumentLoader()
-    store = ZedVectorStore(use_gemini=False)
+    store = ZedVectorStore()
     
     # 1. Load RAW documents
     logger.info(f"Loading documents from data/raw/zm...")
@@ -36,8 +36,8 @@ def build_zambia_index():
     # 2. CHUNK the documents into smaller context pieces
     logger.info("Splitting documents into smaller chunks for the AI...")
     text_splitter = RecursiveCharacterTextSplitter(
-        chunk_size=800,       # About 200-300 words per chunk
-        chunk_overlap=100,    # 100 characters overlap to keep sentences unbroken
+        chunk_size=400,       # Smaller chunks = higher precision
+        chunk_overlap=50,     # Keep some overlap for context
         length_function=len,
     )
     chunked_docs = text_splitter.split_documents(raw_docs)
