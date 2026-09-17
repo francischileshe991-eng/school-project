@@ -5,7 +5,9 @@ Enhanced with phrase caching, short text handling, and keyword protection.
 """
 
 import re
+from typing import Optional
 from src.core.logger import logger
+from src.configs.settings import settings
 
 _pipeline = None
 
@@ -130,6 +132,68 @@ class ZedTranslator:
             
         return result
 
+    def _translate_with_gemini(self, text: str, source: str, target: str) -> Optional[str]:
+        """Translates text using Google Gemini API with multi-model fallback."""
+        api_key = getattr(settings, "GOOGLE_API_KEY", None)
+        if not api_key or "your_" in api_key.lower():
+            return None
+
+        try:
+            from google import genai
+            client = genai.Client(api_key=api_key)
+        except Exception as e:
+            logger.warning(f"Translator: Google GenAI client initialization failed: {e}")
+            return None
+
+        lang_names = {
+            "en": "English",
+            "bem": "Bemba (Icibemba)",
+            "ny": "Nyanja / Chichewa",
+            "sn": "Shona (ChiShona)",
+        }
+        source_name = lang_names.get(source, source)
+        target_name = lang_names.get(target, target)
+
+        prompt = (
+            f"You are an expert multilingual translator for Southern Africa (Zambia and Zimbabwe).\n"
+            f"Translate the following text faithfully and fluently from {source_name} into {target_name}.\n"
+            f"Strict Rules:\n"
+            f"1. Output ONLY the translated text. Do not include introductory notes, explanations, or quotes.\n"
+            f"2. Keep institutional acronyms, government bodies, currency, and proper nouns verbatim "
+            f"(e.g., NRC, ZRA, NHIMA, ECZ, RTSA, PACRA, ZESCO, UNZA, Zambia, Zimbabwe, Kwacha, K500).\n"
+            f"3. Preserve all markdown formatting, bullet points, numbers, and paragraph structure.\n\n"
+            f"Text:\n{text}"
+        )
+
+        candidate_models = [
+            getattr(settings, "GEMINI_MODEL", "gemini-3.5-flash"),
+            "gemini-3.5-flash",
+            "gemini-3.5-flash-lite",
+            "gemini-3.1-flash-lite",
+            "gemini-3.6-flash",
+            "gemini-3.7-flash",
+        ]
+        # Deduplicate while preserving order
+        seen = set()
+        models_to_try = [m for m in candidate_models if not (m in seen or seen.add(m))]
+
+        for model in models_to_try:
+            try:
+                resp = client.models.generate_content(model=model, contents=prompt)
+                if resp and resp.text:
+                    out = resp.text.strip()
+                    if out.startswith("```") and out.endswith("```"):
+                        lines = out.splitlines()
+                        if len(lines) >= 2:
+                            out = "\n".join(lines[1:-1]).strip()
+                    return out
+            except Exception as e:
+                logger.debug(f"Translator: Gemini model {model} translation attempt failed: {e}")
+                continue
+
+        logger.warning("Translator: All Gemini model translation attempts failed, falling back to local pipeline.")
+        return None
+
     def translate(self, text: str, source: str = "en", target: str = "en") -> str:
         """Translates text between supported languages with enhanced handling."""
         if not text or not text.strip() or source == target:
@@ -137,11 +201,21 @@ class ZedTranslator:
 
         text_clean = text.strip()
 
+        # Fast path 1: Instant Greetings cache
         if self._is_greeting(text_clean, source):
             cache_key = (source, target)
             if cache_key in GREETINGS_CACHE:
                 return GREETINGS_CACHE[cache_key]
 
+        # Fast path 2: Google Gemini cloud translation if configured
+        provider = getattr(settings, "TRANSLATION_PROVIDER", "gemini").lower()
+        if provider == "gemini":
+            gemini_result = self._translate_with_gemini(text_clean, source, target)
+            if gemini_result:
+                logger.info(f"Translator: Translated via Gemini ({source} -> {target})")
+                return gemini_result
+
+        # Fallback path: Local NLLB-200 Neural Machine Translation
         protected_text, placeholder_map = self._protect_keywords(text_clean)
 
         src_lang = self.code_map.get(source, "eng_Latn")
@@ -162,7 +236,7 @@ class ZedTranslator:
 
             translated_text = self._restore_keywords(translated_text, placeholder_map)
 
-            logger.debug(f"Translated: '{text_clean[:50]}' -> '{translated_text[:50]}'")
+            logger.debug(f"Translated via NLLB: '{text_clean[:50]}' -> '{translated_text[:50]}'")
             return translated_text
         except Exception as e:
             logger.error(f"Translation failed: {e}")

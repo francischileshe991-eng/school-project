@@ -8,10 +8,11 @@ class Settings(BaseSettings):
     GOOGLE_API_KEY: Optional[str] = None
     TWILIO_ACCOUNT_SID: Optional[str] = None
 
-    # LLM Configuration
+    # LLM & Translation Configuration
     LLM_PROVIDER: str = "gemini"  # auto, ollama, gemini, openai
+    TRANSLATION_PROVIDER: str = "gemini"  # gemini, nllb
     MODEL_NAME: str = "qwen2.5:7b"
-    GEMINI_MODEL: str = "gemini-3.6-flash"
+    GEMINI_MODEL: str = "gemini-3.5-flash"
     OPENAI_MODEL: str = "gpt-4o-mini"
     EMBEDDING_MODEL: str = "BAAI/bge-m3"
 

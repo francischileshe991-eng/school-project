@@ -71,7 +71,7 @@ class ZedGenerator:
         try:
             from langchain_google_genai import ChatGoogleGenerativeAI
 
-            gemini_model = getattr(settings, "GEMINI_MODEL", "gemini-3.6-flash")
+            gemini_model = getattr(settings, "GEMINI_MODEL", "gemini-3.5-flash")
             logger.info(f"Generator: Initializing Google Gemini ({gemini_model})")
             return ChatGoogleGenerativeAI(
                 model=gemini_model,
@@ -118,14 +118,53 @@ class ZedGenerator:
             logger.warning(f"Generator: Provider invocation failed: {e}")
             return None
 
+    def _invoke_gemini(self, query: str, context: str, country: str) -> Optional[str]:
+        """Invokes Gemini with multi-model fallback to handle temporary 503 capacity spikes."""
+        if self.gemini_llm:
+            res = self._invoke_llm(self.gemini_llm, query, context, country)
+            if res:
+                return res
+
+        api_key = getattr(settings, "GOOGLE_API_KEY", None)
+        if not api_key or "your_" in api_key.lower():
+            return None
+
+        try:
+            from langchain_google_genai import ChatGoogleGenerativeAI
+
+            candidate_models = [
+                "gemini-3.5-flash-lite",
+                "gemini-3.5-flash",
+                "gemini-3.6-flash",
+                "gemini-3.7-flash",
+            ]
+            for model in candidate_models:
+                try:
+                    llm = ChatGoogleGenerativeAI(
+                        model=model,
+                        google_api_key=api_key,
+                        temperature=0.1,
+                    )
+                    res = self._invoke_llm(llm, query, context, country)
+                    if res:
+                        logger.info(f"Generator: Gemini fallback succeeded with model {model}")
+                        return res
+                except Exception as e:
+                    logger.debug(f"Generator: Gemini model {model} attempt failed: {e}")
+                    continue
+        except Exception as e:
+            logger.warning(f"Generator: Gemini fallback initialization failed: {e}")
+
+        return None
+
     def generate(self, query: str, context: str, country: str, language: str) -> str:
         """Generates a response based on query and retrieved context using provider cascade."""
         if not context or "No specific documents found" in context:
             return "I'm sorry, I don't have that specific official record in my database yet."
 
         # 1. Direct provider selection if explicitly configured
-        if self.provider == "gemini" and self.gemini_llm:
-            res = self._invoke_llm(self.gemini_llm, query, context, country)
+        if self.provider == "gemini":
+            res = self._invoke_gemini(query, context, country)
             if res:
                 return res
 
@@ -149,11 +188,10 @@ class ZedGenerator:
                     return res
 
             # Attempt 2: Google Gemini
-            if self.gemini_llm:
-                logger.info("Generator: Cascading to Google Gemini generation...")
-                res = self._invoke_llm(self.gemini_llm, query, context, country)
-                if res:
-                    return res
+            logger.info("Generator: Cascading to Google Gemini generation...")
+            res = self._invoke_gemini(query, context, country)
+            if res:
+                return res
 
             # Attempt 3: OpenAI
             if self.openai_llm:
@@ -168,5 +206,3 @@ class ZedGenerator:
             return f"According to official public records:\n\n{_clean_truncate(context, 600)}"
 
         return "I'm sorry, my AI brain is currently offline and no records were found."
-
-
