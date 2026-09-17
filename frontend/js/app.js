@@ -71,25 +71,6 @@ function init() {
     }
     showGreeting();
   });
-
-  // Handle Quick Civic Suggestion Chips
-  const chips = document.querySelectorAll(".chip");
-  chips.forEach((chip) => {
-    chip.addEventListener("click", () => {
-      const promptText = chip.getAttribute("data-prompt");
-      const chipCountry = chip.getAttribute("data-country");
-      const chipLang = chip.getAttribute("data-lang");
-
-      if (chipCountry && currentCountry) {
-        currentCountry.value = chipCountry;
-      }
-      if (chipLang && currentLanguage) {
-        currentLanguage.value = chipLang;
-      }
-      input.value = promptText;
-      form.dispatchEvent(new Event("submit"));
-    });
-  });
 }
 
 if (document.readyState === "loading") {
