@@ -40,10 +40,12 @@ class ZedDocumentLoader:
 
         for pattern, loader_class in loaders.items():
             try:
+                loader_kwargs = {"encoding": "utf-8"} if pattern == "*.txt" else {}
                 dir_loader = DirectoryLoader(
                     str(country_path),
                     glob=pattern,
                     loader_cls=loader_class,
+                    loader_kwargs=loader_kwargs,
                     recursive=True,
                     silent_errors=True,
                 )
@@ -75,6 +77,6 @@ class ZedDocumentLoader:
         if path.suffix.lower() == ".pdf":
             return PyPDFLoader(str(path)).load()
         elif path.suffix.lower() == ".txt":
-            return TextLoader(str(path)).load()
+            return TextLoader(str(path), encoding="utf-8").load()
         else:
             raise KnowledgeBaseError(f"Unsupported file format: {path.suffix}")

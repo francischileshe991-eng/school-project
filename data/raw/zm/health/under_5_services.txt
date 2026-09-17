@@ -1,0 +1,28 @@
+# Zambia Under-5 Health Services Guide (2026)
+
+This guide covers the free healthcare services provided by the Ministry of Health for children from birth until their fifth birthday.
+
+## 1. The Under-5 Clinic Card (Khadi lachipatala la mwana / Icitabo ca mwana)
+The "Under-5 Card" is a free health passport provided to all children. It tracks growth, vaccinations, and development.
+- **Nyanja:** Khadi lachipatala la mwana ndi laulere ndipo limagwiritsidwa ntchito poyang'anira kukula ndi katemera wa mwana mpaka zaka zisanu.
+- **Bemba:** Icitabo ca mwana caba fye caulere kabili cilafwa ukwishiba ifyo umwana alekula na mafunde ya magesi (katemera) yonse mpaka imyaka isano.
+
+## 2. Vaccination Schedule (Routine Immunization)
+Zambia protects children against major preventable diseases.
+- **At Birth:** BCG (Tuberculosis), OPV 0 (Polio).
+- **6, 10, & 14 Weeks:** Polio, Diphtheria, Pertussis, Tetanus, Hep B, Hib, Pneumonia, Rotavirus (Diarrhea).
+- **9 Months:** Measles-Rubella 1, Vitamin A.
+- **18 Months:** Measles-Rubella 2 (Booster).
+- **Nyanja:** Katemera amaperekedwa pa kubadwa, pa milungu 6, 10, 14, ndiponso pa miyezi 9 ndi 18 kuti ateteze mwana ku matenda oopsa.
+- **Bemba:** Umwana alapeelwa katemera pa kufyalwa, pa milungu 6, 10, 14, na pa myeshi 9 na 18 pa kuti acingililwe ku malwele ayakalamba.
+
+## 3. Services Offered (Mapindu / Ifisuma)
+- **Growth Monitoring:** Regular weighing and height checks.
+- **Nutritional Advice:** Guidance on breastfeeding and weaning.
+- **Supplements:** Vitamin A and deworming tablets every 6 months.
+- **Nyanja:** Amayeza kulemera kwa mwana, kupereka malangizo a kadyedwe, ndiponso kupereka mavitamini ndi mankhwala a njoka m'mimba.
+- **Bemba:** Balapima umwana ulemu, balapeela amano pa fyakulya, kabili balapeela amavitamini ne mpulungushwa sha mu nda.
+
+---
+## Requirements for Parents
+Always bring the Under-5 Card to the clinic for every visit. If born at home, visit the nearest clinic within 13 days to receive your card.

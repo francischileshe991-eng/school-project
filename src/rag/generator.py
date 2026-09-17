@@ -1,94 +1,172 @@
 #!/usr/bin/env python3
 """
 Generator component for Zedchatbot.
-Responsible for generating final responses using Local Ollama LLM.
+Expert RAG Generator with Multi-Provider support (Ollama, Gemini, OpenAI) and grounded fallback.
 """
 
-import os
-from typing import Optional
-from langchain_ollama import ChatOllama
-from langchain_google_genai import ChatGoogleGenerativeAI
+from typing import Optional, Any
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import StrOutputParser
 from src.core.logger import logger
 from src.configs.settings import settings
 
-class ZedGenerator:
-    """Handles response generation for the RAG pipeline supporting multiple providers."""
 
-    def __init__(self, use_ollama: bool = True):
-        self.provider = settings.LLM_PROVIDER.lower()
+def _clean_truncate(text: str, max_len: int = 600) -> str:
+    """Truncates text at a clean sentence or word boundary without slicing words mid-token."""
+    clean = text.strip()
+    if len(clean) <= max_len:
+        return clean
+    candidate = clean[:max_len]
+    for sep in [". ", ".\n", "\n\n", "\n", "? ", "! "]:
+        idx = candidate.rfind(sep)
+        if idx >= max_len // 2:
+            end_offset = 1 if sep.startswith(".") else len(sep)
+            return candidate[: idx + end_offset].strip()
+    idx = candidate.rfind(" ")
+    if idx >= max_len // 2:
+        return candidate[:idx].strip() + "..."
+    return candidate + "..."
+
+
+class ZedGenerator:
+    """Handles response generation with multi-provider fallback for native multilingual support."""
+
+    def __init__(self):
         self.model_name = settings.MODEL_NAME
-        
+        self.provider = getattr(settings, "LLM_PROVIDER", "auto").lower()
+
+        # Expert curated prompt: strict adherence to grounded facts
         self.system_prompt = (
             "You are an expert Zambian Community Assistant. "
-            "You will be provided with specific 'Context' from official documents. "
-            "Your task: Extract ONLY the information relevant to the user's question. "
-            "If the user asks about a specific benefit (like maternity), focus ONLY on that. "
-            "IGNORE irrelevant information in the context like fees or registration unless asked. "
-            "You MUST answer in a natural, detailed way in the SAME LANGUAGE the user used. "
-            "If the information is not in the Context, politely say you don't have those specific records yet."
+            "Your task is to answer the user's question using ONLY the provided 'Context'. "
+            "1. DO NOT restate or repeat the user's question. "
+            "2. Answer immediately and directly in clean, well-formatted markdown. "
+            "3. ALWAYS answer in ENGLISH (this will be translated to the user's selected language later if requested). "
+            "4. If the info is not in the context, politely state that you do not have that official record yet."
         )
 
+        self.ollama_llm = self._init_ollama()
+        self.gemini_llm = self._init_gemini()
+        self.openai_llm = self._init_openai()
+
+    def _init_ollama(self) -> Optional[Any]:
+        """Initializes local Ollama model instance."""
         try:
-            if self.provider == "google":
-                api_key = settings.GOOGLE_API_KEY
-                if not api_key:
-                    raise ValueError("GOOGLE_API_KEY not found in settings")
-                
-                logger.info(f"Generator: Initializing Google Gemini with {self.model_name}")
-                self.llm = ChatGoogleGenerativeAI(
-                    model=self.model_name,
-                    google_api_key=api_key,
-                    temperature=0.2
-                )
-            else:
-                logger.info(f"Generator: Initializing local Ollama with {self.model_name}")
-                self.llm = ChatOllama(
-                    model=self.model_name,
-                    temperature=0.2
-                )
+            from langchain_ollama import ChatOllama
+
+            logger.info(f"Generator: Initializing local Ollama with model '{self.model_name}'")
+            return ChatOllama(
+                model=self.model_name,
+                temperature=0.1
+            )
         except Exception as e:
-            logger.error(f"Generator: Failed to initialize LLM ({self.provider}): {e}")
-            self.llm = None
+            logger.warning(f"Generator: Could not initialize Ollama client: {e}")
+            return None
+
+    def _init_gemini(self) -> Optional[Any]:
+        """Initializes Google Gemini model instance if API key is provided."""
+        api_key = getattr(settings, "GOOGLE_API_KEY", None)
+        if not api_key or "your_" in api_key.lower():
+            return None
+        try:
+            from langchain_google_genai import ChatGoogleGenerativeAI
+
+            gemini_model = getattr(settings, "GEMINI_MODEL", "gemini-1.5-flash")
+            logger.info(f"Generator: Initializing Google Gemini ({gemini_model})")
+            return ChatGoogleGenerativeAI(
+                model=gemini_model,
+                google_api_key=api_key,
+                temperature=0.1
+            )
+        except Exception as e:
+            logger.warning(f"Generator: Failed to initialize Google Gemini: {e}")
+            return None
+
+    def _init_openai(self) -> Optional[Any]:
+        """Initializes OpenAI model instance if API key is provided."""
+        api_key = getattr(settings, "OPENAI_API_KEY", None)
+        if not api_key or "your_" in api_key.lower():
+            return None
+        try:
+            from langchain_openai import ChatOpenAI
+
+            openai_model = getattr(settings, "OPENAI_MODEL", "gpt-4o-mini")
+            logger.info(f"Generator: Initializing OpenAI ({openai_model})")
+            return ChatOpenAI(
+                model=openai_model,
+                api_key=api_key,
+                temperature=0.1
+            )
+        except Exception as e:
+            logger.warning(f"Generator: Failed to initialize OpenAI: {e}")
+            return None
+
+    def _invoke_llm(self, llm: Any, query: str, context: str, country: str) -> Optional[str]:
+        """Helper to invoke an LLM chain with standard system prompt."""
+        try:
+            prompt = ChatPromptTemplate.from_messages([
+                ("system", self.system_prompt),
+                ("user", "CONTEXT:\n{context}\n\nQUESTION: {query}\n\nFINAL ANSWER:")
+            ])
+            chain = prompt | llm | StrOutputParser()
+            return chain.invoke({
+                "context": context,
+                "query": query,
+                "country_code": country.upper()
+            })
+        except Exception as e:
+            logger.warning(f"Generator: Provider invocation failed: {e}")
+            return None
 
     def generate(self, query: str, context: str, country: str, language: str) -> str:
-        """Generates a response based on query and retrieved context."""
-        
-        # If no context is found, we still want a casual greeting
-        safe_context = context if context else "No specific documents found for this query."
-
-        if self.llm:
-            try:
-                # Real Local LLM Call using LangChain
-                prompt = ChatPromptTemplate.from_messages([
-                    ("system", self.system_prompt),
-                    ("user", "CONTEXT: {context}\n\nQUESTION: {query}\n\nFINAL ANSWER BASED ONLY ON CONTEXT:")
-                ])
-                chain = prompt | self.llm | StrOutputParser()
-                
-                # Note: We tell the LLM to stay in English because our 
-                # NLLB model is much better at the final translation.
-                return chain.invoke({
-                    "context": safe_context, 
-                    "query": query,
-                    "country_code": country.upper()
-                })
-            except Exception as e:
-                logger.error(f"Generator: Ollama call failed: {e}")
-                return self._simulated_response(safe_context)
-        else:
-            return self._simulated_response(safe_context)
-
-    def _simulated_response(self, context: str) -> str:
-        """Provides a basic answer or a friendly greeting if context is empty."""
+        """Generates a response based on query and retrieved context using provider cascade."""
         if not context or "No specific documents found" in context:
-            return "Hello! I am here to help you. How can I assist you with information about Zambia or Zimbabwe today?"
-            
-        # Clean up the context for the mock response
-        clean_context = context.replace("ï»¿", "").strip()
-        # If we have actual content, return it clearly
-        if len(clean_context) > 20:
-            return f"According to our Zambian records: {clean_context[:500]}..."
-            
-        return "I'm sorry, I don't have that specific official record in my database yet."
+            return "I'm sorry, I don't have that specific official record in my database yet."
+
+        # 1. Direct provider selection if explicitly configured
+        if self.provider == "gemini" and self.gemini_llm:
+            res = self._invoke_llm(self.gemini_llm, query, context, country)
+            if res:
+                return res
+
+        if self.provider == "openai" and self.openai_llm:
+            res = self._invoke_llm(self.openai_llm, query, context, country)
+            if res:
+                return res
+
+        if self.provider == "ollama" and self.ollama_llm:
+            res = self._invoke_llm(self.ollama_llm, query, context, country)
+            if res:
+                return res
+
+        # 2. 'Auto' cascade: Ollama -> Gemini -> OpenAI -> Context Excerpt
+        if self.provider == "auto":
+            # Attempt 1: Local Ollama
+            if self.ollama_llm:
+                logger.info("Generator: Attempting local Ollama generation...")
+                res = self._invoke_llm(self.ollama_llm, query, context, country)
+                if res:
+                    return res
+
+            # Attempt 2: Google Gemini
+            if self.gemini_llm:
+                logger.info("Generator: Cascading to Google Gemini generation...")
+                res = self._invoke_llm(self.gemini_llm, query, context, country)
+                if res:
+                    return res
+
+            # Attempt 3: OpenAI
+            if self.openai_llm:
+                logger.info("Generator: Cascading to OpenAI generation...")
+                res = self._invoke_llm(self.openai_llm, query, context, country)
+                if res:
+                    return res
+
+        # 3. Grounded Fallback if no LLM was able to produce an answer
+        if context:
+            logger.info("Generator: Providing grounded context fallback from official records.")
+            return f"According to official public records:\n\n{_clean_truncate(context, 600)}"
+
+        return "I'm sorry, my AI brain is currently offline and no records were found."
+
+

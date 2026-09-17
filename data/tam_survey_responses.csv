@@ -1,0 +1,36 @@
+participant_id,category,age_group,gender,language,channel,PU1,PU2,PU3,PU4,PEU1,PEU2,PEU3,PEU4,LC1,LC2,LC3,BI1,BI2,BI3,qualitative_like,qualitative_improve
+P01,Student,18-24,Female,English,Web,5,5,5,5,5,4,4,5,4,4,5,5,5,5,Instant answers to UNZA requirements and ECZ results without waiting,Add RTSA driver license requirements
+P02,Student,18-24,Male,Bemba,Web,4,5,4,4,4,5,3,4,5,4,5,4,4,5,I could ask questions in Bemba and it understood completely,Speed up response generation on mobile
+P03,Student,18-24,Male,Nyanja,Both,5,4,5,5,4,5,4,5,5,5,5,5,5,5,Sources were shown so I knew the ZRA numbers were real,Include scholarship application deadline alerts
+P04,Civil Servant,25-34,Female,English,WhatsApp,5,5,5,5,5,5,4,5,4,4,5,5,5,5,Convenient on WhatsApp since everyone has WhatsApp bundles,Add Ministry of Lands title deeds verification
+P05,Civil Servant,35-44,Male,English,Both,4,5,4,4,4,4,3,4,4,4,4,4,4,4,Clear summary of PAYE tax bands and NHIMA benefits,Need voice input for illiterate citizens
+P06,Business Owner,25-34,Male,Nyanja,WhatsApp,5,5,5,5,5,5,4,5,5,4,5,5,5,5,ZRA TPIN and PACRA info in Nyanja made things very simple,Allow downloading official PDF forms
+P07,Business Owner,35-44,Female,Bemba,WhatsApp,5,5,4,5,4,4,3,4,4,4,5,5,5,5,Useful ZESCO emergency tariffs and water application details,Make offline SMS version for rural areas
+P08,Student,18-24,Female,English,Web,4,4,5,4,5,5,4,5,4,4,4,4,4,4,Modern clean user interface and easy to ask questions,Expand to TEVETA courses
+P09,Student,18-24,Male,English,Web,5,5,5,5,5,5,5,5,5,4,5,5,5,5,Accurate ZESCO lifeline unit pricing and NWASCO connection fees,Keep updating tariffs regularly
+P10,Civil Servant,25-34,Female,Bemba,Both,4,4,4,4,4,4,3,4,5,4,5,4,4,4,Bemba answers are very respectful and natural,Response time can be improved
+P11,General Public,25-34,Male,Nyanja,WhatsApp,5,5,5,5,5,4,4,5,5,5,5,5,5,5,Finding cholera clinic details and ORS guidance in Nyanja,Add clinic opening hours
+P12,General Public,35-44,Female,Bemba,WhatsApp,4,5,4,5,4,4,3,4,4,4,5,4,5,5,Knowing NRC age 16 requirements before walking to boma office,Very good system
+P13,Student,18-24,Male,English,Web,5,5,5,5,4,5,4,4,4,4,5,5,5,5,Saves transport money to travel to Lusaka civic centre,None
+P14,Student,18-24,Female,Nyanja,Web,5,4,4,5,5,4,4,5,5,5,5,5,4,5,It gives straight answers without ads or clutter,Add more sample exam questions
+P15,Civil Servant,35-44,Male,English,Web,4,4,5,4,4,4,4,4,4,4,4,4,4,4,Reliable citations to government documents,Include gazetted statutory instruments
+P16,Business Owner,35-44,Male,English,WhatsApp,5,5,5,5,5,5,3,5,4,4,5,5,5,5,WhatsApp access is revolutionary for market traders,Add mobile money integration for fee payment
+P17,Student,18-24,Male,Shona,Web,5,4,4,4,4,4,4,4,4,4,4,4,4,4,Zimbabwe ZIMRA and ZIMSEC demo worked well in Shona,Expand Zimbabwe dataset
+P18,Student,18-24,Female,English,Web,5,5,5,5,5,5,4,5,4,4,5,5,5,5,Very fast navigation and responsive UI on my Infinix phone,Everything is great
+P19,Civil Servant,25-34,Male,Bemba,Both,5,5,5,5,4,4,3,4,5,4,5,5,5,5,The multilingual capability is unique for Zambia,Deploy it to government portals
+P20,Business Owner,25-34,Female,Nyanja,WhatsApp,4,5,4,4,5,5,4,4,5,4,5,4,5,5,Helped me know business registration fees at PACRA,Include cooperatives registration
+P21,Student,18-24,Male,English,Web,4,4,4,4,4,5,4,4,4,3,4,4,4,4,Clear admission criteria for UNZA Natural Sciences,Good work
+P22,Student,18-24,Female,Bemba,Web,5,5,5,5,5,5,4,5,5,4,5,5,5,5,Easy to ask in Bemba without looking stupid,Keep it free
+P23,Civil Servant,45+,Male,English,Web,4,4,4,4,4,4,3,4,4,4,4,4,4,4,Promising platform for e-governance in Zambia,Ensure continuous uptime
+P24,General Public,25-34,Male,English,WhatsApp,5,5,5,5,5,4,4,5,4,4,5,5,5,5,Saved me long queues at ZESCO customer care centre,More utility companies
+P25,Student,18-24,Male,Nyanja,Web,5,5,5,5,5,5,4,5,5,5,5,5,5,5,Nyanja translation for cholera symptoms was accurate and clear,Add COVID-19 and TB info
+P26,Civil Servant,25-34,Female,English,Both,5,5,5,5,5,5,4,5,4,4,5,5,5,5,Clear citations make it dependable for official guidance,Great innovation
+P27,Business Owner,35-44,Male,Bemba,WhatsApp,4,5,4,4,4,4,3,4,4,4,4,4,4,4,Good explanation of turnover tax thresholds,Speed up WhatsApp replies
+P28,Student,18-24,Female,English,Web,5,5,5,5,5,5,5,5,4,4,5,5,5,5,Clean interface and instant answers,Add university accommodation info
+P29,General Public,35-44,Male,Nyanja,WhatsApp,5,4,4,4,4,4,3,4,5,4,5,4,4,4,Convenient to check passport requirements before taking photos,Add passport collection status tracker
+P30,Civil Servant,35-44,Female,English,Web,5,5,5,5,4,4,4,4,4,4,5,5,5,5,Reduces the number of routine repetitive inquiries we answer daily,Integrate with national data centre
+P31,Student,18-24,Male,Bemba,Web,4,4,4,4,5,4,4,4,4,4,4,4,4,4,Helped me check how Grade 12 SMS checking works,Good initiative
+P32,Student,18-24,Female,English,WhatsApp,5,5,5,5,5,5,4,5,4,4,5,5,5,5,Very friendly and easy to use on WhatsApp,Keep it up
+P33,Business Owner,25-34,Male,English,Web,5,5,4,5,4,5,4,4,4,4,5,5,4,5,Transparent NWASCO connection fee structure,Include Lusaka City Council trading permits
+P34,Civil Servant,25-34,Male,Nyanja,Both,4,5,5,4,5,4,3,4,5,4,5,4,4,5,Verified ZRA tax-free K5100 threshold correctly,Excellent for rural citizens
+P35,Student,18-24,Female,Shona,Web,5,4,4,5,4,4,4,4,4,4,4,4,4,4,Works well for University of Zimbabwe requirements in Shona,Add more Zimbabwe universities

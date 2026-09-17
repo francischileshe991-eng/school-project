@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 """
-Build the vector index for Zambian documents with Text Chunking.
+Build the vector index for Zambian and Zimbabwean documents with Text Chunking and optional clean reset.
 """
 
+import argparse
 import sys
 from pathlib import Path
 from langchain_text_splitters import RecursiveCharacterTextSplitter
@@ -13,42 +14,73 @@ sys.path.append(str(Path(__file__).resolve().parent.parent))
 from src.core.logger import logger
 from src.knowledge_base.document_loader import ZedDocumentLoader
 from src.knowledge_base.vector_store import ZedVectorStore
+from src.configs.settings import settings
 
-def build_zambia_index():
-    logger.info("Starting build_index for Zambia...")
-    
+
+def build_indices(reset: bool = False, country_filter: str = None):
     loader = ZedDocumentLoader()
     store = ZedVectorStore()
-    
-    # 1. Load RAW documents
-    logger.info(f"Loading documents from data/raw/zm...")
-    try:
-        raw_docs = loader.load_country_documents("zm")
-    except Exception as e:
-        logger.error(f"Could not load documents: {e}")
-        return
 
-    if not raw_docs:
-        logger.error("No documents found to index! Make sure files are in data/raw/zm/")
-        return
-    logger.info(f"Total RAW documents found: {len(raw_docs)}")
-
-    # 2. CHUNK the documents into smaller context pieces
-    logger.info("Splitting documents into smaller chunks for the AI...")
-    text_splitter = RecursiveCharacterTextSplitter(
-        chunk_size=400,       # Smaller chunks = higher precision
-        chunk_overlap=50,     # Keep some overlap for context
-        length_function=len,
+    target_countries = (
+        [country_filter.lower()] if country_filter else settings.SUPPORTED_COUNTRIES
     )
-    chunked_docs = text_splitter.split_documents(raw_docs)
-    logger.info(f"Your {len(raw_docs)} files were split into {len(chunked_docs)} readable chunks!")
 
-    # 3. Add chunks to the vector store
-    try:
-        store.add_documents("zm", chunked_docs)
-        logger.info("Successfully built and persisted the Zambia vector index.")
-    except Exception as e:
-        logger.error(f"Failed to build index: {e}")
+    for country in target_countries:
+        logger.info(f"Starting build_index for {country.upper()}...")
+
+        # 1. Reset collection if requested to prevent vector duplication
+        if reset:
+            logger.info(f"Purging existing index for {country.upper()}...")
+            store.reset_collection(country)
+
+        # 2. Load RAW documents
+        logger.info(f"Loading documents from data/raw/{country}...")
+        try:
+            raw_docs = loader.load_country_documents(country)
+        except Exception as e:
+            logger.error(f"Could not load documents for {country}: {e}")
+            continue
+
+        if not raw_docs:
+            logger.warning(f"No documents found for {country}. Skipping.")
+            continue
+
+        logger.info(f"Total RAW documents found for {country}: {len(raw_docs)}")
+
+        # 3. CHUNK the documents
+        text_splitter = RecursiveCharacterTextSplitter(
+            chunk_size=400,
+            chunk_overlap=50,
+            length_function=len,
+        )
+        chunked_docs = text_splitter.split_documents(raw_docs)
+        logger.info(f"Created {len(chunked_docs)} chunks for {country.upper()}.")
+
+        # 4. Add to store
+        try:
+            store.add_documents(country, chunked_docs)
+            logger.info(
+                f"Successfully indexed {len(chunked_docs)} chunks for {country.upper()}"
+            )
+        except Exception as e:
+            logger.error(f"Failed to build index for {country}: {e}")
+
 
 if __name__ == "__main__":
-    build_zambia_index()
+    parser = argparse.ArgumentParser(
+        description="Index documents into country-specific ChromaDB collections."
+    )
+    parser.add_argument(
+        "--reset",
+        action="store_true",
+        help="Purge existing collection before indexing to avoid duplicates.",
+    )
+    parser.add_argument(
+        "--country",
+        type=str,
+        default=None,
+        help="Build index for a specific country only (e.g., zm or zw).",
+    )
+    args = parser.parse_args()
+
+    build_indices(reset=args.reset, country_filter=args.country)

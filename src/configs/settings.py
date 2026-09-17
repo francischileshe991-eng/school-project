@@ -9,8 +9,11 @@ class Settings(BaseSettings):
     TWILIO_ACCOUNT_SID: Optional[str] = None
 
     # LLM Configuration
-    LLM_PROVIDER: str = "ollama"
-    MODEL_NAME: str = "llama3.2:1b"
+    LLM_PROVIDER: str = "auto"  # auto, ollama, gemini, openai
+    MODEL_NAME: str = "qwen2.5:7b"
+    GEMINI_MODEL: str = "gemini-1.5-flash"
+    OPENAI_MODEL: str = "gpt-4o-mini"
+    EMBEDDING_MODEL: str = "BAAI/bge-m3"
 
     TWILIO_AUTH_TOKEN: Optional[str] = None
     TWILIO_PHONE_NUMBER: Optional[str] = None

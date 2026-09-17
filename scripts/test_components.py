@@ -40,7 +40,7 @@ def test_document_loader():
 def test_vector_store(docs):
     print("\n--- Testing Vector Store (Indexing All Documents) ---")
     try:
-        store = ZedVectorStore(use_gemini=False)
+        store = ZedVectorStore()
         print("Vector store initialized successfully.")
         
         if docs:

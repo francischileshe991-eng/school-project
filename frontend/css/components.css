@@ -94,28 +94,75 @@
   box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
 }
 
+.sources-box {
+  margin-top: 0.5rem;
+  padding-top: 0.4rem;
+  border-top: 1px dashed var(--border-color);
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+}
+
+.feedback-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+}
+
+.feedback-btn {
+  background: transparent;
+  border: 1px solid var(--border-color);
+  border-radius: 0.5rem;
+  padding: 0.2rem 0.5rem;
+  cursor: pointer;
+  font-size: 0.8rem;
+  transition: all 0.2s ease;
+  color: var(--text-primary);
+}
+
+.feedback-btn:hover {
+  background: var(--panel-strong);
+  border-color: var(--accent);
+}
+
+.feedback-btn.active {
+  background: var(--accent);
+  color: white;
+  border-color: var(--accent);
+}
+
+.feedback-thanks {
+  font-size: 0.75rem;
+  color: var(--accent);
+  font-weight: 500;
+}
+
 .composer {
   padding: 1.25rem;
   background: var(--panel-strong);
   border-top: 1px solid var(--border-color);
+}
+
+.composer form {
   display: flex;
   gap: 0.75rem;
-  align-items: center;
 }
 
 .composer input {
   flex: 1;
+  background: var(--panel-bg);
   border: 1px solid var(--border-color);
   border-radius: 1rem;
-  padding: 0.75rem 1rem;
+  padding: 0.75rem 1.25rem;
   font-size: 0.95rem;
-  font-family: inherit;
+  color: var(--text-primary);
+  outline: none;
   transition: all 0.2s ease;
-  background: var(--bg-color);
 }
 
 .composer input:focus {
-  outline: none;
   border-color: var(--accent);
   background: white;
   box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);

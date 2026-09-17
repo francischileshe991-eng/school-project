@@ -152,7 +152,12 @@ class ZedTranslator:
             return text
 
         try:
-            result = pipe(protected_text, src_lang=src_lang, tgt_lang=tgt_lang)
+            result = pipe(
+                protected_text,
+                src_lang=src_lang,
+                tgt_lang=tgt_lang,
+                max_length=1024,
+            )
             translated_text = result[0]["translation_text"]
 
             translated_text = self._restore_keywords(translated_text, placeholder_map)

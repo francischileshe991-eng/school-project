@@ -1,30 +1,49 @@
 #!/usr/bin/env python3
 """
 Web API Entry Point for Zedchatbot.
-Phase 4: FastAPI server configuration and CORS setup.
+FastAPI server configuration, lifespan management, and CORS setup.
 """
 
+from contextlib import asynccontextmanager
+from pathlib import Path
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 from src.api.routes import router as web_router
 from src.api.whatsapp_api import router as whatsapp_router
 from src.configs.settings import settings
 from src.core.logger import logger
 
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    """Modern lifespan event handler replacing deprecated @app.on_event."""
+    logger.info(f"Starting {settings.APP_NAME} API...")
+    if settings.PRELOAD_PIPELINE_ON_STARTUP:
+        from src.rag.pipeline import get_pipeline
+
+        logger.info("Preloading RAG pipeline and models into memory...")
+        get_pipeline()
+        logger.info("RAG pipeline and models ready.")
+    yield
+    logger.info(f"Shutting down {settings.APP_NAME} API...")
+
+
 def create_app() -> FastAPI:
     """Configures and returns the FastAPI application."""
-    
+
     app = FastAPI(
         title=settings.APP_NAME,
         version=settings.API_VERSION,
-        description="Multilingual RAG Chatbot for African Communities"
+        description="Multilingual RAG Chatbot for African Communities",
+        lifespan=lifespan,
     )
 
-    # CORS configuration...
+    # CORS configuration (allow_credentials=False for public API with wildcard origins)
     app.add_middleware(
         CORSMiddleware,
         allow_origins=["*"],
-        allow_credentials=True,
+        allow_credentials=False,
         allow_methods=["*"],
         allow_headers=["*"],
     )
@@ -33,27 +52,26 @@ def create_app() -> FastAPI:
     app.include_router(web_router, tags=["Web"])
     app.include_router(whatsapp_router, tags=["WhatsApp"])
 
-    @app.on_event("startup")
-    async def startup_event():
-        logger.info(f"Starting {settings.APP_NAME} API...")
-        if settings.PRELOAD_PIPELINE_ON_STARTUP:
-            from src.rag.pipeline import get_pipeline
-
-            logger.info("Preloading RAG pipeline and models into memory...")
-            get_pipeline()
-            logger.info("RAG pipeline and models ready.")
+    # Mount frontend static files
+    frontend_dir = Path(__file__).resolve().parent.parent.parent / "frontend"
+    if frontend_dir.exists():
+        app.mount(
+            "/app",
+            StaticFiles(directory=str(frontend_dir), html=True),
+            name="frontend",
+        )
 
     return app
+
 
 app = create_app()
 
 if __name__ == "__main__":
-    # Allows running the script directly via 'python src/api/web_api.py'
     import uvicorn
 
     uvicorn.run(
         "src.api.web_api:app",
         host=settings.API_HOST,
         port=settings.API_PORT,
-        reload=settings.DEBUG
+        reload=settings.DEBUG,
     )

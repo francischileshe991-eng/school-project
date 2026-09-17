@@ -26,6 +26,7 @@ dependencies = [
     "langchain-chroma",
     "langchain-openai",
     "langchain-google-genai",
+    "langchain-ollama",
     "tiktoken",
     "langdetect",
     "deep-translator",

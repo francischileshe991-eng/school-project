@@ -1,0 +1,34 @@
+# Civil Registry Department of Zimbabwe
+## Guidelines for National Identity Cards (ID), Biometric e-Passports, and Civil Registration
+
+### 1.0 About the Civil Registry Department
+The Civil Registry Department under the Ministry of Home Affairs and Cultural Heritage is the statutory authority responsible for the registration of births, deaths, national registration (IDs), citizenship, and the issuance of biometric passports in Zimbabwe.
+
+### 2.0 National Registration Card (National ID) Requirements
+- **Eligibility Age:** Citizens who reach the age of **16 years** are legally required to register for a National Identity Document.
+- **Mandatory Requirements:**
+  - Original Birth Certificate of the applicant.
+  - National ID of parent or recognized guardian (if parent is deceased, death certificate is required).
+  - Two passport-sized color photographs with white background (or biometric capture at modern computerized sub-offices).
+- **Replacement of Lost ID:**
+  - Police report from the Zimbabwe Republic Police (ZRP).
+  - Certified copy of Birth Certificate.
+  - Statutory replacement fee payable at the registry office cashier.
+
+### 3.0 Biometric e-Passport Application & Fees (2024/2026)
+Zimbabwe issues ICAO-compliant biometric electronic passports (e-passports) with embedded microchips:
+- **Prerequisites for Application:**
+  - Original National Identity Document (Metal ID or plastic polythene card).
+  - Original Long or Short Birth Certificate.
+  - Proof of residence or marriage certificate (for married women wishing to adopt husband's surname).
+- **Application Fees & Turnaround Time:**
+  - **Ordinary e-Passport (7 working days):** USD $150 (or ZiG equivalent at prevailing interbank rate) + $20 application handling fee.
+  - **Emergency / Express e-Passport (48 hours):** USD $250 + $20 application handling fee.
+- **Online Booking Portal:** Citizens can book appointments online through the Civil Registry e-Services portal (www.rg.gov.zw) before visiting registry offices.
+
+### 4.0 Major Civil Registry Issuance Offices in Zimbabwe
+- **Harare Province:** Makombe Building (Herbert Chitepo Ave), Harare Central Registry; Market Square Registry Office.
+- **Bulawayo Province:** Bulawayo Central Registry, Tredgold Building, Fort Street.
+- **Midlands Province:** Gweru Provincial Registry Office.
+- **Manicaland Province:** Mutare Provincial Registry Office.
+- **Online Inquiries:** Official portal at www.rg.gov.zw.

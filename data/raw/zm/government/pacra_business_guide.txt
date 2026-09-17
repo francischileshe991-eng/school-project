@@ -1,0 +1,22 @@
+# PACRA Zambia - Business & Company Registration (2025/2026)
+
+## 1. Requirements for Incorporation
+- **Unique Name:** Must be cleared and reserved first.
+- **Directors/Shareholders:** Minimum 1 person. Half of the board must be resident in Zambia.
+- **Office:** Must have a registered physical address in Zambia.
+- **Documents:** Certified NRC (Zambians) or Passport (Foreigners), TPIN from ZRA.
+
+## 2. Official Fees (ZMW)
+| Service | Fee (ZMW) |
+| :--- | :--- |
+| Name Clearance | K120.00 |
+| Name Reservation | K213.33 |
+| Certificate of Incorporation | K200.00 |
+| Certificate of Share Capital | K200.00 |
+| Annual Returns (Private) | K200.00 |
+
+## 3. How to Register
+1. Visit the PACRA Portal (www.pacra.org.zm).
+2. Apply for **Name Clearance (Form 1)**.
+3. Once cleared, submit **Incorporation Forms (Form 2, 3, 5, 11)**.
+4. Pay the fees online or at a service center.

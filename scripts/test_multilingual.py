@@ -24,7 +24,7 @@ def test_language_detection():
         ("How do I pay my taxes in Zambia?", "en"),
         ("Nshila nshi ya kulipililamo imisonko mu Zambia?", "bem"), # Bemba
         ("Ndingalipira bwanji misonkho ku Zambia?", "ny"),      # Nyanja
-        ("Ndinobhadhara sei mitero muZambia?", "sho"),           # Shona (Zimbabwe)
+        ("Ndinobhadhara sei mitero muZambia?", "sn"),           # Shona (Zimbabwe)
     ]
     
     for text, expected in test_cases:
@@ -41,7 +41,7 @@ def test_translation():
     
     # Translate from Bemba to English
     bemba_text = "Nshila nshi ya kulipililamo imisonko mu Zambia?"
-    translated_en = translate_text(bemba_text, source='auto', target='en')
+    translated_en = translate_text(bemba_text, source='bem', target='en')
     logger.info(f"Bemba: {bemba_text}")
     logger.info(f"To English: {translated_en}")
     

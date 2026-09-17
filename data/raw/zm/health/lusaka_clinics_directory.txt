@@ -1,0 +1,36 @@
+# Lusaka Public Health Facilities & Clinics Directory
+## Primary Healthcare Centres, Level 1 District Hospitals, and Referral Hospitals
+
+### 1.0 Tertiary & National Referral Hospitals (Lusaka)
+- **University Teaching Hospitals (UTH):**
+  - Location: Nationalist Road, Ridgeway, Lusaka.
+  - Specializations: Adult Hospital, Children's Hospital, Eye Hospital, Cancer Diseases Hospital (CDH), and Maternity Wing. Operates 24/7 national emergency referral services.
+- **Levy Mwanawasa University Teaching Hospital (LMUTH):**
+  - Location: Great East Road, Chainama, Lusaka.
+  - Specializations: Tertiary emergency care, neonatal intensive care, specialized surgical clinics.
+- **Maina Soko Military Hospital:**
+  - Location: Woodlands, Lusaka. Open to public emergencies and military personnel.
+
+### 2.0 Level 1 First-Level District Hospitals (24/7 Operations)
+Level 1 district hospitals provide outpatient consultation, maternity delivery suites, minor surgery, inpatient wards, laboratory, and pharmacy services under NHIMA and government subsidies:
+- **Chilenje Level 1 Hospital:** Serves Chilenje, Woodlands, Bauleni, Libala, and Chalala areas.
+- **Matero Level 1 Hospital:** Located along Commonwealth Road, serving Matero, George, Barlastone, Zingalume, and Lilanda communities.
+- **Kanyama Level 1 Hospital:** Serves Kanyama, Makeni, John Laing, and surrounding western settlements; dedicated Cholera Treatment Center (CTC).
+- **Chipata Level 1 Hospital:** Located in Chipata Compound, serving Garden, Mandevu, Marapodi, and Chipata areas.
+- **Chawama Level 1 Hospital:** Serves Chawama, Kuomboka, Misisi, and Jack Compound residents.
+
+### 3.0 Major Urban Health Centres & Clinics
+Providing free Under-5 immunizations, antenatal care, ART services, and outpatient treatment:
+- **Kabwata Clinic:** Off Burma Road, Kabwata.
+- **Kamwala Health Centre:** Independence Avenue / Chilimbulu Road.
+- **Chelstone Clinic:** Along Palm Drive, Chelstone.
+- **Mtendere Health Centre:** Central Mtendere market area.
+- **Kalingalinga Clinic:** Alick Nkhata Road, Kalingalinga.
+- **Bauleni Clinic:** Near Bauleni basic school.
+- **Garden Clinic:** Garden Compound near central business district.
+- **Chainda Clinic:** Off Great East Road, Chainda.
+
+### 4.0 Operating Hours & Emergency Guidance
+- **Level 1 & Referral Hospitals:** Outpatient and emergency wings open 24 hours daily, 7 days a week.
+- **Local Primary Clinics:** Open Monday to Friday from 08:00 to 17:00 for general consultation; maternity wings and emergency stabilization open 24/7.
+- **Ambulance Dispatch:** Call national toll-free number **992** or contact the nearest Level 1 hospital emergency desk.

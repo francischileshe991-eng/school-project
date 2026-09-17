@@ -1,0 +1,9 @@
+# Common Disease Guidance (Zambia)
+
+## 1. Malaria
+- **Prevention:** Sleep under Insecticide-Treated Nets (ITNs), use mosquito repellent, and allow Indoor Residual Spraying (IRS) in your home.
+- **Treatment:** If you have fever or chills, get tested immediately (RDT test). Standard treatment in Zambia is ACT (Artemisinin-based Combination Therapy).
+
+## 2. Cholera
+- **Prevention:** Drink boiled or chlorinated water. Wash hands with soap after using the toilet and before handling food. Eat well-cooked, hot food.
+- **Treatment:** If you have sudden diarrhea, start Oral Rehydration Salts (ORS) or Salt and Sugar Solution (SSS) immediately. Report to the nearest health facility or Cholera Treatment Center (CTC) without delay.

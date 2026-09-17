@@ -1,0 +1,362 @@
+[
+  {
+    "id": "ZM-GOV-001",
+    "country": "zm",
+    "domain": "government",
+    "language": "en",
+    "query": "What are the requirements to apply for a National Registration Card (NRC) in Zambia?",
+    "expected_sources": ["nrc_passport_guide.txt"],
+    "expected_keywords": ["16", "birth certificate", "parents", "nrc"]
+  },
+  {
+    "id": "ZM-GOV-002",
+    "country": "zm",
+    "domain": "government",
+    "language": "en",
+    "query": "How much does a standard Zambian 32-page passport cost?",
+    "expected_sources": ["nrc_passport_guide.txt"],
+    "expected_keywords": ["passport", "k500", "500"]
+  },
+  {
+    "id": "ZM-GOV-003",
+    "country": "zm",
+    "domain": "government",
+    "language": "ny",
+    "query": "Kodi ndikufuna zaka zingati kuti ndipangitse NRC ku Zambia?",
+    "expected_sources": ["nrc_passport_guide.txt"],
+    "expected_keywords": ["16", "nrc"]
+  },
+  {
+    "id": "ZM-GOV-004",
+    "country": "zm",
+    "domain": "government",
+    "language": "bem",
+    "query": "Bushe umuntu afwile ukukwata imyaka inga pa kupanga NRC?",
+    "expected_sources": ["nrc_passport_guide.txt"],
+    "expected_keywords": ["16", "nrc"]
+  },
+  {
+    "id": "ZM-GOV-005",
+    "country": "zm",
+    "domain": "government",
+    "language": "en",
+    "query": "What is the tax-free PAYE threshold for individuals in Zambia for 2024?",
+    "expected_sources": ["zra_tax_2024.txt", "zra_info.txt"],
+    "expected_keywords": ["5,100", "0%", "exempt", "threshold"]
+  },
+  {
+    "id": "ZM-GOV-006",
+    "country": "zm",
+    "domain": "government",
+    "language": "ny",
+    "query": "Ndalama zingati zosakhoma msonkho wa PAYE mu 2024 ku ZRA?",
+    "expected_sources": ["zra_tax_2024.txt", "zra_info.txt"],
+    "expected_keywords": ["5,100", "zra"]
+  },
+  {
+    "id": "ZM-GOV-007",
+    "country": "zm",
+    "domain": "government",
+    "language": "bem",
+    "query": "Ni ndalama shinga sha mushonko wa PAYE ishishilipililwa umutero mu 2024?",
+    "expected_sources": ["zra_tax_2024.txt", "zra_info.txt"],
+    "expected_keywords": ["5,100", "zra"]
+  },
+  {
+    "id": "ZM-GOV-008",
+    "country": "zm",
+    "domain": "government",
+    "language": "en",
+    "query": "How do I register for a TPIN with the Zambia Revenue Authority?",
+    "expected_sources": ["zra_tax_2024.txt", "zra_info.txt"],
+    "expected_keywords": ["tpin", "online", "portal", "nrc"]
+  },
+  {
+    "id": "ZM-GOV-009",
+    "country": "zm",
+    "domain": "government",
+    "language": "en",
+    "query": "What are the requirements for registering a business name at PACRA?",
+    "expected_sources": ["pacra_business_guide.txt"],
+    "expected_keywords": ["pacra", "business", "name", "nrc"]
+  },
+  {
+    "id": "ZM-GOV-010",
+    "country": "zm",
+    "domain": "government",
+    "language": "en",
+    "query": "What is the NAPSA contribution rate for employees and employers?",
+    "expected_sources": ["napsa_pension_guide.txt"],
+    "expected_keywords": ["5%", "napsa", "10%"]
+  },
+  {
+    "id": "ZM-UTL-011",
+    "country": "zm",
+    "domain": "utilities",
+    "language": "en",
+    "query": "What is the ZESCO lifeline electricity tariff in Zambia for 2024?",
+    "expected_sources": ["zesco_tariffs_2024.txt"],
+    "expected_keywords": ["0.35", "k0.35", "100", "lifeline"]
+  },
+  {
+    "id": "ZM-UTL-012",
+    "country": "zm",
+    "domain": "utilities",
+    "language": "ny",
+    "query": "Mtengo wamagetsi a ZESCO pa lifeline tariff ndi ndalama zingati?",
+    "expected_sources": ["zesco_tariffs_2024.txt"],
+    "expected_keywords": ["0.35", "zesco"]
+  },
+  {
+    "id": "ZM-UTL-013",
+    "country": "zm",
+    "domain": "utilities",
+    "language": "bem",
+    "query": "Ni ndalama shinga sha malaiti ya ZESCO pa lifeline tariff?",
+    "expected_sources": ["zesco_tariffs_2024.txt"],
+    "expected_keywords": ["0.35", "zesco"]
+  },
+  {
+    "id": "ZM-UTL-014",
+    "country": "zm",
+    "domain": "utilities",
+    "language": "en",
+    "query": "What are the customer service contact numbers for ZESCO?",
+    "expected_sources": ["zesco_tariffs_2024.txt", "general_info.txt"],
+    "expected_keywords": ["0211", "zesco", "call"]
+  },
+  {
+    "id": "ZM-UTL-015",
+    "country": "zm",
+    "domain": "utilities",
+    "language": "en",
+    "query": "What documents do I need to apply for a new water connection under NWASCO guidelines?",
+    "expected_sources": ["nwasco_guide.txt"],
+    "expected_keywords": ["nrc", "title", "utility", "water", "nwasco"]
+  },
+  {
+    "id": "ZM-UTL-016",
+    "country": "zm",
+    "domain": "utilities",
+    "language": "ny",
+    "query": "Ndikufuna madzi pakhomo, ndifunika mapepala anji ku water company?",
+    "expected_sources": ["nwasco_guide.txt"],
+    "expected_keywords": ["nrc", "water", "madzi"]
+  },
+  {
+    "id": "ZM-UTL-017",
+    "country": "zm",
+    "domain": "utilities",
+    "language": "bem",
+    "query": "Nga ndilefwaya ukulipila amenshi nangu ukukwata amenshi pa ng'anda finshi ndekabila?",
+    "expected_sources": ["nwasco_guide.txt"],
+    "expected_keywords": ["nrc", "amenshi", "water"]
+  },
+  {
+    "id": "ZM-HLT-018",
+    "country": "zm",
+    "domain": "health",
+    "language": "en",
+    "query": "What is the monthly contribution rate for formal employees under NHIMA?",
+    "expected_sources": ["nhima_guide_2024.txt", "nhima_guide.txt"],
+    "expected_keywords": ["1%", "nhima", "salary", "basic"]
+  },
+  {
+    "id": "ZM-HLT-019",
+    "country": "zm",
+    "domain": "health",
+    "language": "ny",
+    "query": "Kodi ndalama za NHIMA zochotsa pa mwezi ndi zingati ku antchito?",
+    "expected_sources": ["nhima_guide_2024.txt", "nhima_guide.txt"],
+    "expected_keywords": ["1%", "nhima"]
+  },
+  {
+    "id": "ZM-HLT-020",
+    "country": "zm",
+    "domain": "health",
+    "language": "bem",
+    "query": "Ni ndalama shinga bashitako ku NHIMA pa mwezi ku babomfi?",
+    "expected_sources": ["nhima_guide_2024.txt", "nhima_guide.txt"],
+    "expected_keywords": ["1%", "nhima"]
+  },
+  {
+    "id": "ZM-HLT-021",
+    "country": "zm",
+    "domain": "health",
+    "language": "en",
+    "query": "What are the common symptoms and prevention methods for cholera in Zambia?",
+    "expected_sources": ["disease_guidance.txt"],
+    "expected_keywords": ["diarrhea", "water", "boil", "ors", "hygiene"]
+  },
+  {
+    "id": "ZM-HLT-022",
+    "country": "zm",
+    "domain": "health",
+    "language": "ny",
+    "query": "Zizindikiro za matenda a kolera ndi ziti ndipo tingapewe bwanji?",
+    "expected_sources": ["disease_guidance.txt"],
+    "expected_keywords": ["madzi", "kolera", "ors"]
+  },
+  {
+    "id": "ZM-HLT-023",
+    "country": "zm",
+    "domain": "health",
+    "language": "bem",
+    "query": "Bushe ubulwele bwa cholera buletanina shani kabili kuti twabucingilila shani?",
+    "expected_sources": ["disease_guidance.txt"],
+    "expected_keywords": ["amenshi", "cholera", "ors"]
+  },
+  {
+    "id": "ZM-HLT-024",
+    "country": "zm",
+    "domain": "health",
+    "language": "en",
+    "query": "What services are provided for children under 5 years at public health clinics in Zambia?",
+    "expected_sources": ["under_5_services.txt"],
+    "expected_keywords": ["vaccination", "growth", "immunization", "free"]
+  },
+  {
+    "id": "ZM-EDU-025",
+    "country": "zm",
+    "domain": "education",
+    "language": "en",
+    "query": "What are the general admission requirements for undergraduate studies at UNZA?",
+    "expected_sources": ["unza_admissions_2024.txt", "unza.txt"],
+    "expected_keywords": ["5", "credits", "o levels", "english"]
+  },
+  {
+    "id": "ZM-EDU-026",
+    "country": "zm",
+    "domain": "education",
+    "language": "ny",
+    "query": "Kodi zofunika kuti munthu alowe pa UNZA ndi ziti?",
+    "expected_sources": ["unza_admissions_2024.txt", "unza.txt"],
+    "expected_keywords": ["5", "credits", "unza"]
+  },
+  {
+    "id": "ZM-EDU-027",
+    "country": "zm",
+    "domain": "education",
+    "language": "bem",
+    "query": "Kuti umuntu ayingile pa UNZA afwile ukukwata finshi mu ma results?",
+    "expected_sources": ["unza_admissions_2024.txt", "unza.txt"],
+    "expected_keywords": ["5", "credits", "unza"]
+  },
+  {
+    "id": "ZM-EDU-028",
+    "country": "zm",
+    "domain": "education",
+    "language": "en",
+    "query": "How can a student check their ECZ Grade 12 results via SMS?",
+    "expected_sources": ["ecz_results_guide.txt", "ecz_results.txt"],
+    "expected_keywords": ["8383", "sms", "ecz", "candidate"]
+  },
+  {
+    "id": "ZM-EDU-029",
+    "country": "zm",
+    "domain": "education",
+    "language": "ny",
+    "query": "Kodi mungawone bwanji ma results a Grade 12 a ECZ pa foni ya SMS?",
+    "expected_sources": ["ecz_results_guide.txt", "ecz_results.txt"],
+    "expected_keywords": ["8383", "ecz"]
+  },
+  {
+    "id": "ZM-EDU-030",
+    "country": "zm",
+    "domain": "education",
+    "language": "bem",
+    "query": "Kuti ndimone ma results yandi aya Grade 12 pali foni ndatuma SMS kwi?",
+    "expected_sources": ["ecz_results_guide.txt", "ecz_results.txt"],
+    "expected_keywords": ["8383", "ecz"]
+  },
+  {
+    "id": "ZM-EDU-031",
+    "country": "zm",
+    "domain": "education",
+    "language": "en",
+    "query": "Who is eligible to apply for the HELSB student loan in Zambia?",
+    "expected_sources": ["helsb_loan_guide.txt"],
+    "expected_keywords": ["helsb", "loan", "public university", "zambian"]
+  },
+  {
+    "id": "ZM-EDU-032",
+    "country": "zm",
+    "domain": "education",
+    "language": "en",
+    "query": "What public universities are recognized under the Ministry of Education in Zambia?",
+    "expected_sources": ["public_universities_guide.txt"],
+    "expected_keywords": ["unza", "cbu", "mulungushi", "kapasa makasa"]
+  },
+  {
+    "id": "ZM-GEN-033",
+    "country": "zm",
+    "domain": "general",
+    "language": "en",
+    "query": "What are the emergency toll-free numbers for police, fire, and ambulance in Zambia?",
+    "expected_sources": ["general_info.txt"],
+    "expected_keywords": ["991", "993", "992"]
+  },
+  {
+    "id": "ZM-GEN-034",
+    "country": "zm",
+    "domain": "general",
+    "language": "ny",
+    "query": "Manambala a foni a emergency a apolisi ndi ambulansi ndi ati ku Zambia?",
+    "expected_sources": ["general_info.txt"],
+    "expected_keywords": ["991", "992"]
+  },
+  {
+    "id": "ZM-GEN-035",
+    "country": "zm",
+    "domain": "general",
+    "language": "bem",
+    "query": "Manambala ya foni aya emergency ku Zambia ayaba shani?",
+    "expected_sources": ["general_info.txt"],
+    "expected_keywords": ["991", "992"]
+  },
+  {
+    "id": "ZW-GOV-001",
+    "country": "zw",
+    "domain": "government",
+    "language": "en",
+    "query": "What is the tax rate and threshold for personal income tax under ZIMRA in Zimbabwe?",
+    "expected_sources": ["zimra_tax_2024.txt"],
+    "expected_keywords": ["zimra", "tax", "income"]
+  },
+  {
+    "id": "ZW-GOV-002",
+    "country": "zw",
+    "domain": "government",
+    "language": "sn",
+    "query": "Mutero weZIMRA unobhadharwa sei uye zvinodiwa chii?",
+    "expected_sources": ["zimra_tax_2024.txt"],
+    "expected_keywords": ["zimra", "mutero"]
+  },
+  {
+    "id": "ZW-EDU-003",
+    "country": "zw",
+    "domain": "education",
+    "language": "en",
+    "query": "How do students apply for university admissions at the University of Zimbabwe (UZ) using ZIMSEC results?",
+    "expected_sources": ["zimsec_uz_guide.txt"],
+    "expected_keywords": ["zimsec", "uz", "points", "a level"]
+  },
+  {
+    "id": "ZW-EDU-004",
+    "country": "zw",
+    "domain": "education",
+    "language": "sn",
+    "query": "Munhu anonyoresa sei kupinda payunivhesiti yeUZ aine maresults eZIMSEC?",
+    "expected_sources": ["zimsec_uz_guide.txt"],
+    "expected_keywords": ["zimsec", "uz"]
+  },
+  {
+    "id": "ZW-HLT-005",
+    "country": "zw",
+    "domain": "health",
+    "language": "en",
+    "query": "What are the health guidelines for cholera prevention in Zimbabwe?",
+    "expected_sources": ["zim_health_guidance.txt"],
+    "expected_keywords": ["cholera", "water", "hygiene", "health"]
+  }
+]

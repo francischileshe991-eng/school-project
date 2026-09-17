@@ -47,3 +47,9 @@ class ResourceNotFoundError(ZedChatbotError):
     """Raised when a requested document or resource is not found."""
     def __init__(self, message: str = "Resource not found", payload: Optional[Dict[str, Any]] = None):
         super().__init__(message, status_code=404, payload=payload)
+
+class DatabaseError(ZedChatbotError):
+    """Raised when an unexpected database error occurs."""
+    def __init__(self, message: str = "Database operation failed", payload: Optional[Dict[str, Any]] = None):
+        super().__init__(message, status_code=500, payload=payload)
+

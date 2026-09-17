@@ -13,21 +13,13 @@ from src.rag.retriever import ZedRetriever
 from src.rag.generator import ZedGenerator
 
 
-LANG_SIGNATURE_WORDS = {
-    "bem": {"mwapoleni", "shani", "ngapo", "kabili", "fye", "bana", "umuleti", "napo", "ndafuna", "ukufwaya"},
-    "ny": {"muli", "kodi", "ndikufuna", "yankho", "mwai", "lero", "kuyanjana", "bwin", "ndani", "ndifuna", "funa"},
-    "sn": {"mhoro", "ndiri", "sei", "zvinhu", "kana", "zvino", "mazuva", "ndinovh"},
-}
-
-
 class RAGPipeline:
     """Handles the end-to-end RAG process."""
 
-    def __init__(self, use_ollama: bool = True):
-        self.vector_store = ZedVectorStore(use_ollama=use_ollama)
+    def __init__(self):
+        self.vector_store = ZedVectorStore()
         self.retriever = ZedRetriever(self.vector_store)
-        self.generator = ZedGenerator(use_ollama=use_ollama)
-        self.use_ollama = use_ollama
+        self.generator = ZedGenerator()
 
         self.prompt_template = """
         You are a helpful Zambian Community Assistant. 
@@ -44,67 +36,49 @@ class RAGPipeline:
         Answer:
         """
 
-    def _needs_translation(self, text: str, target_lang: str) -> bool:
-        """Check if text likely needs translation to target language."""
-        if not text or len(text.strip()) < 3:
-            return True
-
-        text_lower = text.lower()
-        signature_words = LANG_SIGNATURE_WORDS.get(target_lang, set())
-
-        if signature_words:
-            has_signature = any(word in text_lower for word in signature_words)
-            if has_signature:
-                return False
-
-        detected = detect_language(text)
-        if detected == target_lang:
-            return False
-
-        return True
-
     def generate_reply(
-        self, message: str, country: str, language: str = None
+        self, message: str, country: str, language: Optional[str] = None
     ) -> Tuple[str, List[str]]:
-        """Main entry point for Native Multilingual RAG."""
+        """Main entry point for High-Quality Multilingual RAG."""
 
-        user_lang = language or detect_language(message)
-        logger.info(f"RAG Pipeline: Processing NATIVE request in {user_lang} for {country}")
+        clean_lang = language.strip().lower() if (language and isinstance(language, str)) else None
+        if not clean_lang or clean_lang == "auto":
+            user_lang = detect_language(message)
+        else:
+            user_lang = clean_lang
+        logger.info(f"RAG Pipeline: Processing request in {user_lang} for {country}")
 
-        # NATIVE SEARCH: BGE-M3 handles multilingual queries directly
-        search_query = message
-        
+        # 1. NATIVE SEARCH: Trust the BGE-M3 top results
         try:
-            # We search directly with the user's message
-            docs = self.retriever.get_relevant_context(search_query, country)
-            context_text = self.retriever.format_docs(docs)
-            sources = list(
-                set([doc.metadata.get("source", "Unknown Source") for doc in docs])
-            )
+            # Get the top 3 most relevant documents
+            docs = self.retriever.get_relevant_context(message, country, top_k=3)
+            
+            if docs:
+                context_text = self.retriever.format_docs(docs)
+                sources = list(set([doc.metadata.get("source", "Unknown Source") for doc in docs]))
+            else:
+                logger.info(f"No relevant documents found for {country}.")
+                return "I'm sorry, I don't have that specific official record in my database yet.", []
         except Exception as e:
             logger.error(f"Retrieval failed: {e}")
             context_text = ""
             sources = []
 
         try:
-            # NATIVE GENERATION: Qwen2.5 responds in the detected language
-            final_answer = self.generator.generate(
-                message, context_text, country, user_lang
-            )
-            
-            # Back-translation is now only a FALLBACK if the response is too short 
-            # or obviously wrong (English instead of Nyanja)
-            if user_lang != "en" and self._needs_translation(final_answer, user_lang):
-                logger.info(f"Fallback: LLM failed native {user_lang}, translating from English...")
-                translated = translate_text(final_answer, source="en", target=user_lang)
-                if translated and translated != final_answer:
+            # 2. EXPERT GENERATION (English)
+            english_answer = self.generator.generate(message, context_text, country, "en")
+            final_answer = english_answer
+
+            # 3. EXPERT TRANSLATION (Local Language)
+            if user_lang != "en":
+                logger.info(f"Translating expert answer to {user_lang} via NLLB...")
+                translated = translate_text(english_answer, source="en", target=user_lang)
+                if translated:
                     final_answer = translated
 
         except Exception as e:
             logger.error(f"Generation failed: {e}")
-            final_answer = (
-                "I'm sorry, I encountered an error while generating your response."
-            )
+            final_answer = "I encountered a technical error while processing your request."
 
         return final_answer, sources
 
@@ -117,12 +91,13 @@ def get_pipeline() -> RAGPipeline:
     global _pipeline
 
     if _pipeline is None:
-        _pipeline = RAGPipeline(use_ollama=True)
+        _pipeline = RAGPipeline()
     return _pipeline
 
 
 def generate_reply(
-    message: str, country: str, language: str = None
+    message: str, country: str, language: Optional[str] = None
 ) -> Tuple[str, List[str]]:
     """Functional wrapper for the API routes."""
     return get_pipeline().generate_reply(message, country, language)
+
