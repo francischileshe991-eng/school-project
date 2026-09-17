@@ -71,7 +71,7 @@ class RAGPipeline:
 
             # 3. EXPERT TRANSLATION (Local Language)
             if user_lang != "en":
-                logger.info(f"Translating expert answer to {user_lang} via NLLB...")
+                logger.info(f"Translating expert answer to {user_lang}...")
                 translated = translate_text(english_answer, source="en", target=user_lang)
                 if translated:
                     final_answer = translated
