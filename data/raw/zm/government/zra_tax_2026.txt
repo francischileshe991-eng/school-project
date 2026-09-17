@@ -1,0 +1,36 @@
+# Zambia Revenue Authority (ZRA) - Official Tax Guide (2025/2026)
+
+## 1. Pay As You Earn (PAYE) Individual Tax Bands
+Zambia operates a progressive monthly PAYE tax system for all formally employed workers:
+- First Band (Tax-Free Threshold): K0.00 to K5,100.00 per month is taxed at 0% (Tax-free).
+- Second Band: K5,100.01 to K7,100.00 per month is taxed at 20%.
+- Third Band: K7,100.01 to K9,200.00 per month is taxed at 30%.
+- Fourth Band: Above K9,200.00 per month is taxed at 37%.
+
+*Note: The tax is progressive; each rate only applies to income falling within that specific monthly bracket.*
+
+## 2. Taxpayer Identification Number (TPIN) Registration
+A TPIN is a mandatory 10-digit number required for all tax and commercial transactions in Zambia, including opening bank accounts, motor vehicle registration, and clearing goods.
+- Procedure:
+  1. Go to the ZRA TaxOnline portal at https://portal.zra.org.zm/ or use the mobile TaxOnApp.
+  2. Select "Register TPIN" and choose your taxpayer category (Individual or Corporate/Business).
+  3. Enter personal details: full names as they appear on your NRC, date of birth, physical residential address, and phone number.
+  4. Upload a scanned copy of your National Registration Card (NRC) or passport.
+  5. Submit the application. Upon approval, you will receive an SMS and email notification with your 10-digit TPIN certificate, which you can print online immediately.
+- Registration Fee: Free of charge.
+
+## 3. Turnover Tax for Small and Medium Businesses
+- Eligibility: Micro and small businesses with annual gross turnover up to K800,000.
+- Rate: 4% of monthly gross business income.
+- Due Date: Returns and payments are due by the 14th day of the following month.
+
+## 4. Value Added Tax (VAT)
+- Standard VAT Rate: 16% on taxable goods and services.
+- Compulsory VAT Registration Threshold: Annual taxable turnover exceeding K800,000.
+- Essential medical supplies, basic foodstuffs, and agricultural products are exempt or zero-rated.
+
+## 5. Contact and Electronic Services
+- TaxOnline Portal: https://portal.zra.org.zm
+- Mobile Application: ZRA TaxOnApp (available on Google Play Store and Apple App Store).
+- Email: advice@zra.org.zm
+- National Toll-Free Center: 4111.

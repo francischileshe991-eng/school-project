@@ -154,22 +154,47 @@ class ZedTranslator:
         source_name = lang_names.get(source, source)
         target_name = lang_names.get(target, target)
 
+        # Cultural and dialect guidance for contemporary Southern African communication
+        dialect_guidance = ""
+        if target == "bem":
+            dialect_guidance = (
+                "Dialect Guidance for Bemba (Icibemba):\n"
+                "- Use natural, contemporary Zambian Bemba as spoken everyday in Zambia (Copperbelt and Lusaka).\n"
+                "- Avoid archaic, classical, or missionary/biblical vocabulary (e.g., do NOT use 'amatekeleo', use clear modern terms like 'ifyo mwingalomba', 'konkeni ishi nshila', 'ifilefwaikwa', 'ifyo mulingile ukulipila').\n"
+                "- Use respectful, polite phrasing (e.g., 'mwingakonka', 'kabiyeni', 'lipileni') suitable for public civic guidance.\n"
+                "- Keep common modern civic and digital terms natural (e.g., 'portal', 'website', 'online', 'passport', 'kopi', 'mapeji') rather than attempting awkward archaic coinages.\n"
+            )
+        elif target == "ny":
+            dialect_guidance = (
+                "Dialect Guidance for Nyanja (Chinyanja / Chichewa):\n"
+                "- Use natural, contemporary Zambian Nyanja as spoken in Lusaka and Eastern Province.\n"
+                "- Use clear, respectful civic phrasing (e.g., 'zofunika', 'mmene mungalipilire', 'pitani').\n"
+                "- Keep common modern civic and digital terms natural.\n"
+            )
+        elif target == "sn":
+            dialect_guidance = (
+                "Dialect Guidance for Shona (ChiShona):\n"
+                "- Use natural, contemporary ChiShona as spoken in Zimbabwe.\n"
+                "- Maintain polite, clear civic phrasing.\n"
+            )
+
         prompt = (
-            f"You are an expert multilingual translator for Southern Africa (Zambia and Zimbabwe).\n"
-            f"Translate the following text faithfully and fluently from {source_name} into {target_name}.\n"
+            f"You are an expert Southern African translator specializing in contemporary Zambian and Zimbabwean civic communication.\n"
+            f"Translate the following text faithfully and fluently from {source_name} into {target_name}.\n\n"
+            f"{dialect_guidance}\n"
             f"Strict Rules:\n"
             f"1. Output ONLY the translated text. Do not include introductory notes, explanations, or quotes.\n"
             f"2. Keep institutional acronyms, government bodies, currency, and proper nouns verbatim "
             f"(e.g., NRC, ZRA, NHIMA, ECZ, RTSA, PACRA, ZESCO, UNZA, Zambia, Zimbabwe, Kwacha, K500).\n"
             f"3. Preserve all markdown formatting, bullet points, numbers, and paragraph structure.\n\n"
-            f"Text:\n{text}"
+            f"Text to Translate:\n{text}"
         )
 
         candidate_models = [
-            getattr(settings, "GEMINI_MODEL", "gemini-3.5-flash"),
-            "gemini-3.5-flash",
+            getattr(settings, "GEMINI_MODEL", "gemini-3.5-flash-lite"),
             "gemini-3.5-flash-lite",
             "gemini-3.1-flash-lite",
+            "gemini-3.5-flash",
             "gemini-3.6-flash",
             "gemini-3.7-flash",
         ]

@@ -1,0 +1,34 @@
+# Patents and Companies Registration Agency (PACRA) - Business Registration Guide (2025/2026)
+
+## 1. Overview and Digital Mandate
+PACRA is the statutory authority in Zambia responsible for the registration of companies, business names, and intellectual property.
+- Digital Certificates: All certificates of incorporation and business registration are now issued in secure digital PDF format directly to the applicant's registered email address. Physical parchment certificates have been phased out.
+
+## 2. Registering a Business Name (Sole Proprietorship / Partnership)
+A Business Name registration is ideal for individual traders, consultants, and small partnership enterprises.
+- Procedure:
+  1. Name Search and Clearance: Propose up to three names online at https://www.onlinepacra.org.zm or via ZamPortal (www.gsb.gov.zm). Fee: K120.00.
+  2. Completion of Form BN 3: Provide business physical address, principal line of business, and personal details of proprietor(s).
+  3. Attach scanned copy of National Registration Card (NRC) or passport.
+  4. Pay registration fee: typically K166.00 to K222.40.
+  5. Receive electronic Certificate of Registration with a verifiable QR code.
+
+## 3. Registering a Private Company Limited by Shares (Ltd)
+- Key Requirements:
+  - Minimum of two (2) directors and one (1) shareholder.
+  - At least half of the directors must be ordinarily resident in Zambia.
+  - Directors must be at least 18 years old and of sound mind.
+  - Clear NRC copies for all Zambian directors/shareholders or valid passports for foreign directors.
+  - Proposed registered office physical address in Zambia.
+- Fee Structure: Scaled according to nominal share capital (minimum standard capital incorporation fees apply).
+- Payment methods: Mobile Money (MTN, Airtel) and Visa/Mastercard debit cards.
+
+## 4. Annual Returns Compliance
+- Every registered business and company in Zambia is legally required to file Annual Returns with PACRA every calendar year.
+- Filing keeps the company in "Good Standing" and prevents deregistration or punitive financial penalties.
+
+## 5. Official Contact and Online Portals
+- Online Services: https://www.onlinepacra.org.zm
+- Government Gateway: https://www.zamportal.gov.zm
+- Head Office: PACRA House, Haile Selassie Avenue, Longacres, Lusaka.
+- Toll-Free Helpline: 0800 117 772

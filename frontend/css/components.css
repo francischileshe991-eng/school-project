@@ -200,6 +200,48 @@
   50% { opacity: 1; }
 }
 
+.quick-prompts {
+  display: flex;
+  gap: 0.5rem;
+  padding: 0.5rem 1.25rem 0.25rem;
+  overflow-x: auto;
+  scrollbar-width: thin;
+  white-space: nowrap;
+}
+
+.quick-prompts::-webkit-scrollbar {
+  height: 4px;
+}
+
+.quick-prompts::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+  border-radius: 4px;
+}
+
+.chip {
+  background: var(--panel-strong);
+  border: 1px solid var(--border-color);
+  border-radius: 2rem;
+  padding: 0.4rem 0.85rem;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  flex-shrink: 0;
+}
+
+.chip:hover {
+  background: var(--accent);
+  color: white;
+  border-color: var(--accent);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(16, 185, 129, 0.2);
+}
+
 @media (max-width: 640px) {
   .app-shell { padding: 1rem 0; gap: 1rem; }
   .chat-card { height: calc(100vh - 12rem); border-radius: 0; border-left: none; border-right: none; }

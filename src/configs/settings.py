@@ -12,7 +12,7 @@ class Settings(BaseSettings):
     LLM_PROVIDER: str = "gemini"  # auto, ollama, gemini, openai
     TRANSLATION_PROVIDER: str = "gemini"  # gemini, nllb
     MODEL_NAME: str = "qwen2.5:7b"
-    GEMINI_MODEL: str = "gemini-3.5-flash"
+    GEMINI_MODEL: str = "gemini-3.5-flash-lite"
     OPENAI_MODEL: str = "gpt-4o-mini"
     EMBEDDING_MODEL: str = "BAAI/bge-m3"
 
@@ -26,7 +26,7 @@ class Settings(BaseSettings):
     API_HOST: str = "0.0.0.0"
     API_PORT: int = 8000
     API_VERSION: str = "v1"
-    PRELOAD_PIPELINE_ON_STARTUP: bool = False
+    PRELOAD_PIPELINE_ON_STARTUP: bool = True
 
     # Paths
     BASE_DIR: Path = Path(__file__).resolve().parent.parent.parent

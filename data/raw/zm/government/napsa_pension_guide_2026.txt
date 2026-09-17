@@ -1,0 +1,32 @@
+# National Pension Scheme Authority (NAPSA) - Pension & Partial Withdrawal Guide (2025/2026)
+
+## 1. Overview of NAPSA Scheme
+NAPSA is the statutory national social security institution mandated to provide retirement benefits, invalidity pensions, and survivors' benefits to formal and informal workers in Zambia.
+- Statutory Contribution Rate: 10% of gross salary (split equally: 5% deducted from employee, 5% contributed by employer).
+
+## 2. 20% Pre-Retirement Partial Withdrawal Benefit
+Under the National Pension Scheme Amendment Act, members are entitled to access a one-off pre-retirement partial withdrawal of 20% of their accrued pension contributions and indexation.
+- Eligibility Requirements:
+  - Must have contributed to NAPSA for a minimum of 60 continuous or cumulative months (5 years), OR
+  - Must have attained the age of 45 years or older.
+- Application Method:
+  - Online via the NAPSA e-Services Portal (iCARE) at https://icare.napsa.co.zm.
+  - USSD: Dial *677# on any mobile network in Zambia.
+  - In-person at any NAPSA Customer Care Center across the country.
+- Required Documents: Valid National Registration Card (NRC), active local bank account details (commercial bank registered with Bank of Zambia), and mobile number linked to your NRC.
+- One-Off Limitation: This 20% partial withdrawal is strictly a one-time benefit. Once drawn, it cannot be claimed a second time during active employment.
+
+## 3. The 30% Retirement Lump Sum Window
+- Under the updated legislative framework, members reaching retirement age can access a 30% retirement lump sum.
+- Timing: This 30% lump sum is accessible only within three (3) months prior to the member's official retirement date.
+- Note: Having previously claimed the 20% pre-retirement benefit does NOT disqualify a member from receiving the 30% retirement lump sum; the lump sum is calculated from the remaining contribution balance at retirement.
+
+## 4. Retirement Age Categories
+- For members who registered before 2015: Early retirement is at age 50; Normal retirement is at age 55; Late retirement is at age 60.
+- For members who registered after 2015: Early retirement is at age 55; Normal retirement is at age 60; Late retirement is at age 65.
+
+## 5. Official Contact Channels
+- Website: https://www.napsa.co.zm
+- Member Portal: https://icare.napsa.co.zm
+- Call Center Hotline: 677 (toll-free from local mobile lines)
+- Email: complaints@napsa.co.zm or info@napsa.co.zm

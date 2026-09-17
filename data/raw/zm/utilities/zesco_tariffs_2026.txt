@@ -1,0 +1,32 @@
+# ZESCO Electricity Services and Residential Tariffs Guide (2025/2026)
+
+## 1. Residential Block Tariff Structure
+Electricity in Zambia is sold on a progressive multi-tier block tariff system approved by the Energy Regulation Board (ERB). Tariffs are calculated cumulatively throughout each calendar month and automatically reset to Band 1 on the 1st day of every month:
+
+| Tariff Band | Monthly Consumption Bracket | Rate per Unit (ZMW / kWh) |
+| :--- | :--- | :--- |
+| **Band 1 (Lifeline)** | 0 – 100 units (kWh) | K0.42 |
+| **Band 2** | 101 – 200 units (kWh) | K1.19 |
+| **Band 3** | 201 – 400 units (kWh) | K2.89 |
+| **Band 4 (High Usage)**| Above 400 units (kWh) | K4.12 |
+
+*Advice: To save money, purchase enough units at the beginning of the month when your meter is in Band 1, rather than making frequent excessive purchases that push your consumption into higher pricing brackets.*
+
+## 2. Ways to Purchase Electricity Tokens
+Zambians can purchase prepaid electricity tokens 24/7 through multiple digital platforms:
+- Mobile Money:
+  - MTN MoMo: Dial *115# -> Pay Bills -> Electricity (ZESCO) -> Enter Meter Number.
+  - Airtel Money: Dial *778# -> Make Payments -> Pay Bill -> ZESCO.
+- Commercial Mobile Banking: Accessible on all major banking apps and USSD codes (e.g. Zanaco *444#, Indo Zambia, Standard Chartered, ABSA).
+- Government & Utility USSD: Dial *247# -> Option 3 (Pay Bills) -> Option 2 (ZESCO).
+- Mobile Application: Download the official MyZESCO App on Google Play Store or Apple App Store.
+
+## 3. Token Identifier (TID) Meter Rollover
+- All prepaid STS meters in Zambia must be rolled over to the modern TID standard to continue accepting generated tokens.
+- If your meter rejects standard 20-digit tokens, request a 2-part "Key Change Token" from ZESCO customer service to complete the meter firmware upgrade.
+
+## 4. Emergency Contacts and Fault Reporting
+- National Call Centre: +260 211 363636 or dial 322 (toll-free from select networks).
+- SMS Center: Send meter number and fault description to 3600.
+- Customer Care Email: callcentre@zesco.co.zm
+- Official Website: https://www.zesco.co.zm
