@@ -71,7 +71,7 @@ class ZedGenerator:
         try:
             from langchain_google_genai import ChatGoogleGenerativeAI
 
-            gemini_model = getattr(settings, "GEMINI_MODEL", "gemini-1.5-flash")
+            gemini_model = getattr(settings, "GEMINI_MODEL", "gemini-3.6-flash")
             logger.info(f"Generator: Initializing Google Gemini ({gemini_model})")
             return ChatGoogleGenerativeAI(
                 model=gemini_model,
