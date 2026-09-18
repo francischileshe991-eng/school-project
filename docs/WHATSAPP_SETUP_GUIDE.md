@@ -1,4 +1,9 @@
-# Twilio WhatsApp Integration & Live Demonstration Guide
+# Twilio WhatsApp Integration & Live Demonstration Guide (Version 1.0)
+
+> [!TIP]
+> **Looking for Version 2.0 (Zero-Cost Direct WhatsApp Web Gateway)?**  
+> See the updated **[WhatsApp Gateway Integration Guide v2.0](file:///docs/WHATSAPP_SETUP_GUIDE_v2.0.md)** for connecting directly to your real Zambian phone number (`+260 953805423`) without Twilio fees, sandbox join codes, or USD costs.  
+> *This document (v1.0) is preserved as an alternative cloud-hosted deployment option.*
 
 This guide provides the exact steps to connect **Zedchatbot for African Community** to WhatsApp via Twilio's WhatsApp Sandbox for live messaging, testing, and your final oral defense demonstration.
 
