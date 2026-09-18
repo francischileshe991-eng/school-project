@@ -20,4 +20,10 @@ FRANCIS_CHILESHE_2022014855_PROGRESS_REPORT/
 logs/
 zedchatbot.egg-info/
 nul
+.wwebjs_auth/
+.wwebjs_cache/
+whatsapp_bridge/node_modules/
+whatsapp_bridge/.wwebjs_auth/
+whatsapp_bridge/session/
+auth_info_baileys/
 
