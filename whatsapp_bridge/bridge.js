@@ -120,9 +120,10 @@ client.on('ready', () => {
 // 5. Event: Incoming Message
 client.on('message', async (message) => {
   try {
-    // Ignore status updates, broadcast messages, and messages sent by the bot itself
+    // Ignore status updates, broadcast messages, group chats, and messages sent by the bot itself
     if (message.isStatus || message.fromMe) return;
     if (message.from.includes('status@broadcast')) return;
+    if (message.from.includes('@g.us')) return;
 
     const sender = message.from;
     const body = (message.body || '').trim();
@@ -135,26 +136,37 @@ client.on('message', async (message) => {
     if (body.toLowerCase().startsWith('!zw') || body.toLowerCase().startsWith('[zw]')) country = 'zw';
     if (body.toLowerCase().startsWith('!zm') || body.toLowerCase().startsWith('[zm]')) country = 'zm';
 
+    // Strip country directive tag so retriever embedding gets the pure question
+    let queryText = body;
+    if (queryText.toLowerCase().startsWith('!zm') || queryText.toLowerCase().startsWith('!zw')) {
+      queryText = queryText.slice(3).trim();
+    } else if (queryText.toLowerCase().startsWith('[zm]') || queryText.toLowerCase().startsWith('[zw]')) {
+      queryText = queryText.slice(4).trim();
+    }
+
     console.log(`[Incoming WhatsApp] From: ${sender} | Country: ${country.toUpperCase()}`);
-    console.log(`[Query]: "${body}"`);
+    console.log(`[Query]: "${queryText}"`);
 
     // Forward to Zedchatbot Backend
     const response = await fetch(`${BACKEND_URL}/chat`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        message: body,
+        message: queryText,
         country: country,
-        language: 'auto'
+        language: 'auto',
+        channel: 'whatsapp'
       })
     });
 
     if (!response.ok) {
-      throw new Error(`Backend returned HTTP ${response.status}: ${response.statusText}`);
+      const errText = await response.text();
+      throw new Error(`Backend returned HTTP ${response.status}: ${errText}`);
     }
 
     const data = await response.json();
-    const rawAnswer = data.response || "I'm sorry, I couldn't find information on that.";
+    const rawAnswer = data.answer || data.response || "I'm sorry, I couldn't find information on that.";
+    console.log(`[Backend Reply]: received ${rawAnswer.length} chars (interaction #${data.interaction_id || 'N/A'})`);
 
     const formattedAnswer = formatForWhatsApp(rawAnswer);
     const replyText = `${formattedAnswer}\n\n---\n*ZedChatBot | Community Assistant*`;

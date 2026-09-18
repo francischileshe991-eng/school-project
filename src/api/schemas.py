@@ -20,6 +20,11 @@ class ChatRequest(BaseModel):
         description="Language code ('en', 'bem', 'ny', 'sn') or None/'auto' for auto-detection",
     )
 
+    channel: str = Field(
+        default="web",
+        description="Originating channel ('web' or 'whatsapp')",
+    )
+
     @field_validator("country")
     @classmethod
     def validate_country(cls, v: str) -> str:
@@ -48,6 +53,7 @@ class ChatRequest(BaseModel):
 
 class ChatResponse(BaseModel):
     answer: str
+    response: Optional[str] = None
     sources: List[str]
     interaction_id: Optional[int] = None
     response_time_ms: Optional[int] = None

@@ -88,7 +88,7 @@ def chat_endpoint(payload: ChatRequest) -> ChatResponse:
 
         # Log interaction to SQLite database for evaluation & TAM metrics
         interaction_id = db.log_interaction(
-            channel="web",
+            channel=payload.channel,
             country=payload.country,
             user_query=payload.message,
             detected_language=detected_lang,
@@ -99,6 +99,7 @@ def chat_endpoint(payload: ChatRequest) -> ChatResponse:
 
         return ChatResponse(
             answer=answer,
+            response=answer,
             sources=sources,
             interaction_id=interaction_id,
             response_time_ms=elapsed_ms,
