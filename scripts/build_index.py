@@ -49,8 +49,8 @@ def build_indices(reset: bool = False, country_filter: str = None):
 
         # 3. CHUNK the documents
         text_splitter = RecursiveCharacterTextSplitter(
-            chunk_size=400,
-            chunk_overlap=50,
+            chunk_size=700,
+            chunk_overlap=100,
             length_function=len,
         )
         chunked_docs = text_splitter.split_documents(raw_docs)

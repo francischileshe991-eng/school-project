@@ -1,0 +1,62 @@
+# Statutory Minimum Wages, Workers' Rights & Labour Protections (Zambia)
+# Ministry of Labour and Social Security
+# Official Public Employment Guidance
+
+## 1. Overview and Legal Framework
+Employment relationships in Zambia are governed by the **Employment Code Act No. 3 of 2019** and the **Minimum Wages and Conditions of Employment Regulations** administered by the Ministry of Labour and Social Security. These statutory instruments protect vulnerable categories of workers from exploitation, establish minimum wage thresholds, mandate paid leave benefits, and provide free mechanisms for dispute resolution.
+
+## 2. Protected Categories of Workers & Statutory Minimum Wages
+
+The law explicitly prescribes legally binding minimum wages for categories of vulnerable and non-unionized employees:
+
+### Category 1: Domestic Workers
+- **Covered Roles:** Housemaids, domestic servants, house cleaners, residential cooks, nannies/babysitters, domestic gardeners, and residential security watchmen.
+- **Statutory Minimum Wage Structure:**
+  - Basic monthly minimum wage mandated by statutory instrument.
+  - Mandatory transport allowance if the employer does not provide physical transport to and from work.
+  - Mandatory lunch / food allowance or provision of adequate daily meals on duty.
+  - Mandatory enrollment and monthly statutory pension contributions to NAPSA (5% employer and 5% employee).
+  - Mandatory monthly health insurance contribution to NHIMA (1% employer and 1% employee).
+- **Working Hours:** Maximum of 48 hours per week (equivalent to 8 hours per day for a 6-day week, or 9 hours per day for a 5-day week). Work exceeding these hours constitutes overtime.
+
+### Category 2: Shop Workers & Commercial Assistants
+- **Covered Roles:** Shop cashiers, packers, sales assistants, shelf stackers, dispatched messengers, and store handymen.
+- **Statutory Structure:** Graded minimum wages across Grade 1 to Grade 4 depending on skills and responsibility, accompanied by mandatory housing, transport, and meal allowances.
+
+### Category 3: General Workers & Office Cleaners
+- **Covered Roles:** Cleaners in commercial offices, general construction laborers, day watchmen, farm workers, and utility assistants.
+
+## 3. Statutory Leave Entitlements under the Employment Code Act 2019
+
+Every full-time employee in Zambia is entitled by law to the following paid leave benefits:
+1. **Annual Leave:**
+   - Employees accrue a minimum of 2 working days of paid annual leave per completed month of service, amounting to **24 paid leave days per annum**.
+2. **Maternity Leave:**
+   - Female employees who have completed at least 2 years of continuous service with an employer are legally entitled to **120 days (4 months) of fully paid maternity leave**.
+   - Upon return from maternity leave, the mother is legally entitled to **2 hours per day for nursing/breastfeeding** during working hours until the baby reaches 6 months of age.
+   - An employer cannot dismiss an employee on grounds of pregnancy.
+3. **Paternity Leave:**
+   - Male employees are legally entitled to at least **5 continuous days of paid paternity leave** taken within 7 days of the birth of the child, upon presenting an official hospital birth notification record.
+4. **Sick Leave:**
+   - Upon presenting a medical certificate signed by a registered medical practitioner, an employee is entitled to paid sick leave:
+     - First 26 working days (or 1 month): **Full pay**.
+     - Subsequent 26 working days (or next 2 months): **Half pay**.
+     - Maximum statutory sick leave can extend up to 6 months with half-pay protections.
+5. **Compassionate Leave:**
+   - Paid compassionate leave of at least 12 days per year for attending funerals of immediate family members (spouse, child, parent, sibling).
+
+## 4. Overtime and Holiday Compensation
+
+- **Normal Working Day Overtime:** Paid at a minimum rate of **1.5 times** the employee's normal hourly wage for hours worked beyond the standard 8 or 9 hours.
+- **Sunday and Public Holiday Work:** Work performed on Sundays and declared statutory public holidays must be compensated at **2.0 times (double)** the normal hourly wage, or granted equivalent paid time off in lieu.
+- **End-of-Contract Gratuity:** Fixed-term contract employees are legally entitled to a gratuity of not less than **25% of the total basic earnings** accumulated over the contract period upon successful completion of the contract.
+
+## 5. Labour Dispute Resolution & The District Labour Office
+
+- **How to Report Exploitation or Unlawful Dismissal:**
+  - If an employer fails to pay the statutory minimum wage, unlawfully withholds wages, unfairly terminates a contract, or refuses statutory leave, the employee has the right to report directly to the nearest **District Labour Office** (Ministry of Labour and Social Security).
+  - Services provided by District Labour Officers are **100% free of charge**.
+- **Inspection & Mediation Process:**
+  - Labour Officers summon both the employer and employee for formal mediation.
+  - Labour Officers possess statutory powers to inspect workplaces, examine payroll records, and issue legally binding **Compliance Orders** commanding the payment of arrears.
+  - Unresolved cases are formally referred to the **Industrial Relations Court** for judicial ruling.

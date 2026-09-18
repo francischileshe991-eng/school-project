@@ -1,0 +1,64 @@
+# Small Claims Court & Legal Aid Board Guide (Zambia)
+# Judiciary of Zambia & Ministry of Justice
+# Official Citizen Justice & Legal Aid Guidance
+
+## 1. Small Claims Court: Affordable Justice for Ordinary Citizens
+
+### What is the Small Claims Court?
+The Small Claims Court is established under the **Small Claims Court Act (Cap 47 of the Laws of Zambia)**. It is a specialized, informal division of the Zambian Judiciary created to resolve commercial and civil financial disputes quickly, cheaply, and without bureaucratic delays.
+
+### Key Features & Benefits:
+1. **Financial Jurisdiction (Up to K50,000):**
+   - The court handles monetary claims where the disputed amount does not exceed **K50,000 (Fifty Thousand Zambian Kwacha)**.
+2. **Strictly No Lawyers Allowed (Level Playing Field):**
+   - Under Section 14 of the Small Claims Court Act, **legal practitioners (private lawyers or advocates) are legally barred from appearing or representing parties in the Small Claims Court!**
+   - Both the claimant (person suing) and the defendant (person being sued) must represent themselves in person before the presiding Commissioner.
+   - This ensures an ordinary citizen is not intimidated or outspent by wealthy adversaries hiring expensive private lawyers.
+3. **Very Low Filing Fees:**
+   - The cost of initiating a case is minimal (typically **K50 to K100** paid at the court registry), making justice accessible to everyone.
+4. **Rapid Settlement (Weeks, Not Years):**
+   - Cases are typically scheduled, heard, and decided within **2 to 4 weeks** of filing.
+   - The rules of evidence are informal and relaxed; proceedings are conducted in simple English or translated into local languages (Bemba, Nyanja) by official court interpreters.
+5. **Legally Binding Judgments:**
+   - The ruling of a Small Claims Commissioner carries the full weight of a legal judgment.
+   - If the losing party refuses to pay, the winner can enforce the judgment through official **Court Bailiffs** to seize property or garnish funds.
+
+### Common Disputes Resolved in the Small Claims Court:
+- Unpaid personal or informal loans between individuals or friends.
+- Outstanding residential rental arrears owed by tenants or wrongful retention of rental deposits by landlords.
+- Failure by a carpenter, mechanic, builder, or tailor to deliver goods or services already paid for.
+- Property damage, motor vehicle minor collision repairs, or unpaid bills under K50,000.
+
+### How to File a Case in the Small Claims Court:
+- **Step 1:** Visit the Civil Registry at your nearest Subordinate / Magistrates' Court complex (available in Lusaka, Ndola, Kitwe, Livingstone, Kabwe, Chipata, etc.).
+- **Step 2:** Request and fill out a **Notice of Claim** form. Clearly state the defendant's full name, physical residential/work address, phone number, and the exact amount of money owed.
+- **Step 3:** Attach supporting proof (e.g., written loan agreement, receipts, WhatsApp chat agreements, bank/mobile money statements, quotes).
+- **Step 4:** Pay the nominal filing fee at the court accounts office and obtain a receipt.
+- **Step 5:** Court bailiffs serve the summons on the defendant with a hearing date.
+- **Step 6:** Attend the hearing in person and present your case calmly to the Commissioner.
+
+## 2. The Legal Aid Board (LAB): Free Legal Representation
+
+### What is the Legal Aid Board?
+The Legal Aid Board is an autonomous statutory body established under the **Legal Aid Act (Cap 34 of the Laws of Zambia)** under the Ministry of Justice. It provides free or highly subsidized legal advice, legal assistance, and court representation to citizens who cannot afford private legal counsel.
+
+### Who Qualifies for Free Legal Aid?
+- Access to legal aid is subject to a statutory **Means Test**:
+  - Unemployed citizens, low-income earners, and indigent community members.
+  - Minors/juveniles in conflict with the law.
+  - Vulnerable women facing domestic violence, arbitrary land evictions, or inheritance/property grabbing.
+  - Persons with physical or mental disabilities.
+  - Inmates and remandees facing serious criminal charges in custody.
+
+### Services Provided by the Legal Aid Board:
+1. **Criminal Defense:**
+   - Free defense counsel during police interrogation, bail applications, magistrate trials, and High Court capital trials (e.g., murder, aggravated robbery, treason).
+2. **Civil Representation:**
+   - Legal defense in unlawful land evictions, wrongful termination of employment, child maintenance and custody battles, and deceased estate administration disputes.
+3. **General Legal Advice:**
+   - Free walk-in consultations for drafting affidavits, statutory declarations, and dispute mediation.
+
+### How to Access Legal Aid Services:
+- **In-Person Application:** Visit the nearest Legal Aid Board office located in every provincial capital across Zambia (at the High Court / Subordinate Court complex).
+- **Desk Help:** Look for the Legal Aid Board Information Desk at the Civic Centre or Central Police Station.
+- **Required Documents:** Green National Registration Card (NRC), proof of income or proof of unemployment, and any charge sheet, summons, or legal notices received.

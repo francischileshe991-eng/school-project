@@ -21,20 +21,6 @@ class RAGPipeline:
         self.retriever = ZedRetriever(self.vector_store)
         self.generator = ZedGenerator()
 
-        self.prompt_template = """
-        You are a helpful Zambian Community Assistant. 
-        Use the following pieces of retrieved context to answer the user's question.
-        If you don't know the answer based on the context, just say that you don't know.
-        Keep the answer professional and relevant to the Zambian or Zimbabwean context.
-
-        Context: 
-        {context}
-
-        Question: 
-        {question}
-
-        Answer:
-        """
 
     def generate_reply(
         self, message: str, country: str, language: Optional[str] = None
@@ -50,8 +36,8 @@ class RAGPipeline:
 
         # 1. NATIVE SEARCH: Trust the BGE-M3 top results
         try:
-            # Get the top 3 most relevant documents
-            docs = self.retriever.get_relevant_context(message, country, top_k=3)
+            # Get the top 4 most relevant documents
+            docs = self.retriever.get_relevant_context(message, country, top_k=4)
             
             if docs:
                 context_text = self.retriever.format_docs(docs)

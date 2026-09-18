@@ -1,54 +1,68 @@
-const API_BASE = window.location.origin.includes(":8000") ? "" : "http://127.0.0.1:8000";
+const API_BASE = "";
+const REQUEST_TIMEOUT_MS = 90000;
 
-export async function sendMessageToAPI(text, country, language) {
+async function postJSON(path, body, timeoutMs = REQUEST_TIMEOUT_MS) {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), timeoutMs);
+
   try {
-    const response = await fetch(`${API_BASE}/chat`, {
+    const response = await fetch(`${API_BASE}${path}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({
-        message: text,
-        country: country,
-        language: language,
-      }),
+      body: JSON.stringify(body),
+      signal: controller.signal,
     });
 
     if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+      let detail = `HTTP error! status: ${response.status}`;
+      try {
+        const err = await response.json();
+        if (err && err.detail) {
+          detail = typeof err.detail === "string" ? err.detail : JSON.stringify(err.detail);
+        }
+      } catch (_) {
+        // ignore body parse failure
+      }
+      throw new Error(detail);
     }
 
-    const data = await response.json();
-    return data;
+    return await response.json();
+  } catch (error) {
+    if (error.name === "AbortError") {
+      throw new Error("The request took too long and was cancelled. Please try again.");
+    }
+    throw error;
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
+export async function sendMessageToAPI(text, country, language) {
+  try {
+    return await postJSON("/chat", {
+      message: text,
+      country: country,
+      language: language,
+    });
   } catch (error) {
     console.error("API Error:", error);
-    return { 
-        answer: "Error: Could not connect to the Zedchatbot backend server. Ensure it is running on port 8000.", 
-        sources: [],
-        interaction_id: null
+    return {
+      error: "Could not reach the Zedchatbot server. Ensure the backend is running, then try again.",
+      sources: [],
+      interaction_id: null,
     };
   }
 }
 
 export async function sendFeedbackToAPI(interactionId, rating, comment = "") {
   try {
-    const response = await fetch(`${API_BASE}/feedback`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        interaction_id: interactionId,
-        rating: rating,
-        comment: comment,
-      }),
-    });
-
-    if (!response.ok) {
-      throw new Error(`Feedback error! status: ${response.status}`);
-    }
-
-    return await response.json();
+    return await postJSON("/feedback", {
+      interaction_id: interactionId,
+      rating: rating,
+      comment: comment,
+    }, 15000);
   } catch (error) {
     console.error("Feedback API Error:", error);
     return null;

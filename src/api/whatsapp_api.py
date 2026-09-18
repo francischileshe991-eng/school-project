@@ -89,18 +89,40 @@ def process_and_reply(body: str, from_number: str, country: str):
         send_whatsapp_reply(from_number, "Sorry, I hit an error. Please try again.")
 
 
+def _resolve_whatsapp_country(from_number: str, message_body: str) -> str:
+    """Intelligently detects country from E.164 phone prefix, message tag, or defaults to zm."""
+    clean_body = (message_body or "").strip().lower()
+    if clean_body.startswith("!zw") or clean_body.startswith("zw:") or "[zw]" in clean_body:
+        return "zw"
+    if clean_body.startswith("!zm") or clean_body.startswith("zm:") or "[zm]" in clean_body:
+        return "zm"
+
+    clean_from = (from_number or "").strip()
+    if "+263" in clean_from or clean_from.startswith("263"):
+        return "zw"
+    if "+260" in clean_from or clean_from.startswith("260"):
+        return "zm"
+
+    return getattr(settings, "DEFAULT_COUNTRY", "zm").lower()
+
+
 @router.post("/whatsapp")
 async def whatsapp_webhook(Body: str = Form(...), From: str = Form(...)):
     logger.info(f"WhatsApp: Message received from {From}")
-    country = "zm"
+    country = _resolve_whatsapp_country(From, Body)
+    logger.info(f"WhatsApp: Routed to country '{country}' for sender {From}")
 
-    user_lang = detect_language(Body)
+    clean_body = Body.strip()
+    if clean_body.lower().startswith(("!zw", "!zm")):
+        clean_body = clean_body[3:].strip()
+
+    user_lang = detect_language(clean_body)
     thinking_msg = THINKING_MESSAGES.get(user_lang, THINKING_MESSAGES["en"])
     logger.info(f"WhatsApp: Detected language {user_lang}, sending ack in {user_lang}")
 
     # Modern, robust async worker execution tracking task lifecycle
     task = asyncio.create_task(
-        asyncio.to_thread(process_and_reply, Body, From, country)
+        asyncio.to_thread(process_and_reply, clean_body, From, country)
     )
     _background_tasks.add(task)
     task.add_done_callback(_background_tasks.discard)

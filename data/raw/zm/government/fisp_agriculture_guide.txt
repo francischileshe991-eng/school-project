@@ -1,0 +1,58 @@
+# Farmer Input Support Programme (FISP) & Food Reserve Agency (FRA) Guide
+# Ministry of Agriculture (Zambia)
+# Official Public Agricultural Information
+
+## 1. The Farmer Input Support Programme (FISP)
+
+### Overview and Objective
+The Farmer Input Support Programme (FISP) is an agricultural subsidy initiative managed by the Ministry of Agriculture. The programme is designed to empower vulnerable smallholder farming households, boost household and national food security, stimulate agricultural diversification, and improve rural livelihoods across all 10 provinces of Zambia.
+
+### Target Beneficiaries & Eligibility
+To qualify as a FISP beneficiary, a farmer must meet the following statutory requirements:
+1. **Citizenship:** Must be a Zambian citizen possessing a valid Green National Registration Card (NRC).
+2. **Smallholder Land Limit:** Must be an active small-scale farmer cultivating not more than **2 hectares** of arable land.
+3. **Cooperative Membership:** Must be a fully paid-up member of an active, registered **Agricultural Cooperative or Farmer Group** recognized by the District Agriculture Coordinator (DACO) and Camp Extension Officer.
+4. **Beneficiary Contribution:** Must deposit the mandatory farmer co-payment contribution fee (typically **K400**) into the designated government bank account (e.g., ZANACO, NATSAVE, or Atlas Mara).
+5. **No Double Invoicing:** Must not receive agricultural subsidies simultaneously from another competing government scheme.
+
+### Standard FISP Input Package per Beneficiary:
+Each selected smallholder farmer receives a comprehensive agricultural input pack comprising:
+- **Fertilizer:** 6x 50kg bags of synthetic fertilizer:
+  - 3x 50kg bags of **Basal Dressing (D-Compound)**.
+  - 3x 50kg bags of **Top Dressing (Urea)**.
+- **Certified Seed:** 1x 10kg pack of certified hybrid seed:
+  - White Maize seed (early or medium maturity varieties), or
+  - Crop diversification packs: Certified seed for Soya Beans, Sorghum, Groundnuts, or Sunflower.
+
+### Delivery Modalities:
+1. **Direct Input Supply (DIS):** Physical delivery of fertilizer and seed bags to designated district storage sheds, cooperative distribution points, and agricultural depots.
+2. **Electronic Voucher (E-Voucher) System:** Beneficiaries receive a pre-loaded electronic Visa card or USSD voucher, allowing them to purchase approved agricultural inputs of their personal preference directly from accredited agro-dealers.
+
+### How to Apply for FISP:
+- **Step 1:** Join or register with your local community Agricultural Cooperative or Farmer Club.
+- **Step 2:** Ensure your cooperative is in good standing with the Registrar of Cooperatives and registered with the local Ministry of Agriculture camp office.
+- **Step 3:** The Camp Agriculture Committee (CAC) and Camp Extension Officer (CEO) conduct physical beneficiary validation and compile the beneficiary register.
+- **Step 4:** Pay the K400 farmer contribution fee at an authorized bank branch when the contribution window is announced by the Ministry.
+- **Step 5:** Collect the inputs from your designated cooperative shed or swipe your E-Voucher card at an authorized agro-dealer.
+
+## 2. Food Reserve Agency (FRA) Grain Marketing & Strategic Reserves
+
+### Mandate of the Food Reserve Agency
+The Food Reserve Agency (FRA) is a statutory corporation established under the Food Reserve Act under the Ministry of Agriculture. It is tasked with maintaining national strategic food reserves to protect the country against drought, crop failures, and commodity shortages.
+
+### What Commodities Does FRA Purchase?
+- White Maize (dominant grain for national mealie meal security).
+- Soya Beans (for cooking oil, livestock feed, and agro-processing).
+- Paddy Rice (for domestic consumption and grain reserves).
+
+### Official FRA Purchase Price & Satellite Depots:
+- **Gazetted Price:** The government announces the national floor purchase price per 50kg bag of white maize annually before the crop marketing season commences in May/June.
+- **Moisture Content Standards:** Grain delivered to FRA must meet national quality standards:
+  - Clean, pest-free, unbroken grain.
+  - Maximum moisture content of **not more than 12.5%** (tested using moisture meters at the depot). Wet grain is rejected to prevent rotting and aflatoxin contamination.
+- **Satellite Depots:** FRA establishes thousands of community satellite depots within walking distance of rural farming communities to eliminate transportation exploitation by unscrupulous private briefcase grain buyers.
+
+### Payment Procedure for Farmers:
+- Upon delivering grain to an FRA depot, the farmer receives an official **Grain Receipt**.
+- The grain receipt is verified and entered into the national marketing database.
+- Payment is disbursed electronically directly into the farmer's registered commercial bank account or mobile money wallet (Airtel Money, MTN MoMo, Zamtel Kwacha), ensuring transparency, eliminating cash theft, and promoting rural financial inclusion.

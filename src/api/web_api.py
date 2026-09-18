@@ -15,6 +15,18 @@ from src.configs.settings import settings
 from src.core.logger import logger
 
 
+class DevStaticFiles(StaticFiles):
+    """StaticFiles that disables browser caching during development.
+
+    Prevents stale HTML/CSS/JS from being served after frontend edits.
+    """
+
+    async def get_response(self, path: str, scope):
+        response = await super().get_response(path, scope)
+        response.headers["Cache-Control"] = "no-cache, max-age=0, must-revalidate"
+        return response
+
+
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     """Modern lifespan event handler replacing deprecated @app.on_event."""
@@ -57,7 +69,7 @@ def create_app() -> FastAPI:
     if frontend_dir.exists():
         app.mount(
             "/app",
-            StaticFiles(directory=str(frontend_dir), html=True),
+            DevStaticFiles(directory=str(frontend_dir), html=True),
             name="frontend",
         )
 

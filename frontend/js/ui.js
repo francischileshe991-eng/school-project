@@ -1,3 +1,96 @@
+function escapeHtml(str) {
+  return String(str)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
+
+function safeUrl(url) {
+  const trimmed = url.trim();
+  return /^(https?:|mailto:)/i.test(trimmed) ? trimmed : "";
+}
+
+function renderInline(text) {
+  let s = text;
+
+  s = s.replace(/\[([^\]]+)\]\(([^)]+)\)/g, (match, label, url) => {
+    const href = safeUrl(url);
+    if (!href) return match;
+    return `<a href="${href}" target="_blank" rel="noopener noreferrer">${label}</a>`;
+  });
+
+  s = s.replace(/`([^`]+)`/g, (match, code) => `<code>${code}</code>`);
+
+  s = s.replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>");
+
+  s = s.replace(/(^|[^*\w])\*([^*\n]+?)\*(?=[^*\w]|$)/g, "$1<em>$2</em>");
+
+  return s;
+}
+
+function renderMarkdown(md) {
+  const escaped = escapeHtml(md).replace(/\r\n/g, "\n");
+  const lines = escaped.split("\n");
+  const out = [];
+  let list = null;
+  let para = [];
+
+  function closeList() {
+    if (list) {
+      out.push(list === "ul" ? "</ul>" : "</ol>");
+      list = null;
+    }
+  }
+
+  function flushPara() {
+    if (para.length) {
+      out.push(`<p>${renderInline(para.join("<br>"))}</p>`);
+      para = [];
+    }
+  }
+
+  for (const raw of lines) {
+    const line = raw.trim();
+    if (!line) {
+      flushPara();
+      closeList();
+      continue;
+    }
+
+    const heading = line.match(/^(#{1,4})\s+(.*)$/);
+    if (heading) {
+      flushPara();
+      closeList();
+      const level = heading[1].length;
+      out.push(`<h${level}>${renderInline(heading[2])}</h${level}>`);
+      continue;
+    }
+
+    const bullet = line.match(/^[-*]\s+(.*)$/);
+    const numbered = line.match(/^\d+\.\s+(.*)$/);
+    if (bullet || numbered) {
+      flushPara();
+      const tag = bullet ? "ul" : "ol";
+      if (list !== tag) {
+        closeList();
+        out.push(`<${tag}>`);
+        list = tag;
+      }
+      out.push(`<li>${renderInline((bullet ? bullet[1] : numbered[1]))}</li>`);
+      continue;
+    }
+
+    if (list) closeList();
+    para.push(line);
+  }
+
+  flushPara();
+  closeList();
+  return out.join("\n");
+}
+
 export const UI = {
   get messagesContainer() {
     return document.getElementById("messages");
@@ -9,21 +102,39 @@ export const UI = {
 
     const item = document.createElement("article");
     item.className = `message ${className}`;
+    if (className === "bot" || className === "error") {
+      item.setAttribute("role", "status");
+    }
 
     const textContent = document.createElement("div");
-    textContent.textContent = text;
+    const isMarkup = className === "bot";
+    textContent.innerHTML = isMarkup ? renderMarkdown(text) : escapeHtml(text);
     item.appendChild(textContent);
 
-    // Display sources if available
     if (sources && sources.length > 0) {
       const sourcesBox = document.createElement("div");
       sourcesBox.className = "sources-box";
-      const cleanedSources = sources.map(s => s.split(/[\\/]/).pop());
-      sourcesBox.textContent = `Sources: ${cleanedSources.join(", ")}`;
+      sourcesBox.setAttribute("aria-label", "Sources");
+
+      const label = document.createElement("span");
+      label.className = "sources-label";
+      label.textContent = "Sources";
+      sourcesBox.appendChild(label);
+
+      const list = document.createElement("ul");
+      list.className = "sources-list";
+      sources.forEach((src) => {
+        const li = document.createElement("li");
+        const chip = document.createElement("span");
+        chip.className = "source-chip";
+        chip.textContent = String(src).split(/[\\/]/).pop();
+        li.appendChild(chip);
+        list.appendChild(li);
+      });
+      sourcesBox.appendChild(list);
       item.appendChild(sourcesBox);
     }
 
-    // Display rating buttons if this is a bot message with an interaction ID
     if (className === "bot" && interactionId && onFeedback) {
       const feedbackBar = document.createElement("div");
       feedbackBar.className = "feedback-bar";
@@ -69,13 +180,15 @@ export const UI = {
     if (!container) return;
 
     const loader = document.createElement("div");
-    loader.className = "message bot typing-indicator";
+    loader.className = "typing-indicator";
     loader.id = "typing-indicator";
-    [".", ".", "."].forEach((dot) => {
+    loader.setAttribute("role", "status");
+    loader.setAttribute("aria-label", "Zedchatbot is thinking");
+    for (let i = 0; i < 3; i++) {
       const span = document.createElement("span");
-      span.textContent = dot;
+      span.setAttribute("aria-hidden", "true");
       loader.appendChild(span);
-    });
+    }
     container.appendChild(loader);
     this.scrollToBottom();
   },

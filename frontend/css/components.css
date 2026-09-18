@@ -2,7 +2,7 @@
   background: var(--panel-bg);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border: 1px solid var(--border-color);
+  border: 1px solid var(--glass-border);
   border-radius: var(--radius-xl);
   box-shadow: var(--shadow-lg);
   display: flex;
@@ -14,8 +14,8 @@
 
 .controls {
   padding: 1.25rem;
-  background: rgba(255, 255, 255, 0.5);
-  border-bottom: 1px solid var(--border-color);
+  background: rgba(15, 23, 42, 0.4);
+  border-bottom: 1px solid var(--glass-border);
   display: flex;
   gap: 1rem;
   align-items: center;
@@ -35,10 +35,10 @@
 
 .controls select {
   appearance: none;
-  background: var(--panel-strong);
+  background: var(--panel-strong) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%2394a3b8' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E") no-repeat right 0.75rem center;
   border: 1px solid var(--border-color);
   border-radius: 0.75rem;
-  padding: 0.5rem 0.75rem;
+  padding: 0.5rem 2rem 0.5rem 0.75rem;
   font-size: 0.875rem;
   font-weight: 500;
   color: var(--text-primary);
@@ -48,6 +48,11 @@
 
 .controls select:hover {
   border-color: var(--accent);
+}
+
+.controls select:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
 }
 
 .messages {
@@ -60,16 +65,85 @@
   scroll-behavior: smooth;
 }
 
+.messages::-webkit-scrollbar {
+  width: 8px;
+}
+
+.messages::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.messages::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+  border-radius: 4px;
+}
+
+.messages::-webkit-scrollbar-thumb:hover {
+  background: var(--text-secondary);
+}
+
 .message {
   max-width: 85%;
   padding: 0.875rem 1.125rem;
   border-radius: 1.25rem;
   font-size: 0.95rem;
   line-height: 1.5;
-  white-space: pre-wrap;
+  white-space: normal;
   word-break: break-word;
   position: relative;
   animation: slideIn 0.3s ease-out;
+  overflow-wrap: break-word;
+}
+
+.message p {
+  margin: 0 0 0.5rem;
+}
+
+.message p:last-child {
+  margin-bottom: 0;
+}
+
+.message h1,
+.message h2,
+.message h3,
+.message h4 {
+  margin: 0.75rem 0 0.4rem;
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+.message h1 { font-size: 1.15rem; }
+.message h2 { font-size: 1.05rem; }
+.message h3 { font-size: 1rem; }
+.message h4 { font-size: 0.95rem; }
+
+.message ul,
+.message ol {
+  margin: 0.4rem 0 0.5rem;
+  padding-left: 1.4rem;
+}
+
+.message li {
+  margin-bottom: 0.25rem;
+}
+
+.message code {
+  background: rgba(148, 163, 184, 0.15);
+  border: 1px solid var(--border-color);
+  border-radius: 0.35rem;
+  padding: 0.05rem 0.35rem;
+  font-family: ui-monospace, 'Cascadia Code', Consolas, monospace;
+  font-size: 0.875em;
+}
+
+.message a {
+  color: var(--accent-soft);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.message a:hover {
+  color: var(--accent);
 }
 
 @keyframes slideIn {
@@ -91,22 +165,58 @@
   background: var(--accent);
   color: white;
   border-bottom-right-radius: 0.25rem;
-  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.25);
+}
+
+.message.error {
+  align-self: flex-start;
+  background: var(--error-bg);
+  color: var(--error-text);
+  border-bottom-left-radius: 0.25rem;
+  border: 1px solid var(--error-border);
 }
 
 .sources-box {
-  margin-top: 0.5rem;
-  padding-top: 0.4rem;
+  margin-top: 0.65rem;
+  padding-top: 0.6rem;
   border-top: 1px dashed var(--border-color);
-  font-size: 0.75rem;
-  color: var(--text-secondary);
+}
+
+.sources-label {
+  display: block;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--sources-text);
+  margin-bottom: 0.4rem;
+}
+
+.sources-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.source-chip {
+  display: inline-block;
+  background: var(--accent-light);
+  border: 1px solid rgba(16, 185, 129, 0.25);
+  color: var(--accent-soft);
+  border-radius: 2rem;
+  padding: 0.15rem 0.65rem;
+  font-size: 0.72rem;
+  font-weight: 500;
 }
 
 .feedback-bar {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  margin-top: 0.5rem;
+  gap: 0.4rem;
+  margin-top: 0.65rem;
   font-size: 0.8rem;
   color: var(--text-secondary);
 }
@@ -122,9 +232,14 @@
   color: var(--text-primary);
 }
 
-.feedback-btn:hover {
-  background: var(--panel-strong);
+.feedback-btn:hover:not(:disabled) {
+  background: var(--panel-strong-hover);
   border-color: var(--accent);
+}
+
+.feedback-btn:disabled {
+  cursor: default;
+  opacity: 0.6;
 }
 
 .feedback-btn.active {
@@ -135,24 +250,91 @@
 
 .feedback-thanks {
   font-size: 0.75rem;
-  color: var(--accent);
+  color: var(--accent-soft);
   font-weight: 500;
+}
+
+.suggestions {
+  padding: 0.85rem 1.25rem 0.25rem;
+  background: var(--panel-strong);
+  border-top: 1px solid var(--glass-border);
+}
+
+.suggestions-label {
+  display: block;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  margin-bottom: 0.55rem;
+}
+
+.suggestions-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.suggestion-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  background: var(--input-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 0.9rem;
+  padding: 0.45rem 0.85rem 0.45rem 0.45rem;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  line-height: 1;
+}
+
+.chip-icon {
+  display: grid;
+  place-items: center;
+  width: 1.65rem;
+  height: 1.65rem;
+  border-radius: 0.55rem;
+  background: var(--accent-light);
+  color: var(--accent-soft);
+  transition: all 0.2s ease;
+}
+
+.suggestion-chip:hover {
+  border-color: var(--accent);
+  background: rgba(16, 185, 129, 0.08);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgba(16, 185, 129, 0.18);
+}
+
+.suggestion-chip:hover .chip-icon {
+  background: var(--accent);
+  color: white;
+}
+
+.suggestion-chip:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
 }
 
 .composer {
   padding: 1.25rem;
   background: var(--panel-strong);
-  border-top: 1px solid var(--border-color);
+  border-top: 1px solid var(--glass-border);
 }
 
 .composer form {
   display: flex;
   gap: 0.75rem;
+  align-items: center;
 }
 
 .composer input {
   flex: 1;
-  background: var(--panel-bg);
+  background: var(--input-bg);
   border: 1px solid var(--border-color);
   border-radius: 1rem;
   padding: 0.75rem 1.25rem;
@@ -162,10 +344,19 @@
   transition: all 0.2s ease;
 }
 
+.composer input::placeholder {
+  color: var(--text-secondary);
+  opacity: 0.75;
+}
+
 .composer input:focus {
   border-color: var(--accent);
-  background: white;
-  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.15);
+}
+
+.composer input:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
 }
 
 .composer button {
@@ -179,9 +370,16 @@
   transition: all 0.2s ease;
 }
 
-.composer button:hover {
-  background: var(--accent-dark);
+.composer button:hover:not(:disabled) {
+  background: var(--accent-hover);
   transform: translateY(-1px);
+}
+
+.composer button:disabled {
+  background: var(--border-color);
+  color: var(--text-secondary);
+  cursor: not-allowed;
+  transform: none;
 }
 
 .typing-indicator {
@@ -189,10 +387,35 @@
   color: var(--text-secondary);
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  padding: 0.5rem 1rem;
-  background: transparent;
-  animation: pulse 1.5s infinite;
+  gap: 0.4rem;
+  padding: 0.75rem 1.125rem;
+  background: var(--panel-strong);
+  border: 1px solid var(--border-color);
+  border-radius: 1.25rem;
+  border-bottom-left-radius: 0.25rem;
+  width: fit-content;
+}
+
+.typing-indicator span {
+  display: inline-block;
+  width: 0.35rem;
+  height: 0.35rem;
+  background: var(--accent-soft);
+  border-radius: 50%;
+  animation: dotBounce 1.2s infinite ease-in-out;
+}
+
+.typing-indicator span:nth-child(2) {
+  animation-delay: 0.15s;
+}
+
+.typing-indicator span:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+@keyframes dotBounce {
+  0%, 60%, 100% { opacity: 0.3; transform: translateY(0); }
+  30% { opacity: 1; transform: translateY(-3px); }
 }
 
 @keyframes pulse {
@@ -202,6 +425,8 @@
 
 @media (max-width: 640px) {
   .app-shell { padding: 1rem 0; gap: 1rem; }
+  .hero { padding: 0 0.5rem; }
   .chat-card { height: calc(100vh - 12rem); border-radius: 0; border-left: none; border-right: none; }
   .message { max-width: 90%; }
+  .suggestions { padding: 0.7rem 1rem 0.35rem; }
 }

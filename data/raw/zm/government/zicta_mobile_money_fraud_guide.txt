@@ -1,0 +1,58 @@
+# ZICTA Consumer Protection, Mobile Money Fraud & SIM Card Guide (Zambia)
+# Zambia Information and Communications Technology Authority (ZICTA)
+# Official Public Cyber Security & Consumer Guidance
+
+## 1. Overview and Institutional Mandate
+The Zambia Information and Communications Technology Authority (ZICTA) is the statutory regulator of electronic communications, postal services, and cyber security in Zambia. In partnership with the Zambia Police Service Cyber Security and Financial Crimes Unit and licensed Mobile Network Operators (Airtel Zambia, MTN Zambia, and Zamtel), ZICTA enforces measures to protect consumers from digital fraud, unsolicited spam, and unauthorized SIM card registration.
+
+## 2. Reporting Mobile Money Scams & Stolen Money via Unified Shortcode *707#
+
+### Immediate Action If Money is Stolen or Defrauded:
+If money has been stolen, sent by mistake, or defrauded through mobile money scams (ukwiba indalama sha mobile money, batubepa indalama, fake reversals, mobile money theft on Airtel Money, MTN MoMo, or Zamtel Kwacha):
+1. **Dial *707# immediately** on your phone to report the scammer's number, freeze the recipient wallet, and log the cyber fraud incident.
+2. **Call ZICTA Toll-Free 7070** for regulatory assistance.
+3. **Call your Network Provider (Dial 111)** (Airtel `111`, MTN `111`, Zamtel `111`) to initiate an urgent wallet freeze before the thief cashes out at an agent booth.
+4. **Report to Zambia Police Service:** File a complaint with the Cybercrimes / Criminal Investigation Division at your nearest police station.
+
+### Common Mobile Money Scams in Zambia:
+1. **Fake Mobile Money Credit SMS:** Fraudsters generate fake SMS messages resembling official Airtel Money, MTN MoMo, or Zamtel Kwacha credit alerts, then urgently call claiming they "sent money by mistake" and pleading for a reversal.
+2. **Impersonation & Fake Job/Loan Fees:** Scammers posing as recruitment officers from the Zambia Defence Force, Ministry of Health, or banks demanding upfront processing fees.
+3. **Lottery and Promo Winning Scams:** Unsolicited messages claiming the subscriber has won huge sums from non-existent promotions and instructing them to share their PIN or buy airtime vouchers.
+4. **Third-Party Approval Request Exploits:** Scammers initiating merchant or cash-out requests on their own phones and coercing the victim into entering their secret PIN on their personal handset.
+
+### Step-by-Step Reporting Procedure via *707#:
+- **Step 1:** Dial `*707#` immediately upon receiving a suspicious transaction or fraudulent message.
+- **Step 2:** Select "Report Fraud / Scam".
+- **Step 3:** Enter the mobile phone number of the fraudster.
+- **Step 4:** Select the category of scam (e.g., Fake Mobile Money Reversal, Lottery Scam, Impersonation, Threat).
+- **Step 5:** Enter the transaction ID or SMS timestamp if applicable.
+- **Step 6:** Submit. The alert is instantly logged in the central cyber registry shared between ZICTA, the police, and all mobile network operators.
+- **Critical Urgency:** Reporting within minutes enables the victim's mobile network operator to place an immediate administrative freeze/lien on the scammer's mobile wallet before the stolen funds are cashed out at a roadside mobile money agent booth.
+
+### Additional Reporting Channels:
+- **ZICTA Consumer Protection Toll-Free Line:** Dial `7070` (Free from all networks across Zambia during standard working hours).
+- **Zambia Police Cyber Security Division:** File an official police report at Central Police or your nearest police station to obtain a Police Loss Report, required for court-sanctioned wallet reversals and criminal prosecution.
+- **Network Customer Care:**
+  - Airtel Money: Dial `111` or visit an Airtel Service Center.
+  - MTN MoMo: Dial `111` or visit an MTN Service Center.
+  - Zamtel Kwacha: Dial `111` or visit a Zamtel Customer Care Center.
+
+## 3. Statutory SIM Card Registration & Replacement Rules
+
+Under ZICTA Statutory Instrument No. 65 of 2011 (Registration of Electronic Communications Apparatus Regulations):
+- **Mandatory Registration Prerequisites:**
+  - Zambian Citizens: Original Green National Registration Card (NRC).
+  - Foreign Residents / Tourists: Valid original Passport with a valid Zambian Entry Visa or Immigration Permit.
+  - In-person identity verification with live photograph and biometric capture is mandatory at certified agent booths or network centers.
+- **SIM Card Replacement (Swap):**
+  - If a SIM card is lost, damaged, or stolen, the subscriber must visit an official customer service center in person.
+  - Mandatory documents: Original Green NRC and a valid Police Report (Loss of Property Report) obtained from the Zambia Police Service.
+  - Unregistered or third-party proxy replacements without physical verification and legal documentation are strictly prohibited under Zambian telecommunications law.
+- **SIM Limits:**
+  - To curb identity theft and multi-line fraud syndicates, ZICTA enforces limits on the maximum number of active SIM cards an individual may register per operator.
+
+## 4. Golden Rules of Digital and Mobile Financial Safety
+
+1. **Protect Your Secret PIN:** Never share your 4-digit or 5-digit Mobile Money PIN with anyone—including friends, family, agents, or individuals claiming to be customer service staff.
+2. **Official Agents Never Ask for PINs:** Legitimate representatives of Airtel, MTN, Zamtel, or ZICTA will NEVER ask for your secret PIN, your One-Time Password (OTP), or tell you to approve a USSD prompt.
+3. **Always Check Your Official Balance:** If someone calls claiming they sent you money by mistake, check your actual wallet balance first by dialing your network's official menu (`*115#` for Airtel, `*115#` for MTN, `*344#` for Zamtel) before taking any action.

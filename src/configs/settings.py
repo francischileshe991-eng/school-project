@@ -1,6 +1,8 @@
 from pydantic_settings import BaseSettings, SettingsConfigDict
-from typing import List, Optional
+from pydantic import field_validator
+from typing import List, Optional, Any
 from pathlib import Path
+import json
 
 class Settings(BaseSettings):
     # API Keys
@@ -37,6 +39,24 @@ class Settings(BaseSettings):
     DEFAULT_LANGUAGE: str = "en"
     SUPPORTED_COUNTRIES: List[str] = ["zm", "zw"]
     SUPPORTED_LANGUAGES: List[str] = ["en", "bem", "ny", "sn"]
+
+    @field_validator("SUPPORTED_COUNTRIES", "SUPPORTED_LANGUAGES", mode="before")
+    @classmethod
+    def parse_string_list(cls, value: Any) -> List[str]:
+        if isinstance(value, list):
+            return [str(v).strip().lower() for v in value]
+        if isinstance(value, str):
+            val_str = value.strip()
+            if val_str.startswith("[") and val_str.endswith("]"):
+                try:
+                    parsed = json.loads(val_str)
+                    return [str(v).strip().lower() for v in parsed]
+                except Exception:
+                    pass
+            items = [item.strip().lower() for item in val_str.split(",") if item.strip()]
+            items = ["sn" if i == "sho" else i for i in items]
+            return items
+        return value
 
     # Integration Settings
     WHATSAPP_SANDBOX: bool = True

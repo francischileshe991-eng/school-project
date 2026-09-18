@@ -36,9 +36,21 @@ def test_vector_store_invalid_country_validation() -> None:
         vs._get_country_db_path("invalid_country_xyz")
 
 
+from unittest.mock import patch, MagicMock
+
+
 def test_generate_reply_returns_answer_and_sources() -> None:
-    answer, sources = generate_reply("How do I apply for a passport?", "zm", "en")
-    assert isinstance(answer, str)
-    assert isinstance(sources, list)
-    assert all(isinstance(source, str) for source in sources)
+    mock_doc = Document(
+        page_content="Passports are issued by the Department of National Registration and Citizenship.",
+        metadata={"source": "data/raw/zm/government/nrc_passport_guide.txt"}
+    )
+    with patch("src.rag.retriever.ZedRetriever.get_relevant_context", return_value=[mock_doc]), \
+         patch("src.rag.generator.ZedGenerator.generate", return_value="To apply for a passport, visit the passport office."), \
+         patch("src.core.database.DatabaseManager.log_interaction"):
+        answer, sources = generate_reply("How do I apply for a passport?", "zm", "en")
+        assert isinstance(answer, str)
+        assert len(answer) > 0
+        assert isinstance(sources, list)
+        assert len(sources) == 1
+        assert "nrc_passport_guide.txt" in sources[0]
 
