@@ -15,6 +15,7 @@ from src.core.database import db
 from src.core.logger import logger
 from src.configs.settings import settings
 from src.multilingual.language_detector import detect_language
+from src.rag.pipeline import generate_reply
 
 router = APIRouter()
 
@@ -101,7 +102,7 @@ async def process_and_reply(from_number: str, body: str, user_lang: str = "en") 
 
         answer, sources = await asyncio.to_thread(
             generate_reply,
-            query=body,
+            message=body,
             country=country,
             language=user_lang,
         )
@@ -162,7 +163,7 @@ async def whatsapp_webhook(Body: str = Form(...), From: str = Form(...)):
 
     # Modern, robust async worker execution tracking task lifecycle
     task = asyncio.create_task(
-        asyncio.to_thread(process_and_reply, clean_body, From, country)
+        process_and_reply(From, clean_body, user_lang)
     )
     _background_tasks.add(task)
     task.add_done_callback(_background_tasks.discard)

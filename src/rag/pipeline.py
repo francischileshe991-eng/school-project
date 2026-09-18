@@ -23,13 +23,17 @@ class RAGPipeline:
 
 
     def generate_reply(
-        self, message: str, country: str, language: Optional[str] = None
+        self,
+        message: Optional[str] = None,
+        country: str = "zm",
+        language: Optional[str] = None,
+        query: Optional[str] = None,
     ) -> Tuple[str, List[str]]:
         """Main entry point for High-Quality Multilingual RAG."""
-
+        actual_message = message if message is not None else (query or "")
         clean_lang = language.strip().lower() if (language and isinstance(language, str)) else None
         if not clean_lang or clean_lang == "auto":
-            user_lang = detect_language(message)
+            user_lang = detect_language(actual_message)
         else:
             user_lang = clean_lang
         logger.info(f"RAG Pipeline: Processing request in {user_lang} for {country}")
@@ -37,7 +41,7 @@ class RAGPipeline:
         # 1. NATIVE SEARCH: Trust the BGE-M3 top results
         try:
             # Get the top 4 most relevant documents
-            docs = self.retriever.get_relevant_context(message, country, top_k=4)
+            docs = self.retriever.get_relevant_context(actual_message, country, top_k=4)
             
             if docs:
                 context_text = self.retriever.format_docs(docs)
@@ -52,7 +56,7 @@ class RAGPipeline:
 
         try:
             # 2. EXPERT GENERATION (English)
-            english_answer = self.generator.generate(message, context_text, country, "en")
+            english_answer = self.generator.generate(actual_message, context_text, country, "en")
             final_answer = english_answer
 
             # 3. EXPERT TRANSLATION (Local Language)
@@ -82,8 +86,14 @@ def get_pipeline() -> RAGPipeline:
 
 
 def generate_reply(
-    message: str, country: str, language: Optional[str] = None
+    message: Optional[str] = None,
+    country: str = "zm",
+    language: Optional[str] = None,
+    query: Optional[str] = None,
 ) -> Tuple[str, List[str]]:
     """Functional wrapper for the API routes."""
-    return get_pipeline().generate_reply(message, country, language)
+    actual_message = message if message is not None else (query or "")
+    return get_pipeline().generate_reply(
+        message=actual_message, country=country, language=language
+    )
 

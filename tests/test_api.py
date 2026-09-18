@@ -102,6 +102,20 @@ def test_send_whatsapp_reply_safe_without_credentials() -> None:
     send_whatsapp_reply("+260970000000", "Safe test message")
 
 
+def test_whatsapp_webhook_background_task_executes() -> None:
+    from unittest.mock import patch
+    with patch("src.api.whatsapp_api.generate_reply", return_value=("Test bot answer", ["test.txt"])), \
+         patch("src.api.whatsapp_api.send_whatsapp_reply"), \
+         patch("src.core.database.DatabaseManager.log_interaction"):
+        res = client.post(
+            "/whatsapp",
+            data={"Body": "How do I get an NRC?", "From": "whatsapp:+260953805423"},
+        )
+        assert res.status_code == 200
+        assert "<Response>" in res.text
+        assert "thinking about your question" in res.text
+
+
 def test_language_detector_no_cjk_artifacts() -> None:
     from src.multilingual.language_detector import KNOWN_NYANJA_PHRASES
     for phrase in KNOWN_NYANJA_PHRASES:
