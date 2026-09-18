@@ -167,6 +167,17 @@ class ZedGenerator:
             res = self._invoke_gemini(query, context, country)
             if res:
                 return res
+            # Fallback cascade if Gemini encounters cloud error
+            if self.ollama_llm:
+                logger.info("Generator: Gemini cloud unavailable, falling back to local Ollama...")
+                res = self._invoke_llm(self.ollama_llm, query, context, country)
+                if res:
+                    return res
+            if self.openai_llm:
+                logger.info("Generator: Falling back to OpenAI...")
+                res = self._invoke_llm(self.openai_llm, query, context, country)
+                if res:
+                    return res
 
         if self.provider == "openai" and self.openai_llm:
             res = self._invoke_llm(self.openai_llm, query, context, country)
@@ -178,20 +189,20 @@ class ZedGenerator:
             if res:
                 return res
 
-        # 2. 'Auto' cascade: Ollama -> Gemini -> OpenAI -> Context Excerpt
+        # 2. 'Auto' cascade: Gemini (Primary Cloud) -> Ollama (Edge Local) -> OpenAI -> Context Excerpt
         if self.provider == "auto":
-            # Attempt 1: Local Ollama
-            if self.ollama_llm:
-                logger.info("Generator: Attempting local Ollama generation...")
-                res = self._invoke_llm(self.ollama_llm, query, context, country)
-                if res:
-                    return res
-
-            # Attempt 2: Google Gemini
-            logger.info("Generator: Cascading to Google Gemini generation...")
+            # Attempt 1: Google Gemini (Primary high-speed cloud engine)
+            logger.info("Generator: Attempting Google Gemini generation...")
             res = self._invoke_gemini(query, context, country)
             if res:
                 return res
+
+            # Attempt 2: Local Ollama (Edge offline fallback)
+            if self.ollama_llm:
+                logger.info("Generator: Cascading to local Ollama generation...")
+                res = self._invoke_llm(self.ollama_llm, query, context, country)
+                if res:
+                    return res
 
             # Attempt 3: OpenAI
             if self.openai_llm:

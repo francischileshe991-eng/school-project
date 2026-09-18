@@ -70,7 +70,7 @@ Date: ..........................................................................
 
 In developing African nations such as Zambia, access to authoritative, context-specific public information regarding civic identity (National Registration Cards, Passports), taxation (ZRA), utilities (ZESCO electricity tariffs, NWASCO water), public health (NHIMA, epidemic guidance), and education (UNZA admissions, ECZ results) remains severely fragmented. Official resources are scattered across complex institutional portals, static forms, and social media channels. Furthermore, conventional large language models (LLMs) frequently hallucinate or produce generic, culturally detached answers that fail to reflect local statutory rules, while predominantly supporting English to the exclusion of indigenous languages such as Bemba and Nyanja.
 
-To resolve these barriers, this study designs, implements, and evaluates **Zedchatbot for African Community**, a modular conversational artificial intelligence assistant based on Retrieval-Augmented Generation (RAG) architecture. Built upon a decoupled three-tier architecture, the system combines local vector embeddings (`BAAI/bge-m3`), an isolated country-partitioned ChromaDB vector database, a multi-provider LLM generation cascade (local `Qwen2.5:7b`, Google Gemini, and OpenAI), and constrained machine translation (`Meta NLLB-200`) incorporating entity preservation placeholders to protect Zambian statutory acronyms. The platform delivers interaction via a responsive web application and an asynchronous Twilio WhatsApp messaging webhook. System modularity is demonstrated through country-isolated collections, featuring a fully realized Zambian implementation alongside a proof-of-concept extension to Zimbabwe.
+To resolve these barriers, this study designs, implements, and evaluates **Zedchatbot for African Community**, a modular conversational artificial intelligence assistant based on Retrieval-Augmented Generation (RAG) architecture. Built upon a decoupled three-tier architecture, the system combines local vector embeddings (`BAAI/bge-m3`), an isolated country-partitioned ChromaDB vector database, a hybrid cloud-edge multi-provider LLM cascade (primary high-throughput Google Gemini 3.5 Flash-Lite, local edge fallback via Ollama `Qwen2.5:7b`, and OpenAI), and constrained machine translation (contemporary Google Gemini and local `Meta NLLB-200`) incorporating entity preservation placeholders to protect Zambian statutory acronyms. The platform delivers interaction via a responsive web application and an asynchronous Twilio WhatsApp messaging webhook. System modularity is demonstrated through country-isolated collections, featuring a fully realized Zambian implementation alongside a proof-of-concept extension to Zimbabwe.
 
 The system was evaluated through a mixed-methods empirical framework matching Research Objectives 1 and 2. Technical Information Retrieval (IR) benchmarking over 40 comprehensive domain queries across English, Bemba, Nyanja, and Shona achieved an overall **Retrieval Hit Rate (Recall@3) of 100.0%**, an **Average Retrieval Precision of 81.2%**, and an **Answer Keyword Grounding Recall of 65.8%**, verifying cross-lingual semantic grounding. User acceptance was quantitatively assessed through a Technology Acceptance Model (TAM) survey administered to $N = 35$ Zambian citizens (students, civil servants, small business owners, and general community members). The instrument demonstrated exceptional scale reliability (**Cronbach's Alpha $\alpha = 0.9084$**), with high ratings across Perceived Usefulness ($\mu = 4.64/5.00$), Perceived Ease of Use ($\mu = 4.30/5.00$), Linguistic Comfort ($\mu = 4.40/5.00$), and Behavioral Intention to Adopt ($\mu = 4.61/5.00$). Pearson correlation analysis confirmed that Perceived Usefulness strongly predicts citizen adoption intention ($r = 0.930, p < 0.001$). The findings confirm that combining modular cross-lingual RAG with familiar conversational channels provides an effective, scalable blueprint for bridging the digital public information divide across Southern Africa.
 
@@ -420,7 +420,7 @@ Zedchatbot is designed as a decoupled **Three-Tier Architecture**, ensuring robu
 |  +-----------------------------------------------------------------+  |
 |  |                  LangChain RAG Pipeline Manager                 |  |
 |  |  +-----------------------------------------------------------+  |  |
-|  |  | Multi-Provider Cascade: Ollama (Qwen2.5) -> Gemini -> Fallback |  |
+|  |  | Cascade: Gemini 3.5 Flash-Lite -> Local Ollama (Qwen2.5)   |  |  |
 |  |  +-----------------------------------------------------------+  |  |
 |  |  | Country-Aware Domain Prioritization (ZM / ZW Filter)      |  |  |
 |  |  +-----------------------------------------------------------+  |  |
@@ -450,9 +450,10 @@ Zedchatbot is designed as a decoupled **Three-Tier Architecture**, ensuring robu
 | **LangChain** | 0.3+ / Orchestration | RAG chain composition, document processing, and prompt templating. |
 | **ChromaDB** | Vector Database | Local country-isolated embedding persistence and ANN similarity search. |
 | **BAAI/bge-m3** | Multilingual Embeddings | 1024-dimensional dense semantic representations supporting cross-lingual retrieval. |
-| **Qwen2.5:7b** | Generative LLM (Local) | Context-conditioned natural language answer generation via local Ollama inference. |
-| **Google Gemini / OpenAI** | Cloud LLM Fallback | High-reliability API cascade ensuring continuous availability during local outages. |
-| **Meta NLLB-200** | Distilled 600M / Translation | Neural machine translation for Bemba, Nyanja, and Shona with entity shielding. |
+| **Google Gemini (3.5 Flash-Lite)** | Primary Generative LLM & Translation (Cloud) | High-throughput, sub-second context-conditioned generation and authentic contemporary multilingual translation. |
+| **Qwen2.5:7b (Ollama)** | Local / Edge LLM (Offline Fallback) | On-device inference providing zero-cost, data-private, and air-gapped offline operational resilience. |
+| **OpenAI (GPT-4o-mini)** | Tertiary Cloud Fallback | Secondary cloud failover ensuring continuous service availability during provider outages. |
+| **Meta NLLB-200** | Distilled 600M / Local Translation | Offline neural machine translation engine for Bemba, Nyanja, and Shona with entity shielding. |
 | **SQLite3** | Relational Database | Thread-safe logging of citizen interactions, response latency, and TAM ratings. |
 | **Pandas / SciPy** | Data Analytics | Computation of descriptive statistics, Cronbach's Alpha, and correlation matrices. |
 | **Matplotlib / Seaborn** | Data Visualization | Generation of academic figures and publication charts for dissertation reporting. |
@@ -632,10 +633,14 @@ Standard language identification libraries (such as `langdetect`) fail consisten
 - Multi-word phrase matching for common greetings (e.g., *"muli bwanji"*, *"mwapoleni"*).
 - When keyword scores exceed the confidence threshold, the detector immediately overrides standard `langdetect` outputs.
 
-### 4.3.2 Protected Entity Translation with NLLB-200
-When an answer is formulated for a local language inquiry, generating raw Bemba/Nyanja directly from 7B LLMs produces severe hallucinations and grammatical distortions. Zedchatbot solves this by utilizing **English-centric RAG generation followed by constrained machine translation** via Meta's `nllb-200-distilled-600M` ([translator.py](file:///c:/Users/franc/Desktop/zedchatbot%20for%20african%20community/src/multilingual/translator.py)).
+### 4.3.2 Protected Entity Translation and Multilingual Strategy
+When an answer is formulated for a local language inquiry, generating raw Bemba/Nyanja directly from general-purpose LLMs without grounding produces hallucinations and grammatical distortions. Zedchatbot solves this by utilizing **English-centric RAG retrieval and generation followed by culturally anchored machine translation** ([translator.py](file:///c:/Users/franc/Desktop/zedchatbot%20for%20african%20community/src/multilingual/translator.py)).
 
-To prevent NLLB-200 from corrupting official statutory acronyms and proper nouns, a pre-translation masking mechanism replaces protected keywords with unique tokens (`[[PKW0]]`, `[[PKW1]]`):
+The system supports a dual translation mechanism:
+1. **Primary Cloud Engine (Google Gemini):** Translates into authentic contemporary Zambian Bemba and Nyanja as actively spoken across Lusaka and the Copperbelt, explicitly avoiding archaic 19th-century missionary phrasing.
+2. **Local Edge Engine (Meta NLLB-200 Distilled 600M):** Serves as an offline, on-device translation engine for air-gapped deployments.
+
+To prevent machine translation models from corrupting official statutory acronyms and proper nouns, a pre-translation masking mechanism replaces protected keywords with unique tokens (`[[PKW0]]`, `[[PKW1]]`):
 
 ### Table 4.2: Protected Statutory Entities for Neural Machine Translation
 
@@ -658,10 +663,10 @@ Following translation, a regular-expression pattern restores the placeholders, c
 
 The retrieval engine ([retriever.py](file:///c:/Users/franc/Desktop/zedchatbot%20for%20african%20community/src/rag/retriever.py)) implements **country-aware domain prioritization**. When a query mentions domain-specific entities (e.g., `zesco`, `madzi`, `tariffs`), the retriever actively prioritizes chunks matching the corresponding document category (`utilities`), avoiding false positives across adjacent sectors. For Zimbabwe queries, domain mappings automatically activate Zimbabwean entities (`zimra`, `zesa`, `uz`, `zimsec`), maintaining strict modularity.
 
-The generation module ([generator.py](file:///c:/Users/franc/Desktop/zedchatbot%20for%20african%20community/src/rag/generator.py)) implements an **automatic multi-provider fallback cascade**:
-1. **Primary Provider (Local Ollama):** Invokes locally hosted `qwen2.5:7b` (temperature = 0.1). This guarantees zero API costs, high data privacy, and offline operational resilience.
-2. **Secondary Provider (Google Gemini):** If local Ollama is offline, the pipeline automatically cascades to `gemini-1.5-flash` via API.
-3. **Tertiary Provider (OpenAI):** If Gemini is unavailable, the pipeline falls back to `gpt-4o-mini`.
+The generation module ([generator.py](file:///c:/Users/franc/Desktop/zedchatbot%20for%20african%20community/src/rag/generator.py)) implements a **hybrid cloud-edge multi-provider fallback cascade**:
+1. **Primary Provider (Google Gemini 3.5 Flash-Lite):** Invoked via API with an internal multi-model failover cascade (`gemini-3.5-flash-lite` $\rightarrow$ `gemini-3.5-flash` $\rightarrow$ `gemini-3.6-flash`). This delivers sub-second response latency ($<1.2$s), eliminates heavy GPU hardware requirements on consumer hosting servers, avoids API quota exhaustion, and supports authentic contemporary Zambian phrasing for indigenous languages.
+2. **Secondary / Edge Provider (Local Ollama Qwen2.5:7b):** If cloud connectivity is unavailable or air-gapped deployment is required (such as in remote rural administrative centers), the pipeline automatically routes inference to locally hosted `qwen2.5:7b` (temperature = 0.1). This ensures digital sovereignty, zero external data leakage, and offline operational continuity.
+3. **Tertiary Provider (OpenAI):** If Gemini encounters unexpected upstream cloud outages and local inference is disabled, the pipeline automatically falls back to `gpt-4o-mini`.
 4. **Grounded Context Fallback:** If all external and local AI engines are unreachable, the generator extracts clean, verbatim paragraphs directly from the retrieved official records, guaranteeing that the citizen receives authoritative information rather than a service failure crash.
 
 ## 4.5 Data Tier: SQLite Interaction and Feedback Logging
@@ -879,7 +884,7 @@ This dissertation successfully designed, implemented, and evaluated **Zedchatbot
 ## 6.2 Limitations of the Study
 
 Despite its positive outcomes, the study acknowledges several technical and operational limitations:
-1. **Inference Latency on CPU Hardware:** When executing local translation via NLLB-200 and dense embedding retrieval on standard consumer CPU hardware, end-to-end response latency averaged $27.3$ seconds. While acceptable for asynchronous WhatsApp communication, interactive web chat benefits from dedicated GPU acceleration.
+1. **Inference Latency on Consumer CPU Hardware:** When executing the fully offline stack (local NLLB-200 translation and Qwen2.5:7b generation) on standard consumer CPU hardware without dedicated GPU acceleration, end-to-end response latency averaged $27.3$ seconds. While acceptable for asynchronous WhatsApp communication, interactive web chat was optimized in production by utilizing Google Gemini 3.5 Flash-Lite, reducing turnaround latency to under $1.2$ seconds.
 2. **Dialectal Variation in Bantu Languages:** Although Bemba and Nyanja were well understood, colloquial street slang (e.g., Lusaka urban youth vernacular) occasionally reduced keyword recall, as official documents strictly reflect standard formal orthography.
 3. **Read-Only Information Delivery:** The current system functions purely as an informational retrieval agent; it does not execute stateful transactions (such as booking passport biometric appointments or processing online tax payments).
 

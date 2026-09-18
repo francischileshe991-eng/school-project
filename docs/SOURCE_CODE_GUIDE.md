@@ -84,24 +84,26 @@ def get_relevant_context(self, query: str, country_code: str, threshold: float =
 
 ---
 
-## 4. Native Multilingual Generation (`src/rag/generator.py`)
-Shows the system prompt and configuration for **Qwen 2.5**, proving support for natural language interaction in local languages.
+## 4. Multi-Provider Hybrid Generation (`src/rag/generator.py`)
+Demonstrates the multi-provider architecture supporting Google Gemini 3.5 Flash-Lite (primary high-speed cloud engine) with local Ollama (`qwen2.5:7b`) edge fallback and grounded factual failover.
 
 ```python
 class ZedGenerator:
     def __init__(self):
-        self.model_name = "qwen2.5:7b"
+        self.model_name = settings.MODEL_NAME  # qwen2.5:7b (local fallback)
+        self.provider = settings.LLM_PROVIDER  # "gemini" (primary)
         self.system_prompt = (
-            "You are an expert Zambian Community Assistant. Extract ONLY information relevant "
-            "to the question. You MUST answer in a natural, detailed way in the SAME LANGUAGE "
-            "the user used (English, Bemba, or Nyanja)."
+            "You are an expert Zambian Community Assistant. "
+            "Your task is to answer the user's question using ONLY the provided 'Context'. "
+            "Answer immediately and directly in clean, well-formatted markdown in English."
         )
 
     def generate(self, query, context, country, language):
-        # Calls local Ollama server
-        prompt = ChatPromptTemplate.from_messages([("system", self.system_prompt), ("user", "...")])
-        chain = prompt | self.llm | StrOutputParser()
-        return chain.invoke({"context": context, "query": query})
+        # 1. Primary: Google Gemini 3.5 Flash-Lite (sub-second cloud inference)
+        # 2. Edge Fallback: Local Ollama (Qwen2.5:7b offline inference)
+        # 3. Tertiary Fallback: OpenAI GPT-4o-mini
+        # 4. Zero-hallucination Fallback: Clean verbatim excerpt from official gazettes
+        ...
 ```
 
 ---
