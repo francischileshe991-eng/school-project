@@ -1,9 +1,11 @@
 #!/usr/bin/env python3
 """
 Language detection component for multilingual support.
-Enhanced with keyword-based detection for Zambian and Zimbabwean languages.
+Enhanced with high-precision lexical and morphological detection for Zambian and Zimbabwean languages.
+Strictly guarantees output is within settings.SUPPORTED_LANGUAGES ('en', 'bem', 'ny', 'sn').
 """
 
+import re
 from typing import Optional, Dict, Tuple
 from langdetect import detect, detect_langs, DetectorFactory
 from src.core.logger import logger
@@ -11,436 +13,233 @@ from src.configs.settings import settings
 
 DetectorFactory.seed = 0
 
-
-NYANJA_KEYWORDS = {
-    "kodi",
-    "ndi",
-    "kwa",
-    "mu",
-    "pa",
-    "ndikufuna",
-    "ndikuchenjeza",
-    "muli",
-    "bwanji",
-    "yankho",
-    "chikhalidwe",
-    "muno",
-    "kuno",
-    "chichewa",
-    "zambia",
-    "mwai",
-    "mphatso",
-    "kuyanjana",
-    "kulembetsa",
-    "kumene",
-    "litapi",
-    "ngati",
-    "sikuti",
-    "koma",
-    "kapena",
-    "mwanalume",
-    "mwamuna",
-    "mkazi",
-    "ana",
-    "achikondi",
-    "ndipeza",
-    "ndichita",
-    "ndikhulupirira",
-    "chingelezi",
-    "chilankhulo",
-    "maganizo",
-    "buku",
-    "skulu",
-    "mphamvu",
-    "ngongole",
-    "banka",
-    "chimalipiro",
-    "musonko",
-    "misonkho",
-    "ningalipire",
-    "kulipira",
-    "malipiro",
-    "boma",
-    "chipatala",
-    "dokotala",
-    "mankhwala",
-    "chisulo",
-    "madzi",
-    "ntchito",
-    "galimoto",
-    "bulu",
-    "ng'oma",
-    "modzi",
-    "ziwiri",
-    "tatu",
-    "china",
-    "zilimawiro",
-    "chikondi",
-    "luso",
-    "lero",
-    "mawa",
-    "dzuka",
-    "usana",
-    "masiku",
-    "ache",
-    "awiri",
-    "ndani",
-    "chani",
-    "yani",
-    "angani",
-    "kuti",
-    "nditumiza",
-    "ndapita",
-    "ndabwera",
-    "ndikugwira",
-    "ndikulendra",
-    "ndikulota",
-    "mfiti",
-    "nkhoswe",
-    "senge",
-    "mbuzo",
-    "funso",
-    "chikondi",
-    "tsiku",
-    "mulungu",
-    "jula",
-    "fuchi",
-    "kavala",
-    "kuya",
-    "kunja",
-    "mkati",
-    "pali",
-    "palibe",
-    "Mwina",
-    "Mwini",
-    "Amini",
+# 1. Distinctive English Functional & Civic Vocabulary
+ENGLISH_INDICATORS = {
+    "the", "what", "how", "when", "where", "who", "why", "which",
+    "can", "could", "is", "are", "was", "were", "be", "been", "being",
+    "do", "does", "did", "have", "has", "had", "to", "for", "in", "on",
+    "at", "by", "from", "with", "about", "against", "between", "into",
+    "through", "during", "before", "after", "above", "below", "of",
+    "apply", "application", "get", "requirements", "fees", "cost",
+    "register", "registration", "passport", "license", "licence",
+    "tariffs", "electricity", "water", "card", "school", "university",
+    "bursary", "loan", "loans", "court", "rights", "tax", "child",
+    "children", "age", "years", "free", "money", "fraud", "report",
+    "police", "first", "time", "green", "residential", "customers",
+    "explain", "statutory", "official", "limit", "allowed", "mandatory",
+    "i", "you", "he", "she", "we", "they", "my", "your", "our", "their"
 }
 
+# 2. Distinctive icibemba Lexical Markers (Conversational & Inflected)
 BEMBA_KEYWORDS = {
-    "shani",
-    "muli",
-    "shiko",
-    "fyo",
-    "apo",
-    "cino",
-    "ula",
-    "ile",
-    "ngapo",
-    "nacapo",
-    "nabo",
-    "naci",
-    "shikulu",
-    "bana",
-    "ume",
-    "ukunda",
-    "ukwingata",
-    "ukwishiba",
-    "ukucita",
-    "ukulanda",
-    "mu mfumu",
-    "pano",
-    "kuno",
-    "ukutotela",
-    "ukukaka",
-    "mwapoleni",
-    "twatwala",
-    "ngwandemi",
-    "buku",
-    "ishiku",
-    "umulo",
-    "ipikulupu",
-    "ukufwaya",
-    "ukufwilako",
-    "ngakwai",
-    "namikongole",
-    "umulimo",
-    "inkama",
-    "ifintu",
-    "ichalo",
-    "umusankwa",
-    "icalo",
-    "ukwata",
-    "ukufumya",
-    "ukusunga",
-    "ukulomba",
-    "ukwaisa",
-    "ukusoka",
-    "ukufundisha",
-    "amalawi",
-    "amakuni",
-    "ebuleti",
-    "ichipata",
-    "umushi",
-    "inkonoka",
-    "ichinsunsu",
-    "ukusonkola",
-    "ukukamata",
-    "ukusambila",
-    "ukusumina",
-    "ukusoneka",
-    "ukusonkota",
-    "fila",
-    "fiko",
-    "cabe",
-    "mwalai",
-    "kabili",
-    "nokuti",
-    "fye",
-    "lelo",
-    "mailo",
-    "echi",
-    "elyo",
-    "konko",
-    "nakulila",
-    "ukusanga",
-    "ukusendama",
-    "ukukopa",
-    "ukukwacha",
-    "icaputika",
-    "ikalamba",
-    "ilombe",
-    "iponga",
-    "isingleso",
-    "umutwe",
-    "intu",
-    "ubuntu",
-    "umulunga",
-    "ukunda",
+    "shani", "finshi", "cinshi", "ninani", "kwi", "lilali", "pantunshi", "mulandunshi",
+    "mwapoleni", "mukwai", "natotela", "fye", "kabili", "nomba", "mailo", "lelo",
+    "amalaiti", "malaiti", "umufundo", "imbuto", "ubumi", "ing'anda", "ulupwa",
+    "napoka", "bapoka", "ndipoka", "poka",
+    "napempula", "bapempula", "pempula",
+    "nailemba", "bailemba", "lembesha", "kulembesha", "kwingila",
+    "balefwaya", "alefwaya", "ndifwaya", "tulefwaya", "fwaya", "ukufwaya",
+    "banjelele", "ingileni", "njebeleni", "njeba", "sosa", "landa",
+    "balebomba", "tulebomba", "bomba", "ukubomba",
+    "naya", "balaya", "kuya", "ukuya",
+    "mwaiche", "mukalamba", "icikwati", "isukulu", "ishuko",
+    "indalama", "impapulo", "icitupa", "akalembera", "tabakwata", "nshikwete",
+    "mwalai", "nga", "fyo", "apo", "cino", "nabo", "naci", "shikulu",
+    "bana", "ume", "ukunda", "ukwishiba", "ukucita", "ukulanda", "pano",
+    "kuno", "ukutotela", "twatwala", "umulimo", "inkama", "ifintu", "ichalo",
+    "icalo", "ukwata", "ukufumya", "ukusunga", "ukulomba", "ukwaisa",
+    "umushi", "ukusambila", "ukusumina", "ukusoneka", "cabe", "echi", "elyo",
+    "ukusanga", "ukukwacha", "ubuntu", "umutwe", "nangu", "kwati"
 }
 
+# 3. Distinctive chiNyanja / Chewa Lexical Markers
+NYANJA_KEYWORDS = {
+    "kodi", "bwanji", "ndani", "chani", "chifukwa", "chiyani", "liti", "chonde", "moni",
+    "muli bwanji", "zikomo", "kuchokera", "misonkho", "musonko", "katemera", "posachedwa",
+    "ndikufuna", "akufuna", "tifuna", "kufuna", "ndikufunsa", "funsa",
+    "ndingatenge", "kutenga", "ndingapeze", "kupeza", "ndingachite", "kuchita",
+    "ndingapemphe", "kupempha", "ndingalipire", "kulipira", "malipiro",
+    "zitheka", "tingathe", "zofunikira", "kulembetsa", "kukhala",
+    "munthu", "anthu", "banja", "makolo", "dziko", "yankho", "kuyanjana",
+    "dzulo", "usana", "usiku", "chimodzi", "ziwiri", "zitatu", "zinayi", "zisanu",
+    "chikhalidwe", "mwai", "mphatso", "litapi", "ngati", "sikuti", "koma", "kapena",
+    "mwanalume", "mwamuna", "mkazi", "ana", "achikondi", "ndipeza", "ndichita",
+    "ndikhulupirira", "chingelezi", "chilankhulo", "maganizo", "buku", "skulu",
+    "mphamvu", "ngongole", "banka", "chimalipiro", "ningalipire", "chipatala",
+    "dokotala", "mankhwala", "madzi", "ntchito", "galimoto", "lero", "mawa",
+    "dzuka", "masiku", "nditumiza", "ndapita", "ndabwera", "ndikugwira",
+    "funso", "kunja", "mkati", "palibe", "mwina", "mwini", "amini"
+}
+
+# 4. Distinctive chiShona Lexical Markers
 SHONA_KEYWORDS = {
-    "mhoro",
-    "mhoroi",
-    "ndiri",
-    "sei",
-    "zvinhu",
-    "kana",
-    "kuti",
-    "iko",
-    "zvino",
-    "mazuva",
-    "nguva",
-    "vanhu",
-    "mushandi",
-    "mufariri",
-    "hedu",
-    "tete",
-    "amai",
-    "baba",
-    "mwana",
-    "mabasa",
-    "gore",
-    "mwedzi",
-    "masiku",
-    "kuno",
-    "kunze",
-    "zvemuno",
-    "zvinoita",
-    "ndinovimba",
-    "ndapota",
-    "zvine",
-    "zvinopa",
-    "hana",
-    "mbira",
-    "ngoma",
-    "musha",
-    "hanzi",
-    "zvinoda",
-    "zvayo",
-    "zvedu",
-    "zvaro",
-    "zvangu",
-    "zvakanaka",
-    "ndanga",
-    "ndakagara",
-    "ndakanga",
-    "ndichava",
-    "zvandinoda",
-    "denda",
-    "tsime",
-    "mupfungwa",
-    "gwara",
-    "kugara",
-    "vamwe",
-    "vese",
-    "vari",
-    "vanenge",
-    "chimwe",
-    "maviri",
-    "matatu",
-    "mana",
-    "shanu",
-    "enda",
-    "dzoka",
-    "svondo",
-    "chishanu",
-    "mutero",
-    "chikoro",
-    "mari",
-    "chipatara",
+    "sei", "ko", "chii", "ndiani", "rini", "seiko", "mhoro", "mhoroi", "makadii",
+    "makadii henyu", "ndiri", "ndiri bho", "ndiri nani", "ndatenda", "zvikuru",
+    "chitupa", "mutero", "musha", "mabasa", "vana", "baba", "amai", "mukadzi",
+    "murume", "chikoro", "chipatara", "nguva", "mazuva", "mangwanani", "masikati",
+    "manheru", "zvakanaka", "zvino", "pamusoro", "ndinoda", "vanoda", "tinoda",
+    "ndinokumbira", "kumbira", "ndingawana", "kuwana", "ndinganyorera", "kunyora",
+    "ndingaite", "kuita", "ndinogona", "zvinoita", "zvinhu", "kana", "iko",
+    "mushandi", "tete", "mwana", "gore", "mwedzi", "ndinovimba", "ndapota",
+    "zvine", "zvinopa", "hana", "mbira", "ngoma", "hanzi", "zvinoda", "zvayo",
+    "zvedu", "zvaro", "zvangu", "ndanga", "ndakagara", "ndakanga", "ndichava",
+    "zvandinoda", "tsime", "mupfungwa", "gwara", "kugara", "vamwe", "vese",
+    "vari", "vanenge", "chimwe", "maviri", "matatu", "mana", "shanu", "enda",
+    "dzoka", "svondo", "chishanu", "mari"
 }
 
+# 5. Idiomatic & Salutation Phrases
 KNOWN_BEMBA_PHRASES = [
-    "mwapoleni",
-    "shani",
-    "ngapo",
-    "napo fyo",
-    "fyo shani",
-    "bana ba",
-    "umuleti",
-    "nakulila",
-    "shikulu",
-    "ngakwai",
+    "mwapoleni", "shani", "ngapo", "napo fyo", "fyo shani", "bana ba",
+    "umuleti", "nakulila", "shikulu", "ngakwai", "natotela", "mukwai",
+    "pa kuti", "kuti napoka", "kuti nailemba", "kuti napempula"
 ]
 
 KNOWN_NYANJA_PHRASES = [
-    "muli bwanji",
-    "ndikufuna",
-    "kodi",
-    "yankho",
-    "chikhalidwe",
-    "kuyanjana",
-    "lero",
-    "mawa",
-    "kwai",
-    "ndani angakhale",
+    "muli bwanji", "ndikufuna", "kodi", "yankho", "chikhalidwe", "kuyanjana",
+    "lero", "mawa", "kwai", "ndani angakhale", "zikomo", "chonde",
+    "kodi ndingatenge", "ndingapemphe", "ndingalipire", "ndingapeze"
 ]
 
 KNOWN_SHONA_PHRASES = [
-    "mhoro",
-    "mhoroi",
-    "makadii",
-    "makadii henyu",
-    "ndiri bho",
-    "ndiri nani",
-    "zvinhu zviri sei",
-    "ndinokumbira rubatsiro",
-    "ndatenda zvikuru",
-    "mangwanani",
-    "masikati",
-    "manheru",
+    "mhoro", "mhoroi", "makadii", "makadii henyu", "ndiri bho", "ndiri nani",
+    "zvinhu zviri sei", "ndinokumbira rubatsiro", "ndatenda zvikuru",
+    "mangwanani", "masikati", "manheru", "ndingawana sei", "ndinganyorera sei"
 ]
+
+# Morphological Regex Patterns for Bantu Prefix Signatures
+BEMBA_PREFIX_RE = re.compile(r"^(bale|tule|nde|nshi|taba|ala|mwa|ici|ifi|umu|imi|ubu)[a-z]{3,}")
+NYANJA_PREFIX_RE = re.compile(r"^(ndiku|tiku|akufu|ndinga|tinga|adzakha|chi|zi|ma)[a-z]{3,}")
+SHONA_PREFIX_RE = re.compile(r"^(ndino|tino|vano|ndiri|zviri|zvin)[a-z]{3,}")
 
 
 class LanguageDetector:
-    """Handles detection of user input language with keyword-based fallback."""
+    """Robust, highly accurate language detector for English, Bemba, Nyanja, and Shona."""
 
     def __init__(self):
         self.supported_languages = settings.SUPPORTED_LANGUAGES
         self.default_language = settings.DEFAULT_LANGUAGE
-        self._init_keywords()
 
-    def _init_keywords(self):
-        self.keywords: Dict[str, set] = {
-            "ny": NYANJA_KEYWORDS,
+    def _score_text(self, text: str, lang: str) -> Tuple[int, int]:
+        """Returns (word_matches, phrase_matches) for a specific language."""
+        text_lower = text.lower()
+        words = set(re.findall(r"[a-z']+", text_lower))
+
+        keywords_map = {
             "bem": BEMBA_KEYWORDS,
+            "ny": NYANJA_KEYWORDS,
             "sn": SHONA_KEYWORDS,
         }
-        self.phrases: Dict[str, set] = {
-            "ny": KNOWN_NYANJA_PHRASES,
+        phrases_map = {
             "bem": KNOWN_BEMBA_PHRASES,
+            "ny": KNOWN_NYANJA_PHRASES,
             "sn": KNOWN_SHONA_PHRASES,
         }
 
-    def _score_text(self, text: str, lang: str) -> Tuple[int, int]:
-        """Returns (word_matches, phrase_matches) for a language."""
-        text_lower = text.lower()
-        words = set(
-            text_lower.replace(",", " ")
-            .replace(".", " ")
-            .replace("?", " ")
-            .replace("!", " ")
-            .split()
-        )
-
-        word_matches = len(words & self.keywords.get(lang, set()))
-
-        phrase_matches = 0
-        for phrase in self.phrases.get(lang, set()):
-            if phrase in text_lower:
-                phrase_matches += 2
-
+        word_matches = len(words & keywords_map.get(lang, set()))
+        phrase_matches = sum(2 for p in phrases_map.get(lang, []) if p in text_lower)
         return word_matches, phrase_matches
 
     def detect_language(self, text: str) -> str:
-        """Detects language with keyword-based fallback for African languages."""
+        """
+        Detects language strictly returning one of settings.SUPPORTED_LANGUAGES ('en', 'bem', 'ny', 'sn').
+        Combines English indicator matching, African keyword scoring, and Bantu morphological analysis.
+        """
         if not text or not text.strip():
             return self.default_language
 
-        text_lower = text.lower().strip()
+        clean = text.lower().strip()
 
-        if len(text_lower) <= 3:
-            return self._detect_short_text(text_lower)
+        # Strip country routing prefix if present
+        clean = re.sub(r"^(!zw|zw:|\[zw\]|!zm|zm:|\[zm\])\s*", "", clean)
 
-        try:
-            detected = detect(text)
-            if detected == "en":
-                scores = {
-                    lang: self._score_text(text, lang) for lang in ["ny", "bem", "sn"]
-                }
-                best_lang = max(scores, key=lambda x: scores[x][0] + scores[x][1])
-                if scores[best_lang][0] + scores[best_lang][1] >= 2:
-                    logger.info(
-                        f"Keyword override: langdetect={detected}, but keywords suggest {best_lang}"
-                    )
-                    return best_lang
-                return "en"
+        words = re.findall(r"[a-z']+", clean)
+        if not words:
+            return self.default_language
 
-            scores = {
-                lang: self._score_text(text, lang) for lang in ["ny", "bem", "sn"]
-            }
-            best_lang = max(scores, key=lambda x: scores[x][0] + scores[x][1])
+        # 1. Evaluate English Indicators
+        en_matches = sum(1 for w in words if w in ENGLISH_INDICATORS)
+        en_ratio = en_matches / len(words)
 
-            if scores[best_lang][0] + scores[best_lang][1] >= 2:
-                logger.debug(
-                    f"Detected {best_lang} via keywords (langdetect: {detected})"
-                )
-                return best_lang
+        # 2. Evaluate African Language Keywords & Phrases
+        bem_word, bem_phrase = self._score_text(clean, "bem")
+        ny_word, ny_phrase = self._score_text(clean, "ny")
+        sn_word, sn_phrase = self._score_text(clean, "sn")
 
-            return detected
+        bem_score = (bem_word * 2) + bem_phrase
+        ny_score = (ny_word * 2) + ny_phrase
+        sn_score = (sn_word * 2) + sn_phrase
 
-        except Exception as e:
-            logger.warning(f"Language detection failed: {e}, falling back to keywords")
-            return self._detect_by_keywords_only(text)
+        # 3. Morphological Affix Analysis
+        for w in words:
+            if BEMBA_PREFIX_RE.match(w):
+                bem_score += 1
+            if NYANJA_PREFIX_RE.match(w):
+                ny_score += 1
+            if SHONA_PREFIX_RE.match(w):
+                sn_score += 1
 
-    def _detect_short_text(self, text: str) -> str:
-        """Detects language for very short text using keywords."""
-        scores = {lang: self._score_text(text, lang) for lang in ["ny", "bem", "sn"]}
-        best_lang = max(scores, key=lambda x: scores[x][0] + scores[x][1])
+        # 4. Disambiguation for Shared Terms ("kuti", "zambia", etc.)
+        if "kuti" in words:
+            if any(w.startswith("na") or w.startswith("bale") or w == "shani" or "pa kuti" in clean for w in words):
+                bem_score += 2
+            elif any(w.startswith("ndi") or w == "bwanji" or w == "kodi" for w in words):
+                ny_score += 2
 
-        if scores[best_lang][0] > 0 or scores[best_lang][1] > 0:
-            return best_lang
-
-        if "en" in text or "the" in text or "is" in text or "a" in text:
+        # 5. English Primary Gate
+        max_african = max(bem_score, ny_score, sn_score)
+        if en_matches >= 2 and en_ratio >= 0.35 and max_african <= 1:
+            return "en"
+        if en_matches >= 3 and en_matches > max_african:
             return "en"
 
-        return self.default_language
+        # 6. African Language Selection
+        scores = {"bem": bem_score, "ny": ny_score, "sn": sn_score}
+        best_african = max(scores, key=lambda k: scores[k])
 
-    def _detect_by_keywords_only(self, text: str) -> str:
-        """Fallback detection using only keywords."""
-        scores = {lang: self._score_text(text, lang) for lang in ["ny", "bem", "sn"]}
-        best_lang = max(scores, key=lambda x: scores[x][0] + scores[x][1])
+        if scores[best_african] > 0:
+            # Handle Bemba vs Nyanja close tie decisively
+            if scores["bem"] == scores["ny"] and scores["bem"] > 0:
+                if "shani" in clean or "finshi" in clean or "napoka" in clean or "mwapoleni" in clean:
+                    return "bem"
+                if "bwanji" in clean or "kodi" in clean or "ndingatenge" in clean or "zikomo" in clean:
+                    return "ny"
+                return "bem"  # Default to Bemba as primary Zambian lingua franca
+            return best_african
 
-        if scores[best_lang][0] + scores[best_lang][1] >= 2:
-            return best_lang
-
-        return self.default_language
-
-    def get_confidence_scores(self, text: str):
-        """Returns confidence scores for all languages."""
+        # 7. Fallback to statistical langdetect (guaranteeing supported language)
         try:
-            langdetect_scores = {
-                str(l).split(":")[0]: l.prob for l in detect_langs(text)
+            detected = detect(clean)
+            if detected == "en":
+                return "en"
+            if detected in self.supported_languages:
+                return detected
+        except Exception:
+            pass
+
+        return self.default_language
+
+    def get_confidence_scores(self, text: str) -> Dict:
+        """Returns structured confidence scores for evaluation inspection."""
+        clean = text.lower().strip()
+        words = set(re.findall(r"[a-z']+", clean))
+        try:
+            langdetect_scores = {str(l).split(":")[0]: l.prob for l in detect_langs(clean)}
+        except Exception:
+            langdetect_scores = {}
+
+        return {
+            "langdetect": langdetect_scores,
+            "keyword": {
+                "en": sum(1 for w in words if w in ENGLISH_INDICATORS),
+                "bem": self._score_text(clean, "bem"),
+                "ny": self._score_text(clean, "ny"),
+                "sn": self._score_text(clean, "sn"),
             }
-            keyword_scores = {
-                lang: self._score_text(text, lang) for lang in ["ny", "bem", "sn"]
-            }
-            return {"langdetect": langdetect_scores, "keyword": keyword_scores}
-        except Exception as e:
-            logger.error(f"Failed to get language confidence scores: {e}")
-            return {}
+        }
 
 
+# Global singleton
 language_detector = LanguageDetector()
 
 
