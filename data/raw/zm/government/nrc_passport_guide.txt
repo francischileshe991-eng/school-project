@@ -1,12 +1,55 @@
-# Zambia National Registration & Passport Guide (Icishibilo ca NRC/Capa/Mupando)
+# Zambia National Registration Card (NRC) & Passport Comprehensive Guide
+# (Ubutungulushi bwa Mupando/Icishibilo ca NRC ne Paspoti)
 
-## 1. National Registration Card (NRC - Icishibilo)
-- **Age Requirement:** 16 years or older (Imyaka 16).
-- **First-time Applicants:** Free for citizens.
-- **Replacement (Kusintha NRC/Ngatadaya):** If you lose or damage your NRC, a replacement costs **K3.10** (Lost) or **K2.20** (Damaged).
+## 1. National Registration Card (NRC / Green Card / Icishibilo)
 
-## 2. Passport Application
-- **Process:** Apply at the Department of National Registration, Passport and Citizenship or via the Zambia E-Services Portal (www.gsb.gov.zm).
-- **Requirements:** Copy of NRC, Birth Certificate, and two passport-sized photos.
-- **Cost (Standard 32-Page):** K320 total.
-- **Cost (Standard 48-Page):** K520 total.
+### Issuing Authority
+The National Registration Card (Green NRC) is issued by the Department of National Registration, Passport and Citizenship (DNRPC), an executive department under the Ministry of Home Affairs and Internal Security in the Republic of Zambia.
+
+### Where to Apply
+- District National Registration Offices located at District Administration offices (Boma / Civic Centres) in all districts across Zambia.
+- Department of National Registration, Passport and Citizenship (DNRPC) provincial headquarters.
+- Designated permanent civic customer service centres and periodic mobile registration outreach exercises.
+
+### First-Time Applicants (New NRC)
+- **Age Requirement:** Any Zambian citizen who has attained the age of 16 years and above is statutorily required to register for an NRC.
+- **Cost:** Strictly **FREE OF CHARGE** for all first-time Zambian citizen applicants. It is illegal for any official to charge fees for first-time registration.
+- **Requirements & Supporting Documents:**
+  1. Proof of Birth: An official Birth Certificate issued by the Registrar General, or an Under-Five Health Card (Clinic baby card).
+  2. Proof of Parentage / Citizenship:
+     - Must be accompanied by at least one parent (father or mother) who is a Zambian citizen holding a valid original Green NRC.
+     - If parents are deceased: Death certificates or burial permits of parents, accompanied by an established guardian or blood relative holding a valid Green NRC.
+     - For rural community residents: An introductory letter of confirmation and family lineage verification signed by the recognized Traditional Chief, Village Headman, or Ward Councillor.
+  3. Physical In-Person Attendance: The applicant must appear physically in person for live biometric fingerprint capture, demographic verification, and facial photograph portrait capture.
+
+### Replacement of a Lost NRC (Kusintha NRC / Ngatadaya)
+- **Requirements:**
+  1. Official Police Loss Report / Police Abstract obtained from any Zambia Police Service station certifying the loss of the card.
+  2. Sworn Affidavit of Loss executed before a Commissioner for Oaths or Magistrate.
+  3. A photocopy of the old NRC or knowledge of the exact NRC number (if available).
+- **Official Statutory Replacement Fees:**
+  - Lost NRC replacement fee: **K3.10** (payable at the revenue counter at the registration office).
+  - Mutilated / Damaged NRC replacement fee: **K2.20** (the applicant must surrender the damaged card).
+
+### Change of Name or Correction of Particulars
+- **Change of Name upon Marriage:** Certified copy of Marriage Certificate from the Local Council or Church, letter of request, and current NRC.
+- **Formal Change of Name:** Deed Poll duly registered with the High Court of Zambia and published in the Government Gazette.
+
+---
+
+## 2. Zambian Passport Application (Paspoti)
+
+### Issuing Authority & Location
+- Department of National Registration, Passport and Citizenship (Headquarters in Lusaka along Kent Building / Haile Selassie Avenue, and regional offices in Ndola, Livingstone, Kitwe, Chipata, Kasama, Mansa, Solwezi, Choma, and Mongu).
+- Online Applications: Accessible via the Government ZamPortal / E-Services Portal (eservices.gov.zm).
+
+### Requirements for Standard Citizens
+1. Original Green National Registration Card (NRC) and a clear photocopy.
+2. Certified copy of Full Birth Certificate.
+3. Two recent standard passport-sized photographs on a white background.
+4. Recommendation / Attestation form endorsed by a designated professional (lawyer, doctor, headmaster, bank manager, or police officer).
+
+### Statutory Passport Fees (Zambian Kwacha)
+- **Standard Ordinary Passport (32 Pages):** **K320.00** total.
+- **Frequent Traveler Passport (48 Pages):** **K520.00** total.
+- **Express / Fast-Track Passport Processing:** **K640.00**.

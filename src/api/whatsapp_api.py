@@ -6,6 +6,7 @@ Logs interactions into the evaluation database.
 """
 
 import asyncio
+import re
 import time
 from fastapi import APIRouter, Form, Response
 from twilio.rest import Client
@@ -57,16 +58,54 @@ def send_whatsapp_reply(to: str, message: str) -> bool:
         return False
 
 
+def format_for_whatsapp(text: str) -> str:
+    """Formats markdown response into clean, natural WhatsApp mobile format.
+    
+    - Replaces Markdown bold (**text**) with WhatsApp bold (*text*).
+    - Converts markdown headers (### Header) to clean bold titles (*HEADER*).
+    - Replaces hyphens (- item) with clean unicode bullet points (• item).
+    - Ensures clean line spacing between numbered steps for high mobile readability.
+    """
+    if not text:
+        return ""
 
-def process_and_reply(body: str, from_number: str, country: str):
-    start_time = time.perf_counter()
-    user_lang = detect_language(body)
+    s = text.replace("\r\n", "\n")
 
+    # 1. Convert markdown headers (### Title) to *TITLE*
+    s = re.sub(r"^#{1,4}\s*(.*?)$", r"*\1*", s, flags=re.MULTILINE)
+
+    # 2. Convert markdown bold **text** to whatsapp *text*
+    s = re.sub(r"\*\*([^*]+)\*\*", r"*\1*", s)
+
+    # 3. Convert markdown links [Label](url) to "Label (url)"
+    s = re.sub(r"\[([^\]]+)\]\(([^)]+)\)", r"\1 (\2)", s)
+
+    # 4. Convert bullet markers at line starts to clean bullet dots •
+    s = re.sub(r"^(\s*)[-*]\s+", r"\1• ", s, flags=re.MULTILINE)
+
+    # 5. Ensure double line breaks before steps (e.g., "*Step 2:...")
+    s = re.sub(r"(?<!\n)\n(\*?Step\s+\d+[:\)])", r"\n\n\1", s, flags=re.IGNORECASE)
+
+    # 6. Collapse excessive consecutive blank lines
+    s = re.sub(r"\n{3,}", "\n\n", s)
+
+    return s.strip()
+
+
+async def process_and_reply(from_number: str, body: str, user_lang: str = "en") -> None:
     try:
-        from src.rag.pipeline import generate_reply
+        t0 = time.perf_counter()
 
-        answer, sources = generate_reply(body, country)
-        elapsed_ms = int((time.perf_counter() - start_time) * 1000)
+        # Dynamic country detection from phone prefix (+263 -> zw, +260 -> zm) or message tag
+        country = _resolve_whatsapp_country(from_number, body)
+
+        answer, sources = await asyncio.to_thread(
+            generate_reply,
+            query=body,
+            country=country,
+            language=user_lang,
+        )
+        elapsed_ms = (time.perf_counter() - t0) * 1000
 
         # Log WhatsApp interaction to SQLite database
         db.log_interaction(
@@ -79,9 +118,10 @@ def process_and_reply(body: str, from_number: str, country: str):
             response_time_ms=elapsed_ms,
         )
 
-        if len(answer) > MAX_RESPONSE_LEN:
-            answer = answer[:MAX_RESPONSE_LEN] + "\n\n[Message truncated]"
-        final_text = f"{answer}\n\n---\nZedChatBot | Community Assistant"
+        formatted_answer = format_for_whatsapp(answer)
+        if len(formatted_answer) > MAX_RESPONSE_LEN:
+            formatted_answer = formatted_answer[:MAX_RESPONSE_LEN] + "\n\n[Message truncated]"
+        final_text = f"{formatted_answer}\n\n---\n*ZedChatBot | Community Assistant*"
         send_whatsapp_reply(from_number, final_text)
 
     except Exception as e:

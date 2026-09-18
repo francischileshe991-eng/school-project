@@ -23,24 +23,37 @@ function renderInline(text) {
 
   s = s.replace(/`([^`]+)`/g, (match, code) => `<code>${code}</code>`);
 
+  // Step highlight badge: converts "**Step 1...**" to a prominent, styled step badge
+  s = s.replace(/\*\*(Step\s+\d+[^:*]*[:)]?)\*\*/gi, '<strong class="step-badge">$1</strong>');
+
+  // Standard markdown bold
   s = s.replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>");
 
+  // Standard markdown italic
   s = s.replace(/(^|[^*\w])\*([^*\n]+?)\*(?=[^*\w]|$)/g, "$1<em>$2</em>");
 
   return s;
 }
 
 function renderMarkdown(md) {
-  const escaped = escapeHtml(md).replace(/\r\n/g, "\n");
-  const lines = escaped.split("\n");
+  if (!md) return "";
+
+  // 1. Clean and normalize line endings
+  let normalized = escapeHtml(md).replace(/\r\n/g, "\n");
+
+  // 2. Pre-process inline squashed bullets onto separate lines:
+  // e.g. "... from: - Item 1 - Item 2" or "... - **Step 2:"
+  normalized = normalized.replace(/([:.]|\b)\s+-\s+(\*\*|Step|[A-Z])/g, "$1\n- $2");
+
+  const lines = normalized.split("\n");
   const out = [];
-  let list = null;
+  let currentList = null;
   let para = [];
 
   function closeList() {
-    if (list) {
-      out.push(list === "ul" ? "</ul>" : "</ol>");
-      list = null;
+    if (currentList) {
+      out.push(currentList === "ul" ? "</ul>" : "</ol>");
+      currentList = null;
     }
   }
 
@@ -51,14 +64,23 @@ function renderMarkdown(md) {
     }
   }
 
-  for (const raw of lines) {
+  for (let i = 0; i < lines.length; i++) {
+    const raw = lines[i];
     const line = raw.trim();
+
+    // Blank line
     if (!line) {
       flushPara();
-      closeList();
+      // If the next line is also a list item, maintain the list continuity
+      const nextRaw = i + 1 < lines.length ? lines[i + 1].trim() : "";
+      const isNextList = /^[-*]\s+|^\d+\.\s+/.test(nextRaw);
+      if (!isNextList) {
+        closeList();
+      }
       continue;
     }
 
+    // Headings
     const heading = line.match(/^(#{1,4})\s+(.*)$/);
     if (heading) {
       flushPara();
@@ -68,21 +90,29 @@ function renderMarkdown(md) {
       continue;
     }
 
+    // List items (bullet or numbered)
+    const isSubItem = /^(\s{2,}|\t)[-*]\s+/.test(raw);
     const bullet = line.match(/^[-*]\s+(.*)$/);
     const numbered = line.match(/^\d+\.\s+(.*)$/);
+
     if (bullet || numbered) {
       flushPara();
       const tag = bullet ? "ul" : "ol";
-      if (list !== tag) {
+
+      if (currentList !== tag) {
         closeList();
         out.push(`<${tag}>`);
-        list = tag;
+        currentList = tag;
       }
-      out.push(`<li>${renderInline((bullet ? bullet[1] : numbered[1]))}</li>`);
+
+      const content = renderInline(bullet ? bullet[1] : numbered[1]);
+      const subClass = isSubItem ? ' class="sub-item"' : "";
+      out.push(`<li${subClass}>${content}</li>`);
       continue;
     }
 
-    if (list) closeList();
+    // Regular paragraph text
+    if (currentList) closeList();
     para.push(line);
   }
 

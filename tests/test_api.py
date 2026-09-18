@@ -110,3 +110,20 @@ def test_language_detector_no_cjk_artifacts() -> None:
             assert not (0x4E00 <= ord(char) <= 0x9FFF), f"Unexpected CJK character found: {char} in {phrase}"
 
 
+def test_format_for_whatsapp() -> None:
+    from src.api.whatsapp_api import format_for_whatsapp
+    raw = (
+        "### CDF Guide\n"
+        "- **Step 1:** Get forms from council.\n"
+        "- **Step 2:** Prepare NRC.\n"
+        "Check [Official Portal](https://council.gov.zm)."
+    )
+    formatted = format_for_whatsapp(raw)
+    assert "*CDF Guide*" in formatted
+    assert "*Step 1:*" in formatted
+    assert "• *Step 1:*" in formatted
+    assert "• *Step 2:*" in formatted
+    assert "**" not in formatted
+    assert "Official Portal (https://council.gov.zm)" in formatted
+
+

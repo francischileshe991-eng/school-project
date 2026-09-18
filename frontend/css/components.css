@@ -84,10 +84,10 @@
 
 .message {
   max-width: 85%;
-  padding: 0.875rem 1.125rem;
+  padding: 0.95rem 1.25rem;
   border-radius: 1.25rem;
   font-size: 0.95rem;
-  line-height: 1.5;
+  line-height: 1.6;
   white-space: normal;
   word-break: break-word;
   position: relative;
@@ -96,7 +96,7 @@
 }
 
 .message p {
-  margin: 0 0 0.5rem;
+  margin: 0 0 0.65rem;
 }
 
 .message p:last-child {
@@ -107,9 +107,9 @@
 .message h2,
 .message h3,
 .message h4 {
-  margin: 0.75rem 0 0.4rem;
+  margin: 0.85rem 0 0.45rem;
   font-weight: 700;
-  line-height: 1.25;
+  line-height: 1.3;
 }
 
 .message h1 { font-size: 1.15rem; }
@@ -119,12 +119,35 @@
 
 .message ul,
 .message ol {
-  margin: 0.4rem 0 0.5rem;
-  padding-left: 1.4rem;
+  margin: 0.5rem 0 0.65rem;
+  padding-left: 1.35rem;
 }
 
 .message li {
+  margin-bottom: 0.45rem;
+  line-height: 1.55;
+}
+
+.message li.sub-item {
+  margin-left: 1.15rem;
+  list-style-type: circle;
+  color: var(--text-secondary);
+  font-size: 0.93em;
+  margin-top: 0.2rem;
+  margin-bottom: 0.35rem;
+}
+
+.message strong.step-badge {
+  display: inline-block;
+  background: rgba(16, 185, 129, 0.12);
+  color: #10b981;
+  border: 1px solid rgba(16, 185, 129, 0.25);
+  border-radius: 0.45rem;
+  padding: 0.15rem 0.55rem;
+  font-weight: 700;
   margin-bottom: 0.25rem;
+  font-size: 0.93em;
+  letter-spacing: 0.01em;
 }
 
 .message code {

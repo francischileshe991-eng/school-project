@@ -115,7 +115,7 @@ class ZedRetriever:
         self,
         query: str,
         country_code: str,
-        top_k: int = 3,
+        top_k: int = 4,
         threshold: float = 0.01,  # Effectively disabled for maximum local language recall
     ) -> List[Document]:
         """
@@ -127,9 +127,10 @@ class ZedRetriever:
         logger.info(f"Retriever: Searching for '{query[:50]}...' in {c_code.upper()}")
 
         try:
-            # 1. Get docs with their relevance scores (0-1)
+            # 1. Fetch candidate pool (k = 6) to prevent peripheral references from crowding out core guides
+            candidate_k = max(top_k * 2, 6)
             results = self.vector_store.similarity_search_with_relevance(
-                c_code, query, k=top_k
+                c_code, query, k=candidate_k
             )
 
             # 2. Filter results: Keep documents where score is >= threshold
@@ -173,9 +174,8 @@ class ZedRetriever:
                     ):
                         filtered_docs.append(doc)
 
-
             # Fall back to unfiltered relevant docs if domain filter yielded nothing
-            final_docs = filtered_docs if filtered_docs else relevant_docs
+            final_docs = (filtered_docs if filtered_docs else relevant_docs)[:top_k]
 
             logger.info(f"Retriever: Found {len(final_docs)} high-quality chunks.")
             return final_docs
