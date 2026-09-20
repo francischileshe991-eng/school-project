@@ -25,13 +25,17 @@ from src.core.logger import logger
 if __name__ == "__main__":
     import uvicorn
     
+    # Ensure host defaults to 127.0.0.1 for local runs so Uvicorn prints a directly clickable link
+    host = "127.0.0.1" if settings.API_HOST in ["0.0.0.0", "127.0.0.1"] else settings.API_HOST
+    
     logger.info(f"Launching {settings.APP_NAME}...")
-    logger.info(f"Web UI available at: http://127.0.0.1:{settings.API_PORT}/app/ (or http://localhost:{settings.API_PORT}/)")
+    logger.info(f"Web UI available at: http://{host}:{settings.API_PORT}/app/ (or http://localhost:{settings.API_PORT}/)")
     
     uvicorn.run(
         "src.main:app",
-        host=settings.API_HOST,
+        host=host,
         port=settings.API_PORT,
         reload=settings.DEBUG
     )
+
 
