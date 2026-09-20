@@ -60,11 +60,16 @@ class RAGPipeline:
             final_answer = english_answer
 
             # 3. EXPERT TRANSLATION (Local Language)
+            # Edge case handling: If the generator returned the raw context excerpt fallback,
+            # keep it in English rather than translating an unformatted raw text wall.
             if user_lang != "en":
-                logger.info(f"Translating expert answer to {user_lang}...")
-                translated = translate_text(english_answer, source="en", target=user_lang)
-                if translated:
-                    final_answer = translated
+                if english_answer.startswith("According to official public records:"):
+                    logger.info("Grounded excerpt fallback preserved in English to avoid unformatted translation degradation.")
+                else:
+                    logger.info(f"Translating expert answer to {user_lang}...")
+                    translated = translate_text(english_answer, source="en", target=user_lang)
+                    if translated:
+                        final_answer = translated
 
         except Exception as e:
             logger.error(f"Generation failed: {e}")

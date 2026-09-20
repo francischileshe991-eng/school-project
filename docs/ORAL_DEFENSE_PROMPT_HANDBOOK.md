@@ -156,5 +156,12 @@ Be prepared to answer these common technical questions from your examination pan
 > 1. **Information Retrieval Accuracy**: Benchmark test suite measuring Context Precision, Recall, and Groundedness.  
 > 2. **User Acceptance (TAM)**: An empirical Technology Acceptance Model questionnaire measuring Perceived Usefulness (PU), Perceived Ease of Use (PEOU), and Behavioral Intention (BI) across both Web and WhatsApp channels."*
 
+### Q5: *"What happens if a user asks in Nyanja or Bemba and the LLM falsely claims it doesn't have the record?"*
+> **Answer:** *"Because statutory documents are recorded in English while queries are phrased in indigenous Bantu languages, LLMs can occasionally suffer from cross-lingual refusal stochasticity — conservatively answering 'I do not have that official record' despite relevant retrieved chunks. ZedGenerator eliminates this through a 3-step **refusal-consistency check**:  
+> 1. If refusal phrasing is detected while relevant context is present, it retries generation with explicit cross-lingual intent mapping.  
+> 2. If the model still refuses, it falls back to delivering the grounded statutory excerpt directly from official public records in English.  
+> This guarantees that false gaps are impossible whenever official documentation exists in the knowledge base."*
+
 ---
 *Handbook finalized for Francis Chileshe's Final Year Capstone Oral Defense, Department of Computer Science, University of Zambia (UNZA).*
+
