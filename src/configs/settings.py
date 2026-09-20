@@ -25,7 +25,7 @@ class Settings(BaseSettings):
     APP_NAME: str = "Zedchatbot for African Community"
     APP_ENV: str = "development"
     DEBUG: bool = True
-    API_HOST: str = "0.0.0.0"
+    API_HOST: str = "127.0.0.1"
     API_PORT: int = 8000
     API_VERSION: str = "v1"
     PRELOAD_PIPELINE_ON_STARTUP: bool = True

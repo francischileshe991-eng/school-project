@@ -19,7 +19,8 @@ from src.core.logger import logger
 
 # This file simply exposes the fully-configured 'app' instance from our modular API setup.
 # You can run the application using:
-# uvicorn src.main:app --host 0.0.0.0 --port 8000 --reload
+# uvicorn src.main:app --host 127.0.0.1 --port 8000 --reload
+
 
 if __name__ == "__main__":
     import uvicorn
