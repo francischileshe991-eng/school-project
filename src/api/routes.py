@@ -43,14 +43,12 @@ def health_check() -> Dict[str, Any]:
     }
 
 
-@router.get("/", tags=["General"])
-def read_root() -> Dict[str, str]:
-    """Landing page for the API."""
-    return {
-        "message": "Welcome to the Zedchatbot API!",
-        "docs": "/docs",
-        "status": "ready",
-    }
+from fastapi.responses import RedirectResponse
+
+@router.get("/", tags=["General"], include_in_schema=False)
+def read_root() -> RedirectResponse:
+    """Redirects visitors from root directly to the web application."""
+    return RedirectResponse(url="/app/", status_code=status.HTTP_307_TEMPORARY_REDIRECT)
 
 
 @router.post("/chat", response_model=ChatResponse, tags=["Chat"])

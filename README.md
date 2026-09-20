@@ -8,7 +8,8 @@
 [![ChromaDB](https://img.shields.io/badge/ChromaDB-0.6+-orange.svg)](https://www.trychroma.com/)
 [![Embedding](https://img.shields.io/badge/Embeddings-BAAI%2FBGE--M3-purple.svg)](https://huggingface.co/BAAI/bge-m3)
 [![Translation](https://img.shields.io/badge/Translation-Meta%20NLLB--200-green.svg)](https://huggingface.co/facebook/nllb-200-distilled-600M)
-[![Tests](https://img.shields.io/badge/Tests-19%2F19%20Passing%20(100%25)-brightgreen.svg)]()
+[![Tests](https://img.shields.io/badge/Tests-21%2F21%20Passing%20(100%25)-brightgreen.svg)]()
+
 [![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 **Author:** Francis Chileshe  
@@ -90,8 +91,9 @@ Accessing vital public service records—such as National Registration Cards (NR
 ## 3. Key Features
 
 1. **Dual-Channel Deployment**:
-   - **Web Interface**: Clean, accessible, mobile-responsive dark-mode chat UI with real-time feedback ratings (👍/👎), source citations, and quick prompts.
-   - **WhatsApp Integration**: Fully compatible with the official Twilio WhatsApp Sandbox (`+1 415 523 8886`), enabling access for low-bandwidth users on basic smartphones without mobile data bundles.
+   - **Web Interface**: Sleek, accessible, mobile-responsive chat application inspired by modern conversational design (central input capsule, luminous grid backdrop, instant dark/light mode toggle, dedicated country and language dropdowns, vector SVG prompt chips, verified source citations, and real-time 👍/👎 feedback logging).
+   - **WhatsApp Integration**: Fully compatible with the official Twilio WhatsApp Sandbox (`+1 415 523 8886`) and live number (`+260 953805423`), enabling access for low-bandwidth users on basic smartphones without mobile data bundles.
+
 2. **True Multilingual Auto-Detection**:
    - Automatically detects whether queries are posed in English, Bemba, Nyanja, or Shona.
    - Immediately returns an instant localized acknowledgment (*"Thinking about your question..."* / *"Ndetontokania pe lipusho..."*) while asynchronously processing retrieval.
@@ -129,19 +131,22 @@ zedchatbot-for-african-community/
 │   ├── FINAL_DEFENSE_PRESENTATION.md  # 13-Slide Oral Defense Presentation & Q&A
 │   ├── FINAL_PROJECT_DISSERTATION.md  # Complete 6-Chapter Academic Monograph
 │   ├── OBJECTIVE_ONE_REPORT.md        # Objective 1: Knowledge Base Scaffold Report
+│   ├── ORAL_DEFENSE_PROMPT_HANDBOOK.md# Oral Defense Demonstration Prompt Guide
 │   ├── TAM_EVALUATION_REPORT.md       # Objective 2: TAM Survey Analysis Report
 │   ├── TAM_QUESTIONNAIRE_INSTRUMENT.md# 14-Item Likert Evaluation Instrument
 │   ├── WHATSAPP_SETUP_GUIDE.md        # Twilio WhatsApp Sandbox Connection Guide
 │   └── figures/                       # Publication-grade evaluation figures (1-6)
 ├── frontend/
 │   ├── css/
-│   │   ├── components.css           # Chat message cards, feedback widgets
-│   │   └── main.css                 # Design tokens, typography, dark theme
+│   │   ├── components.css           # Chat message cards, feedback widgets, dark theme
+│   │   ├── layout.css               # Top nav, hero stage, dockable chat layout
+│   │   └── main.css                 # Design tokens, typography, cosmic grid backdrop
 │   ├── js/
 │   │   ├── api.js                   # Client HTTP API bridge & feedback handler
-│   │   ├── app.js                   # Application state & event handlers
-│   │   └── ui.js                    # Message rendering & micro-animations
+│   │   ├── app.js                   # Application state, theme manager & event handlers
+│   │   └── ui.js                    # Message rendering, bot cards & micro-animations
 │   └── index.html                   # Responsive Web Application entry point
+
 ├── scripts/
 │   ├── analyze_tam.py               # Statistical TAM analysis & Cronbach's alpha
 │   ├── build_index.py               # ChromaDB document ingestion & vector indexer

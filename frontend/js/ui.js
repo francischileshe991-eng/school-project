@@ -42,7 +42,6 @@ function renderMarkdown(md) {
   let normalized = escapeHtml(md).replace(/\r\n/g, "\n");
 
   // 2. Pre-process inline squashed bullets onto separate lines:
-  // e.g. "... from: - Item 1 - Item 2" or "... - **Step 2:"
   normalized = normalized.replace(/([:.]|\b)\s+-\s+(\*\*|Step|[A-Z])/g, "$1\n- $2");
 
   const lines = normalized.split("\n");
@@ -68,10 +67,8 @@ function renderMarkdown(md) {
     const raw = lines[i];
     const line = raw.trim();
 
-    // Blank line
     if (!line) {
       flushPara();
-      // If the next line is also a list item, maintain the list continuity
       const nextRaw = i + 1 < lines.length ? lines[i + 1].trim() : "";
       const isNextList = /^[-*]\s+|^\d+\.\s+/.test(nextRaw);
       if (!isNextList) {
@@ -90,7 +87,7 @@ function renderMarkdown(md) {
       continue;
     }
 
-    // List items (bullet or numbered)
+    // List items
     const isSubItem = /^(\s{2,}|\t)[-*]\s+/.test(raw);
     const bullet = line.match(/^[-*]\s+(.*)$/);
     const numbered = line.match(/^\d+\.\s+(.*)$/);
@@ -126,82 +123,153 @@ export const UI = {
     return document.getElementById("messages");
   },
 
-  appendMessage(text, className, sources = [], interactionId = null, onFeedback = null) {
+  setConversationMode(active) {
+    const heroStage = document.getElementById("hero-stage");
+    const conversationStage = document.getElementById("conversation-stage");
+    if (active) {
+      document.body.classList.add("in-conversation");
+      if (heroStage) heroStage.style.display = "none";
+      if (conversationStage) conversationStage.style.display = "block";
+    } else {
+      document.body.classList.remove("in-conversation");
+      if (heroStage) heroStage.style.display = "flex";
+      if (conversationStage) conversationStage.style.display = "none";
+    }
+  },
+
+  appendMessage(text, role, sources = [], interactionId = null, onFeedback = null) {
     const container = this.messagesContainer;
     if (!container) return;
 
-    const item = document.createElement("article");
-    item.className = `message ${className}`;
-    if (className === "bot" || className === "error") {
-      item.setAttribute("role", "status");
+    // Activate conversation mode
+    this.setConversationMode(true);
+
+    const row = document.createElement("div");
+    row.className = `message-row ${role}`;
+
+    if (role === "user") {
+      const bubble = document.createElement("div");
+      bubble.className = "message-bubble-user";
+      bubble.textContent = text;
+      row.appendChild(bubble);
+    } else if (role === "bot") {
+      const card = document.createElement("article");
+      card.className = "message-card-bot";
+      card.setAttribute("role", "status");
+
+      // Bot Card Header with Mini Avatar
+      const header = document.createElement("div");
+      header.className = "bot-card-header";
+      header.innerHTML = `
+        <div class="bot-card-brand">
+          <img src="./assets/images/logo.jpeg" alt="ZedChatBot" class="bot-mini-avatar" />
+          <span class="bot-brand-label">ZedChatBot AI</span>
+          <span class="bot-verified-badge">✓ Grounded</span>
+        </div>
+      `;
+
+      // Copy Response Button
+      const copyBtn = document.createElement("button");
+      copyBtn.className = "copy-btn";
+      copyBtn.innerHTML = `
+        <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+          <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+        </svg>
+        <span>Copy</span>
+      `;
+      copyBtn.addEventListener("click", async () => {
+        try {
+          await navigator.clipboard.writeText(text);
+          copyBtn.innerHTML = `<span>✓ Copied</span>`;
+          setTimeout(() => {
+            copyBtn.innerHTML = `
+              <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+              </svg>
+              <span>Copy</span>
+            `;
+          }, 2000);
+        } catch (_) {}
+      });
+      header.appendChild(copyBtn);
+      card.appendChild(header);
+
+      // Bot Body Content
+      const body = document.createElement("div");
+      body.className = "bot-body";
+      body.innerHTML = renderMarkdown(text);
+      card.appendChild(body);
+
+      // Verified Sources Box
+      if (sources && sources.length > 0) {
+        const sourcesBox = document.createElement("div");
+        sourcesBox.className = "sources-box";
+        sourcesBox.innerHTML = `<div class="sources-label">Official Sources Citations</div>`;
+
+        const tagsContainer = document.createElement("div");
+        tagsContainer.className = "sources-tags";
+        sources.forEach((src) => {
+          const tag = document.createElement("span");
+          tag.className = "source-tag";
+          tag.textContent = String(src).split(/[\\/]/).pop();
+          tagsContainer.appendChild(tag);
+        });
+        sourcesBox.appendChild(tagsContainer);
+        card.appendChild(sourcesBox);
+      }
+
+      // Card Footer with TAM Feedback (Helpful? Yes / No)
+      if (interactionId && onFeedback) {
+        const footer = document.createElement("div");
+        footer.className = "bot-card-footer";
+        footer.innerHTML = `
+          <div class="feedback-controls">
+            <span style="font-size: 0.775rem; color: #64748b; font-weight: 500; margin-right: 0.25rem;">Accurate?</span>
+          </div>
+        `;
+
+        const thumbsUp = document.createElement("button");
+        thumbsUp.className = "feedback-btn";
+        thumbsUp.textContent = "👍 Yes";
+        thumbsUp.title = "Accurate & grounded (5 stars)";
+
+        const thumbsDown = document.createElement("button");
+        thumbsDown.className = "feedback-btn";
+        thumbsDown.textContent = "👎 Inaccurate";
+        thumbsDown.title = "Inaccurate or incomplete (1 star)";
+
+        thumbsUp.addEventListener("click", async () => {
+          thumbsUp.disabled = true;
+          thumbsDown.disabled = true;
+          thumbsUp.classList.add("active");
+          await onFeedback(interactionId, 5);
+          footer.querySelector(".feedback-controls").innerHTML = `<span class="feedback-thanks">✓ Thank you for validating!</span>`;
+        });
+
+        thumbsDown.addEventListener("click", async () => {
+          thumbsUp.disabled = true;
+          thumbsDown.disabled = true;
+          thumbsDown.classList.add("active");
+          await onFeedback(interactionId, 1);
+          footer.querySelector(".feedback-controls").innerHTML = `<span class="feedback-thanks">✓ Feedback recorded for research evaluation.</span>`;
+        });
+
+        footer.querySelector(".feedback-controls").appendChild(thumbsUp);
+        footer.querySelector(".feedback-controls").appendChild(thumbsDown);
+        card.appendChild(footer);
+      }
+
+      row.appendChild(card);
+    } else if (role === "error") {
+      const errCard = document.createElement("div");
+      errCard.className = "message-card-error";
+      errCard.textContent = text;
+      row.appendChild(errCard);
     }
 
-    const textContent = document.createElement("div");
-    const isMarkup = className === "bot";
-    textContent.innerHTML = isMarkup ? renderMarkdown(text) : escapeHtml(text);
-    item.appendChild(textContent);
-
-    if (sources && sources.length > 0) {
-      const sourcesBox = document.createElement("div");
-      sourcesBox.className = "sources-box";
-      sourcesBox.setAttribute("aria-label", "Sources");
-
-      const label = document.createElement("span");
-      label.className = "sources-label";
-      label.textContent = "Sources";
-      sourcesBox.appendChild(label);
-
-      const list = document.createElement("ul");
-      list.className = "sources-list";
-      sources.forEach((src) => {
-        const li = document.createElement("li");
-        const chip = document.createElement("span");
-        chip.className = "source-chip";
-        chip.textContent = String(src).split(/[\\/]/).pop();
-        li.appendChild(chip);
-        list.appendChild(li);
-      });
-      sourcesBox.appendChild(list);
-      item.appendChild(sourcesBox);
-    }
-
-    if (className === "bot" && interactionId && onFeedback) {
-      const feedbackBar = document.createElement("div");
-      feedbackBar.className = "feedback-bar";
-      feedbackBar.innerHTML = `<span>Helpful?</span>`;
-
-      const thumbsUp = document.createElement("button");
-      thumbsUp.className = "feedback-btn";
-      thumbsUp.textContent = "👍 Yes";
-      thumbsUp.title = "Mark as accurate/helpful (5 stars)";
-
-      const thumbsDown = document.createElement("button");
-      thumbsDown.className = "feedback-btn";
-      thumbsDown.textContent = "👎 No";
-      thumbsDown.title = "Mark as inaccurate (1 star)";
-
-      thumbsUp.addEventListener("click", async () => {
-        thumbsUp.disabled = true;
-        thumbsDown.disabled = true;
-        thumbsUp.classList.add("active");
-        await onFeedback(interactionId, 5);
-        feedbackBar.innerHTML = `<span class="feedback-thanks">✓ Thank you for your feedback!</span>`;
-      });
-
-      thumbsDown.addEventListener("click", async () => {
-        thumbsUp.disabled = true;
-        thumbsDown.disabled = true;
-        thumbsDown.classList.add("active");
-        await onFeedback(interactionId, 1);
-        feedbackBar.innerHTML = `<span class="feedback-thanks">✓ Feedback noted, thank you!</span>`;
-      });
-
-      feedbackBar.appendChild(thumbsUp);
-      feedbackBar.appendChild(thumbsDown);
-      item.appendChild(feedbackBar);
-    }
-
-    container.appendChild(item);
+    container.appendChild(row);
     this.scrollToBottom();
   },
 
@@ -209,36 +277,42 @@ export const UI = {
     const container = this.messagesContainer;
     if (!container) return;
 
-    const loader = document.createElement("div");
-    loader.className = "typing-indicator";
-    loader.id = "typing-indicator";
-    loader.setAttribute("role", "status");
-    loader.setAttribute("aria-label", "Zedchatbot is thinking");
+    this.setConversationMode(true);
+
+    const loaderRow = document.createElement("div");
+    loaderRow.className = "message-row bot";
+    loaderRow.id = "typing-row";
+
+    const indicator = document.createElement("div");
+    indicator.className = "typing-indicator";
+    indicator.id = "typing-indicator";
+    indicator.setAttribute("role", "status");
+    indicator.setAttribute("aria-label", "ZedChatBot is retrieving and reasoning");
+
     for (let i = 0; i < 3; i++) {
-      const span = document.createElement("span");
-      span.setAttribute("aria-hidden", "true");
-      loader.appendChild(span);
+      const dot = document.createElement("span");
+      dot.setAttribute("aria-hidden", "true");
+      indicator.appendChild(dot);
     }
-    container.appendChild(loader);
+
+    loaderRow.appendChild(indicator);
+    container.appendChild(loaderRow);
     this.scrollToBottom();
   },
 
   removeTypingIndicator() {
+    const row = document.getElementById("typing-row");
+    if (row) row.remove();
     const loader = document.getElementById("typing-indicator");
-    if (loader) {
-      loader.remove();
-    }
+    if (loader) loader.remove();
   },
 
   scrollToBottom() {
-    const container = this.messagesContainer;
-    if (!container) return;
-
     setTimeout(() => {
-      container.scrollTo({
-        top: container.scrollHeight,
+      window.scrollTo({
+        top: document.body.scrollHeight,
         behavior: 'smooth'
       });
-    }, 10);
+    }, 15);
   }
 };

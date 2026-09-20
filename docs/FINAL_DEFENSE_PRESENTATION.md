@@ -39,8 +39,8 @@
 
 ## Slide 4: System Architecture (Three-Tier Model)
 - **Presentation Tier**:
-  - Web Interface (Vanilla HTML5 / CSS3 glassmorphism / ES6 JS).
-  - Twilio WhatsApp Webhook (Async TwiML acknowledgment).
+  - Modern Web Interface (HTML5 / Vanilla CSS3 / ES6 JS with Light/Dark theme toggle, luminous ambient backdrop, dedicated country/language dropdowns, vector SVG prompt chips, and citation badges).
+  - Twilio WhatsApp Webhook (Async TwiML acknowledgment & low-bandwidth access).
 - **Application Tier**:
   - FastAPI asynchronous server with lifespan management.
   - Hybrid Language Classifier (Keyword frequency + `langdetect`).
@@ -50,6 +50,7 @@
 - **Data Tier**:
   - Country-partitioned ChromaDB vector stores (`vector_store/zm/` and `vector_store/zw/`).
   - SQLite database (`data/zedchatbot.db`) tracking interactions, latency, and TAM ratings.
+
 
 ---
 
@@ -79,7 +80,9 @@
 1. **Case 1 (Nyanja - Utilities)**: *"Mtengo wamagetsi a ZESCO pa lifeline tariff ndi ndalama zingati?"* $\rightarrow$ Correctly cites K0.35 per kWh.
 2. **Case 2 (Bemba - Civic Identity)**: *"Bushe umuntu afwile ukukwata imyaka inga pa kupanga NRC?"* $\rightarrow$ Correctly states age 16+ with parents' NRC.
 3. **Case 3 (English - Taxation)**: *"What is the 2024 PAYE tax-free threshold?"* $\rightarrow$ Quotes K5,100 threshold from ZRA official records.
-4. **Case 4 (Rating)**: User clicks `👍 Yes`, and the SQLite database immediately updates rating in `data/zedchatbot.db`.
+4. **Case 4 (Telemetry & Rating)**: User clicks `👍 Yes`, and the SQLite database immediately logs the interaction rating in `data/zedchatbot.db`.
+5. **Case 5 (UI Features)**: Showcase the ☀️/🌙 Dark Mode toggle, Country (🇿🇲/🇿🇼) and Language dropdowns, and instant reset with the **New** button.
+
 
 ---
 

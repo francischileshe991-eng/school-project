@@ -17,9 +17,12 @@ def test_health_endpoint() -> None:
 
 
 def test_root_endpoint() -> None:
-    response = client.get("/")
-    assert response.status_code == 200
-    assert "Welcome to the Zedchatbot API!" in response.json()["message"]
+    response = client.get("/", follow_redirects=False)
+    assert response.status_code == 307
+    assert response.headers["location"] == "/app/"
+    response_followed = client.get("/", follow_redirects=True)
+    assert response_followed.status_code == 200
+    assert "Zedchatbot" in response_followed.text
 
 
 def test_stats_endpoint() -> None:

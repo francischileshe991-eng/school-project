@@ -1,49 +1,186 @@
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap');
+/* ==========================================================================
+   DeepSeek-Inspired Theme & Design Tokens
+   ZedChatBot for African Community
+   ========================================================================== */
 
 :root {
-  --bg-color: #0b1220;
-  --panel-bg: rgba(30, 41, 59, 0.6);
-  --panel-strong: #1e293b;
-  --panel-strong-hover: #28364c;
-  --input-bg: #0f172a;
-  --text-primary: #e2e8f0;
-  --text-secondary: #94a3b8;
-  --accent: #10b981; /* Emerald/Zambian green */
-  --accent-light: rgba(16, 185, 129, 0.15);
-  --accent-hover: #0d9668;
-  --accent-soft: #34d399;
-  --border-color: #2b3a4f;
-  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.4);
-  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
-  --shadow-lg: 0 10px 30px -5px rgba(0, 0, 0, 0.5), 0 8px 10px -6px rgba(0, 0, 0, 0.3);
-  --radius-xl: 1.5rem;
-  --radius-lg: 1rem;
-  --glass-bg: rgba(15, 23, 42, 0.5);
-  --glass-border: rgba(255, 255, 255, 0.08);
-  --error-bg: #3f1d1d;
-  --error-text: #fecaca;
-  --error-border: #7f1d1d;
-  --sources-text: #7dd3a8;
+  /* Core Color System (DeepSeek Light Mode Signature) */
+  --bg-base: #f8fafc;
+  --bg-surface: #ffffff;
+  --bg-surface-elevated: #ffffff;
+  --bg-subtle: #f1f5f9;
+  --bg-pill: #f1f5f9;
+  --bg-pill-hover: #e2e8f0;
+
+  /* Layout & Container Elements */
+  --nav-bg: rgba(248, 250, 252, 0.85);
+  --nav-border: rgba(226, 232, 240, 0.7);
+  --dock-bg: linear-gradient(to top, rgba(248, 250, 252, 0.95) 75%, transparent);
+  --heading-color: #1e293b;
+
+  /* Typography Colors */
+  --text-primary: #0f172a;       /* Deep slate for crisp readability */
+  --text-secondary: #475569;     /* Balanced body text */
+  --text-muted: #64748b;         /* Subtext & placeholders */
+  --text-subtle: #94a3b8;        /* Very light metadata */
+
+  /* Brand Accents (DeepSeek Signature Blue + Zambian Emerald Highlight) */
+  --brand-blue: #2563eb;         /* Vibrant DeepSeek Blue */
+  --brand-blue-hover: #1d4ed8;
+  --brand-blue-light: #eff6ff;
+  --brand-blue-border: #bfdbfe;
+  --brand-blue-glow: rgba(37, 99, 235, 0.25);
+
+  --accent-emerald: #10b981;     /* Zambian Emerald for badges */
+  --accent-emerald-light: #ecfdf5;
+
+  /* Borders & Grid */
+  --border-light: #e2e8f0;
+  --border-card: #e2e8f0;
+  --border-focus: #3b82f6;
+  --grid-line: rgba(226, 232, 240, 0.65);
+
+  /* Shadows */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.04);
+  --shadow-card: 0 10px 30px -4px rgba(15, 23, 42, 0.06), 0 4px 12px -2px rgba(15, 23, 42, 0.03);
+  --shadow-elevated: 0 20px 40px -10px rgba(15, 23, 42, 0.08), 0 8px 16px -4px rgba(15, 23, 42, 0.04);
+  --shadow-btn: 0 4px 14px rgba(37, 99, 235, 0.35);
+
+  /* Radii */
+  --radius-full: 9999px;
+  --radius-2xl: 24px;
+  --radius-xl: 18px;
+  --radius-lg: 12px;
+  --radius-md: 8px;
+
+  /* Font Family */
+  --font-sans: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
 }
 
+/* Dark Mode Tokens */
+[data-theme="dark"] {
+  --bg-base: #0b0f19;
+  --bg-surface: #111827;
+  --bg-surface-elevated: #1a2234;
+  --bg-subtle: #1e293b;
+  --bg-pill: #1a2234;
+  --bg-pill-hover: #26334d;
+
+  /* Layout & Container Elements */
+  --nav-bg: rgba(11, 15, 25, 0.88);
+  --nav-border: rgba(255, 255, 255, 0.08);
+  --dock-bg: linear-gradient(to top, rgba(11, 15, 25, 0.98) 75%, transparent);
+  --heading-color: #f8fafc;
+
+  /* Typography */
+  --text-primary: #f8fafc;
+  --text-secondary: #cbd5e1;
+  --text-muted: #94a3b8;
+  --text-subtle: #64748b;
+
+  /* Brand Accents */
+  --brand-blue: #3b82f6;
+  --brand-blue-hover: #60a5fa;
+  --brand-blue-light: rgba(59, 130, 246, 0.15);
+  --brand-blue-border: rgba(59, 130, 246, 0.35);
+  --brand-blue-glow: rgba(59, 130, 246, 0.4);
+
+  --accent-emerald: #10b981;
+  --accent-emerald-light: rgba(16, 185, 129, 0.15);
+
+  /* Borders & Grid */
+  --border-light: rgba(255, 255, 255, 0.09);
+  --border-card: rgba(255, 255, 255, 0.1);
+  --border-focus: #3b82f6;
+  --grid-line: rgba(255, 255, 255, 0.04);
+
+  /* Shadows */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.4);
+  --shadow-card: 0 12px 36px -4px rgba(0, 0, 0, 0.55), 0 4px 16px -2px rgba(0, 0, 0, 0.35);
+  --shadow-elevated: 0 20px 44px -8px rgba(0, 0, 0, 0.7), 0 8px 20px -4px rgba(0, 0, 0, 0.45);
+  --shadow-btn: 0 4px 16px rgba(59, 130, 246, 0.45);
+}
+
+/* Base Reset & Geometry */
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
-body {
-  font-family: 'Outfit', sans-serif;
+html, body {
+  min-height: 100%;
+  font-family: var(--font-sans);
   color: var(--text-primary);
-  background:
-    radial-gradient(circle at 0% 0%, rgba(16, 185, 129, 0.12) 0%, transparent 45%),
-    radial-gradient(circle at 100% 100%, rgba(59, 130, 246, 0.08) 0%, transparent 45%),
-    var(--bg-color);
-  min-height: 100vh;
+  background-color: var(--bg-base);
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  background-color: var(--bg-base);
+  background-image:
+    radial-gradient(ellipse 900px 500px at 50% 120px, rgba(219, 234, 254, 0.75) 0%, rgba(239, 246, 255, 0.45) 45%, transparent 75%),
+    radial-gradient(circle at 10% 20%, rgba(224, 231, 255, 0.35) 0%, transparent 40%),
+    radial-gradient(circle at 90% 30%, rgba(219, 234, 254, 0.35) 0%, transparent 40%),
+    linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px);
+  background-size: 100% 100%, 100% 100%, 100% 100%, 72px 72px, 72px 72px;
+  background-position: center top, center top, center top, center top, center top;
+  background-repeat: no-repeat, no-repeat, no-repeat, repeat, repeat;
+  background-attachment: fixed;
+  display: flex;
+  flex-direction: column;
+}
+
+[data-theme="dark"] body {
+  background-color: #0b0f19;
+  background-image:
+    radial-gradient(ellipse 900px 500px at 50% 120px, rgba(30, 58, 138, 0.38) 0%, rgba(15, 23, 42, 0.5) 45%, transparent 75%),
+    radial-gradient(circle at 10% 20%, rgba(67, 56, 202, 0.22) 0%, transparent 40%),
+    radial-gradient(circle at 90% 30%, rgba(30, 58, 138, 0.25) 0%, transparent 40%),
+    linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px);
+}
+
+/* Theme Toggle Button Icons */
+.theme-icon-sun {
+  display: none;
+}
+
+.theme-icon-moon {
+  display: block;
+}
+
+[data-theme="dark"] .theme-icon-sun {
+  display: block;
+  color: #fbbf24;
+}
+
+[data-theme="dark"] .theme-icon-moon {
+  display: none;
 }
 
 ::selection {
-  background: rgba(16, 185, 129, 0.3);
+  background: rgba(37, 99, 235, 0.18);
+  color: #1e3a8a;
+}
+
+[data-theme="dark"] ::selection {
+  background: rgba(59, 130, 246, 0.35);
+  color: #eff6ff;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
