@@ -25,6 +25,7 @@ if __name__ == "__main__":
     import uvicorn
     
     logger.info(f"Launching {settings.APP_NAME}...")
+    logger.info(f"Web UI available at: http://127.0.0.1:{settings.API_PORT}/app/ (or http://localhost:{settings.API_PORT}/)")
     
     uvicorn.run(
         "src.main:app",
@@ -32,3 +33,4 @@ if __name__ == "__main__":
         port=settings.API_PORT,
         reload=settings.DEBUG
     )
+
