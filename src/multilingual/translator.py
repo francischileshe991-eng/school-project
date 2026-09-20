@@ -62,6 +62,33 @@ PROTECTED_KEYWORDS = [
     "Shona",
 ]
 
+TYPOGRAPHY_MAP = {
+    "\u2018": "'",   # Left single quotation mark
+    "\u2019": "'",   # Right single quotation mark / typographic apostrophe
+    "\u02BC": "'",   # Modifier letter apostrophe
+    "\u02BB": "'",   # Modifier letter turned comma
+    "\u201C": '"',   # Left double quotation mark
+    "\u201D": '"',   # Right double quotation mark
+    "\u2013": "-",   # En dash
+    "\u2014": "--",  # Em dash
+    "\u00A0": " ",   # Non-breaking space
+    "\uFFFD": "",    # Unicode replacement character
+}
+
+
+def normalize_typography(text: Optional[str]) -> str:
+    """Normalizes typographic curly quotes and smart apostrophes to standard ASCII equivalents.
+    
+    Prevents replacement character artifacts (e.g. 'Nzopanda') in Windows terminal environments
+    (CP1252/CP437) and ensures clean UTF-8 passthrough across Web, Console, and WhatsApp.
+    """
+    if not text:
+        return text or ""
+    out = text
+    for old, new in TYPOGRAPHY_MAP.items():
+        out = out.replace(old, new)
+    return out
+
 
 class ZedTranslator:
     """Handles local translation using NLLB-200 with enhanced short text handling."""
@@ -248,7 +275,7 @@ class ZedTranslator:
             gemini_result = self._translate_with_gemini(text_clean, source, target)
             if gemini_result:
                 logger.info(f"Translator: Translated via Gemini ({source} -> {target})")
-                return gemini_result
+                return normalize_typography(gemini_result)
 
         # Fallback path: Local NLLB-200 Neural Machine Translation
         protected_text, placeholder_map = self._protect_keywords(text_clean)
@@ -258,7 +285,7 @@ class ZedTranslator:
 
         pipe = self._get_pipeline()
         if not pipe:
-            return text
+            return normalize_typography(text)
 
         try:
             result = pipe(
@@ -272,10 +299,10 @@ class ZedTranslator:
             translated_text = self._restore_keywords(translated_text, placeholder_map)
 
             logger.debug(f"Translated via NLLB: '{text_clean[:50]}' -> '{translated_text[:50]}'")
-            return translated_text
+            return normalize_typography(translated_text)
         except Exception as e:
             logger.error(f"Translation failed: {e}")
-            return text
+            return normalize_typography(text)
 
     def translate_to_english(self, text: str, source: str) -> str:
         return self.translate(text, source=source, target="en")

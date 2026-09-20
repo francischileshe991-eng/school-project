@@ -1,5 +1,6 @@
 function escapeHtml(str) {
   return String(str)
+    .replace(/\uFFFD/g, "")
     .replace(/&/g, "&amp;")
     .replace(/</g, "&lt;")
     .replace(/>/g, "&gt;")

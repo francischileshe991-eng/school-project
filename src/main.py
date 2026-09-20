@@ -13,6 +13,14 @@ root_path = str(Path(__file__).resolve().parent.parent)
 if root_path not in sys.path:
     sys.path.insert(0, root_path)
 
+# Configure UTF-8 encoding for standard output on Windows
+if sys.platform == "win32":
+    try:
+        sys.stdout.reconfigure(encoding="utf-8")
+        sys.stderr.reconfigure(encoding="utf-8")
+    except Exception:
+        pass
+
 from src.api.web_api import app
 from src.configs.settings import settings
 from src.core.logger import logger

@@ -7,7 +7,7 @@ Enhanced with improved multilingual support.
 from typing import List, Optional, Tuple
 from src.core.logger import logger
 from src.multilingual.language_detector import detect_language
-from src.multilingual.translator import translate_text
+from src.multilingual.translator import translate_text, normalize_typography
 from src.knowledge_base.vector_store import ZedVectorStore
 from src.rag.retriever import ZedRetriever
 from src.rag.generator import ZedGenerator
@@ -75,7 +75,7 @@ class RAGPipeline:
             logger.error(f"Generation failed: {e}")
             final_answer = "I encountered a technical error while processing your request."
 
-        return final_answer, sources
+        return normalize_typography(final_answer), sources
 
 
 _pipeline: Optional[RAGPipeline] = None
