@@ -146,9 +146,17 @@ body {
 }
 
 /* Theme Toggle Button Icons */
+.theme-icon {
+  display: inline-block;
+  vertical-align: middle;
+  flex-shrink: 0;
+  transition: transform 0.2s ease;
+}
+
 .theme-icon-sun {
   display: none;
 }
+
 
 .theme-icon-moon {
   display: block;

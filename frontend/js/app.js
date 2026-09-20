@@ -64,7 +64,7 @@ function init() {
   const newChatBtn = document.getElementById("new-chat-btn");
   const themeToggleBtn = document.getElementById("theme-toggle-btn");
   const brandHome = document.getElementById("brand-home");
-  const sampleAskBtn = document.getElementById("btn-sample-ask");
+
 
   if (!form || !input) return;
 
@@ -139,15 +139,8 @@ function init() {
     resetConversation();
   });
 
-  // Sample prompt button
-  if (sampleAskBtn) {
-    sampleAskBtn.addEventListener("click", () => {
-      input.value = "How do I apply for a National Registration Card (NRC)?";
-      submit(input.value);
-    });
-  }
-
   async function submit(text) {
+
     const trimmed = text.trim();
     if (!trimmed || input.disabled) return;
 
