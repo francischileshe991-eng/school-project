@@ -1,5 +1,5 @@
 const API_BASE = "";
-const REQUEST_TIMEOUT_MS = 90000;
+const REQUEST_TIMEOUT_MS = 200000; // 200s: accommodates local Ollama fallback generation time
 
 async function postJSON(path, body, timeoutMs = REQUEST_TIMEOUT_MS) {
   const controller = new AbortController();

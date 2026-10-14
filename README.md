@@ -24,7 +24,7 @@
 
 Accessing vital public service records—such as National Registration Cards (NRC), passports, tertiary student loans (HELSB), university admissions, business registration (PACRA), national pensions (NAPSA), electricity tariffs (ZESCO), water sanitation (LWSC/NWASCO), and health insurance (NHIMA)—presents substantial hurdles for citizens across Southern Africa. Information is frequently fragmented, digital portals are complex or bandwidth-heavy, and information is predominantly authored only in English.
 
-**Zedchatbot for African Community** is a production-grade, culturally anchored, multilingual conversational assistant that solves this digital divide. By combining **BGE-M3 native dense vector representations**, **ChromaDB vector persistence**, a **hybrid cloud-edge LLM cascade** (Google Gemini 3.5 Flash-Lite primary, local Ollama/Qwen2.5 edge fallback, OpenAI GPT-4o-mini), and **multilingual translation with statutory entity preservation** (Google Gemini & Meta NLLB-200), Zedchatbot delivers accurate, hallucination-free public information across both a **modern Web UI** and **WhatsApp**.
+**Zedchatbot for African Community** is a production-grade, culturally anchored, multilingual conversational assistant that solves this digital divide. By combining **BGE-M3 native dense vector representations**, **ChromaDB vector persistence**, a **hybrid cloud-edge LLM cascade** (Google Gemini 3.8 Flash primary, local Ollama/Qwen2.5 edge fallback, OpenAI GPT-4o-mini), and **multilingual translation with statutory entity preservation** (Google Gemini & Meta NLLB-200), Zedchatbot delivers accurate, hallucination-free public information across both a **modern Web UI** and **WhatsApp**.
 
 ### Supported Regional Scope & Languages
 - **Geographic Scope**: 
@@ -68,7 +68,7 @@ Accessing vital public service records—such as National Registration Cards (NR
                                │      - Country-aware domain filter (Gov/Edu/Util/Hlth) │
                                │                                                        │
                                │   2. Grounded Answer Generation                        │
-                               │      - Cascade: Gemini 3.5 Flash-Lite ➔ Local Ollama   │
+                               │      - Cascade: Gemini 3.8 Flash ➔ Local Ollama   │
                                │      - Zero-hallucination fallback to official records │
                                │                                                        │
                                │   3. Native African Language Translation               │
@@ -239,7 +239,7 @@ API_PORT=8000
 # Offline Edge: "ollama" (air-gapped local resilience via Qwen2.5:7b)
 LLM_PROVIDER=gemini
 TRANSLATION_PROVIDER=gemini
-GEMINI_MODEL=gemini-3.5-flash-lite
+GEMINI_MODEL=gemini-3.8-flash
 MODEL_NAME=qwen2.5:7b
 
 # API Keys (Required for Cloud LLM; optional if running completely offline via Ollama)

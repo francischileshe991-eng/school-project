@@ -149,7 +149,7 @@ Be prepared to answer these common technical questions from your examination pan
 > **Answer:** *"Twilio charges per-message fees in USD, requires an external internet tunnel like ngrok, and restricts testers to typing `join <keyword>` into a US sandbox number. The v2.0 direct gateway (`whatsapp_bridge/bridge.js`) runs a native WhatsApp Web client on Node.js using persistent local authentication (`.wwebjs_auth`). Any citizen or examiner can text our real Zambian phone number (`+260 953805423`) directly at **zero recurring cost**."*
 
 ### Q3: *"How does the system ensure fast response times on local edge hardware?"*
-> **Answer:** *"The generator implements a **multi-provider hybrid cascade**. When internet connectivity is fast, it leverages Google Gemini 3.5 Flash-Lite (latency under 3 seconds). If cloud access drops or rate limits occur, the pipeline automatically cascades to an edge-resident local LLM (**Ollama Qwen2.5:7b**), followed by a deterministic grounded context excerpt fallback. The system never crashes."*
+> **Answer:** *"The generator implements a **multi-provider hybrid cascade**. When internet connectivity is fast, it leverages Google Gemini 3.8 Flash (latency under 3 seconds). If cloud access drops or rate limits occur, the pipeline automatically cascades to an edge-resident local LLM (**Ollama Qwen2.5:7b**), followed by a deterministic grounded context excerpt fallback. The system never crashes."*
 
 ### Q4: *"How was the system evaluated for your thesis?"*
 > **Answer:** *"Evaluation is conducted across two pillars:  

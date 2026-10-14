@@ -250,7 +250,7 @@ def build_unza_report():
         "To address these barriers, this study developed and evaluated ZedChatBot for African Community, an intelligent, "
         "modular conversational system based on Retrieval-Augmented Generation (RAG) architecture. The model incorporates dense "
         "multilingual representations (BAAI/bge-m3), country-partitioned vector indexing (ChromaDB), a multi-provider LLM cascade "
-        "(Google Gemini 3.5 Flash-Lite, local edge Ollama Qwen2.5:7b, and OpenAI), a 3-step refusal-consistency verification loop, "
+        "(Google Gemini 3.8 Flash, local edge Ollama Qwen2.5:7b, and OpenAI), a 3-step refusal-consistency verification loop, "
         "and constrained translation with statutory entity preservation. Interaction is supported via a responsive Web UI and an "
         "asynchronous WhatsApp Web messaging gateway."
     )
@@ -718,7 +718,7 @@ def build_unza_report():
         ("Ingestion & Splitting", "Ability to parse statutory .txt/.pdf files and split into overlapping chunks (700 chars, 100 overlap)."),
         ("Dense Embedding", "Encode chunks into 1024-dimensional normalized vectors using BAAI/bge-m3."),
         ("Partitioned Vector Store", "Maintain segregated ChromaDB collections for Zambia (zm) and Zimbabwe (zw) to prevent data cross-contamination."),
-        ("Multi-Provider Cascade", "Cascading generation across Gemini 3.5 Flash-Lite, Ollama Qwen2.5:7b, and OpenAI with zero-downtime failover."),
+        ("Multi-Provider Cascade", "Cascading generation across Gemini 3.8 Flash, Ollama Qwen2.5:7b, and OpenAI with zero-downtime failover."),
         ("Refusal Consistency Check", "Intercept false refusal strings on cross-lingual queries and trigger targeted retry or raw statutory excerpt fallback."),
         ("Entity-Preserving Translation", "Translate to Bemba/Nyanja while shielding acronyms (NRC, ZRA, ZESCO, CDF) with alphanumeric placeholders."),
     ]

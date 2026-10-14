@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 Generator component for Zedchatbot.
-Expert RAG Generator with Multi-Provider support (Ollama, Gemini, OpenAI) and grounded fallback.
+Expert RAG Generator with Multi-Provider support (Ollama, Gemini, OpenAI, Groq) and grounded fallback.
 """
 
 import re
@@ -83,6 +83,7 @@ class ZedGenerator:
         self.ollama_llm = self._init_ollama()
         self.gemini_llm = self._init_gemini()
         self.openai_llm = self._init_openai()
+        self.groq_llm = self._init_groq()
 
     def _init_ollama(self) -> Optional[Any]:
         """Initializes local Ollama model instance."""
@@ -106,12 +107,14 @@ class ZedGenerator:
         try:
             from langchain_google_genai import ChatGoogleGenerativeAI
 
-            gemini_model = getattr(settings, "GEMINI_MODEL", "gemini-3.5-flash")
+            gemini_model = getattr(settings, "GEMINI_MODEL", "gemini-3.8-flash")
             logger.info(f"Generator: Initializing Google Gemini ({gemini_model})")
             return ChatGoogleGenerativeAI(
                 model=gemini_model,
                 google_api_key=api_key,
-                temperature=0.1
+                temperature=0.1,
+                timeout=10.0,
+                max_retries=0,
             )
         except Exception as e:
             logger.warning(f"Generator: Failed to initialize Google Gemini: {e}")
@@ -130,10 +133,34 @@ class ZedGenerator:
             return ChatOpenAI(
                 model=openai_model,
                 api_key=api_key,
-                temperature=0.1
+                temperature=0.1,
+                timeout=10.0,
+                max_retries=0,
             )
         except Exception as e:
             logger.warning(f"Generator: Failed to initialize OpenAI: {e}")
+            return None
+
+    def _init_groq(self) -> Optional[Any]:
+        """Initializes Groq cloud model instance via OpenAI-compatible API."""
+        api_key = getattr(settings, "GROQ_API_KEY", None)
+        if not api_key or "your_" in api_key.lower():
+            return None
+        try:
+            from langchain_openai import ChatOpenAI
+
+            groq_model = getattr(settings, "GROQ_MODEL", "llama-3.3-70b-versatile")
+            logger.info(f"Generator: Initializing Groq ({groq_model})")
+            return ChatOpenAI(
+                model=groq_model,
+                api_key=api_key,
+                base_url="https://api.groq.com/openai/v1",
+                temperature=0.1,
+                timeout=30.0,
+                max_retries=1,
+            )
+        except Exception as e:
+            logger.warning(f"Generator: Failed to initialize Groq: {e}")
             return None
 
     def _invoke_llm(self, llm: Any, query: str, context: str, country: str, prompt_override: Optional[str] = None) -> Optional[str]:
@@ -155,7 +182,7 @@ class ZedGenerator:
             return None
 
     def _invoke_gemini(self, query: str, context: str, country: str, prompt_override: Optional[str] = None) -> Optional[str]:
-        """Invokes Gemini with multi-model fallback to handle temporary 503 capacity spikes."""
+        """Invokes Gemini with primary model and immediate fast fallback."""
         if self.gemini_llm:
             res = self._invoke_llm(self.gemini_llm, query, context, country, prompt_override=prompt_override)
             if res:
@@ -168,26 +195,24 @@ class ZedGenerator:
         try:
             from langchain_google_genai import ChatGoogleGenerativeAI
 
-            candidate_models = [
-                "gemini-3.5-flash-lite",
-                "gemini-3.5-flash",
-                "gemini-3.6-flash",
-                "gemini-3.7-flash",
-            ]
-            for model in candidate_models:
-                try:
-                    llm = ChatGoogleGenerativeAI(
-                        model=model,
-                        google_api_key=api_key,
-                        temperature=0.1,
-                    )
-                    res = self._invoke_llm(llm, query, context, country, prompt_override=prompt_override)
-                    if res:
-                        logger.info(f"Generator: Gemini fallback succeeded with model {model}")
-                        return res
-                except Exception as e:
-                    logger.debug(f"Generator: Gemini model {model} attempt failed: {e}")
-                    continue
+            configured_model = getattr(settings, "GEMINI_MODEL", "gemini-3.8-flash")
+            alt_model = getattr(settings, "GEMINI_FALLBACK_MODEL", "gemini-flash-lite-latest")
+            if alt_model == configured_model:
+                return None
+            try:
+                llm = ChatGoogleGenerativeAI(
+                    model=alt_model,
+                    google_api_key=api_key,
+                    temperature=0.1,
+                    timeout=10.0,
+                    max_retries=0,
+                )
+                res = self._invoke_llm(llm, query, context, country, prompt_override=prompt_override)
+                if res:
+                    logger.info(f"Generator: Gemini fallback succeeded with model {alt_model}")
+                    return res
+            except Exception as e:
+                logger.debug(f"Generator: Gemini alternate model {alt_model} failed: {e}")
         except Exception as e:
             logger.warning(f"Generator: Gemini fallback initialization failed: {e}")
 
@@ -196,53 +221,67 @@ class ZedGenerator:
     def _generate_with_cascade(
         self, query: str, context: str, country: str, prompt_override: Optional[str] = None
     ) -> Optional[str]:
-        """Runs generation through configured LLM providers in priority order."""
-        # 1. Explicit provider selection if configured
-        if self.provider == "gemini":
-            res = self._invoke_gemini(query, context, country, prompt_override=prompt_override)
-            if res:
-                return res
+        """Runs generation through configured LLM providers in priority order.
+
+        Primary cascade (default / 'gemini' / 'auto'):
+            Gemini (primary cloud) -> Groq (secondary cloud) -> Ollama (local edge).
+
+        Explicit single-provider modes ('ollama', 'openai', 'groq') are still honoured.
+        """
+        # --- Explicit local-only mode: Ollama ---
+        if self.provider == "ollama":
             if self.ollama_llm:
-                logger.info("Generator: Gemini cloud unavailable, falling back to local Ollama...")
-                res = self._invoke_llm(self.ollama_llm, query, context, country, prompt_override=prompt_override)
-                if res:
-                    return res
+                return self._invoke_llm(
+                    self.ollama_llm, query, context, country, prompt_override=prompt_override
+                )
+            return None
+
+        # --- Explicit OpenAI-only mode ---
+        if self.provider == "openai":
             if self.openai_llm:
-                logger.info("Generator: Falling back to OpenAI...")
-                res = self._invoke_llm(self.openai_llm, query, context, country, prompt_override=prompt_override)
+                return self._invoke_llm(
+                    self.openai_llm, query, context, country, prompt_override=prompt_override
+                )
+            return None
+
+        # --- Explicit Groq-primary mode: Groq -> Ollama ---
+        if self.provider == "groq":
+            if self.groq_llm:
+                res = self._invoke_llm(
+                    self.groq_llm, query, context, country, prompt_override=prompt_override
+                )
                 if res:
                     return res
-
-        if self.provider == "openai" and self.openai_llm:
-            res = self._invoke_llm(self.openai_llm, query, context, country, prompt_override=prompt_override)
-            if res:
-                return res
-
-        if self.provider == "ollama" and self.ollama_llm:
-            res = self._invoke_llm(self.ollama_llm, query, context, country, prompt_override=prompt_override)
-            if res:
-                return res
-
-        # 2. 'Auto' cascade: Gemini (Primary Cloud) -> Ollama (Edge Local) -> OpenAI
-        if self.provider == "auto":
-            # Primary: Google Gemini
-            res = self._invoke_gemini(query, context, country, prompt_override=prompt_override)
-            if res:
-                return res
-
-            # Secondary: Local Ollama
             if self.ollama_llm:
-                logger.info("Generator: Cascading to local Ollama generation...")
-                res = self._invoke_llm(self.ollama_llm, query, context, country, prompt_override=prompt_override)
-                if res:
-                    return res
+                logger.info("Generator: Groq unavailable, falling back to local Ollama...")
+                return self._invoke_llm(
+                    self.ollama_llm, query, context, country, prompt_override=prompt_override
+                )
+            return None
 
-            # Tertiary: OpenAI
-            if self.openai_llm:
-                logger.info("Generator: Cascading to OpenAI generation...")
-                res = self._invoke_llm(self.openai_llm, query, context, country, prompt_override=prompt_override)
-                if res:
-                    return res
+        # --- Primary cascade: Gemini -> Groq -> Ollama ---
+        # 1. Gemini (primary cloud)
+        res = self._invoke_gemini(query, context, country, prompt_override=prompt_override)
+        if res:
+            return res
+
+        # 2. Groq (secondary cloud)
+        if self.groq_llm:
+            logger.info("Generator: Gemini unavailable, falling back to Groq...")
+            res = self._invoke_llm(
+                self.groq_llm, query, context, country, prompt_override=prompt_override
+            )
+            if res:
+                return res
+
+        # 3. Ollama (local edge fallback)
+        if self.ollama_llm:
+            logger.info("Generator: Cloud providers unavailable, falling back to local Ollama...")
+            res = self._invoke_llm(
+                self.ollama_llm, query, context, country, prompt_override=prompt_override
+            )
+            if res:
+                return res
 
         return None
 

@@ -8,14 +8,17 @@ class Settings(BaseSettings):
     # API Keys
     OPENAI_API_KEY: Optional[str] = None
     GOOGLE_API_KEY: Optional[str] = None
+    GROQ_API_KEY: Optional[str] = None
     TWILIO_ACCOUNT_SID: Optional[str] = None
 
     # LLM & Translation Configuration
-    LLM_PROVIDER: str = "gemini"  # auto, ollama, gemini, openai
+    LLM_PROVIDER: str = "gemini"  # auto, ollama, gemini, openai, groq
     TRANSLATION_PROVIDER: str = "gemini"  # gemini, nllb
     MODEL_NAME: str = "qwen2.5:7b"
-    GEMINI_MODEL: str = "gemini-3.5-flash-lite"
+    GEMINI_MODEL: str = "gemini-3.8-flash"
+    GEMINI_FALLBACK_MODEL: str = "gemini-flash-lite-latest"
     OPENAI_MODEL: str = "gpt-4o-mini"
+    GROQ_MODEL: str = "llama-3.3-70b-versatile"
     EMBEDDING_MODEL: str = "BAAI/bge-m3"
 
     TWILIO_AUTH_TOKEN: Optional[str] = None

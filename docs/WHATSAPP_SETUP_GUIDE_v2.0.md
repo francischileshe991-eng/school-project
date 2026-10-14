@@ -56,7 +56,7 @@
  │  1. Multilingual Detector: Identifies en, bem, ny, or sn    │
  │  2. ChromaDB Dense Vector Search: BAAI/BGE-M3 (Top-4 docs)  │
  │  3. Curated Statutory Domain Isolation (ZRA, NRC, ZESCO...) │
- │  4. Hybrid Generation: Gemini 3.5 Flash-Lite / Qwen2.5 Edge │
+ │  4. Hybrid Generation: Gemini 3.8 Flash / Qwen2.5 Edge │
  │  5. Multilingual Translation: Meta NLLB-200 / Gemini        │
  │  6. Evaluation Logging: SQLite DB (`data/zedchatbot.db`)    │
  └──────────────────────────────┬──────────────────────────────┘

@@ -90,7 +90,7 @@ def get_relevant_context(self, query: str, country_code: str, threshold: float =
 ---
 
 ## 4. Multi-Provider Hybrid Generation (`src/rag/generator.py`)
-Demonstrates the multi-provider architecture supporting Google Gemini 3.5 Flash-Lite (primary high-speed cloud engine) with local Ollama (`qwen2.5:7b`) edge fallback and grounded factual failover.
+Demonstrates the multi-provider architecture supporting Google Gemini 3.8 Flash (primary high-speed cloud engine) with local Ollama (`qwen2.5:7b`) edge fallback and grounded factual failover.
 
 ```python
 class ZedGenerator:
@@ -104,7 +104,7 @@ class ZedGenerator:
         )
 
     def generate(self, query, context, country, language):
-        # 1. Primary: Google Gemini 3.5 Flash-Lite (sub-second cloud inference)
+        # 1. Primary: Google Gemini 3.8 Flash (sub-second cloud inference)
         # 2. Edge Fallback: Local Ollama (Qwen2.5:7b offline inference)
         # 3. Tertiary Fallback: OpenAI GPT-4o-mini
         # 4. Zero-hallucination Fallback: Clean verbatim excerpt from official gazettes

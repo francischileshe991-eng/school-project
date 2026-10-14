@@ -177,7 +177,8 @@ class ZedTranslator:
 
         try:
             from google import genai
-            client = genai.Client(api_key=api_key)
+            from google.genai import types
+            client = genai.Client(api_key=api_key, http_options=types.HttpOptions(timeout=10000))
         except Exception as e:
             logger.warning(f"Translator: Google GenAI client initialization failed: {e}")
             return None
@@ -227,19 +228,15 @@ class ZedTranslator:
             f"Text to Translate:\n{text}"
         )
 
-        candidate_models = [
-            getattr(settings, "GEMINI_MODEL", "gemini-3.5-flash-lite"),
-            "gemini-3.5-flash-lite",
-            "gemini-3.1-flash-lite",
-            "gemini-3.5-flash",
-            "gemini-3.6-flash",
-            "gemini-3.7-flash",
+        models_to_try = [
+            getattr(settings, "GEMINI_MODEL", "gemini-3.8-flash"),
+            getattr(settings, "GEMINI_FALLBACK_MODEL", "gemini-flash-lite-latest"),
         ]
-        # Deduplicate while preserving order
+        # Deduplicate while preserving order, max 2 attempts
         seen = set()
-        models_to_try = [m for m in candidate_models if not (m in seen or seen.add(m))]
+        deduped = [m for m in models_to_try if not (m in seen or seen.add(m))][:2]
 
-        for model in models_to_try:
+        for model in deduped:
             try:
                 resp = client.models.generate_content(model=model, contents=prompt)
                 if resp and resp.text:
@@ -253,7 +250,54 @@ class ZedTranslator:
                 logger.debug(f"Translator: Gemini model {model} translation attempt failed: {e}")
                 continue
 
-        logger.warning("Translator: All Gemini model translation attempts failed, falling back to local pipeline.")
+        logger.warning("Translator: All Gemini model translation attempts failed, falling back to Groq.")
+        return None
+
+    def _translate_with_groq(self, text: str, source: str, target: str) -> Optional[str]:
+        """Translates text using Groq's fast inference API as a fallback to Gemini."""
+        api_key = getattr(settings, "GROQ_API_KEY", None)
+        if not api_key or "your_" in api_key.lower():
+            return None
+
+        lang_names = {
+            "en": "English",
+            "bem": "Bemba (Icibemba) as spoken in Zambia",
+            "ny": "Nyanja / Chichewa as spoken in Zambia",
+            "sn": "Shona (ChiShona) as spoken in Zimbabwe",
+        }
+        source_name = lang_names.get(source, source)
+        target_name = lang_names.get(target, target)
+
+        prompt = (
+            f"You are an expert Southern African translator. "
+            f"Translate the following text faithfully from {source_name} into {target_name}.\n"
+            f"Rules: Output ONLY the translated text. No notes, no explanations. "
+            f"Keep institutional acronyms (NRC, ZRA, NHIMA, ZESCO, UNZA, ECZ, RTSA, PACRA, Kwacha) verbatim. "
+            f"Preserve all markdown formatting and paragraph structure.\n\n"
+            f"Text to translate:\n{text}"
+        )
+
+        try:
+            from langchain_openai import ChatOpenAI
+            from langchain_core.messages import HumanMessage
+
+            groq_model = getattr(settings, "GROQ_MODEL", "qwen/qwen3.8-27b")
+            llm = ChatOpenAI(
+                model=groq_model,
+                api_key=api_key,
+                base_url="https://api.groq.com/openai/v1",
+                temperature=0.1,
+                timeout=20.0,
+                max_retries=1,
+            )
+            result = llm.invoke([HumanMessage(content=prompt)])
+            out = result.content.strip() if result and result.content else None
+            if out:
+                logger.info(f"Translator: Translated via Groq ({source} -> {target})")
+                return out
+        except Exception as e:
+            logger.warning(f"Translator: Groq translation failed: {e}")
+
         return None
 
     def translate(self, text: str, source: str = "en", target: str = "en") -> str:
@@ -276,6 +320,15 @@ class ZedTranslator:
             if gemini_result:
                 logger.info(f"Translator: Translated via Gemini ({source} -> {target})")
                 return normalize_typography(gemini_result)
+            # Gemini failed — try Groq as cloud fallback before NLLB
+            groq_result = self._translate_with_groq(text_clean, source, target)
+            if groq_result:
+                return normalize_typography(groq_result)
+
+        if provider == "groq":
+            groq_result = self._translate_with_groq(text_clean, source, target)
+            if groq_result:
+                return normalize_typography(groq_result)
 
         # Fallback path: Local NLLB-200 Neural Machine Translation
         protected_text, placeholder_map = self._protect_keywords(text_clean)

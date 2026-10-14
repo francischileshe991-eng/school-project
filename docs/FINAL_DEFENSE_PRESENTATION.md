@@ -45,7 +45,7 @@
   - FastAPI asynchronous server with lifespan management.
   - Hybrid Language Classifier (Keyword frequency + `langdetect`).
   - LangChain RAG pipeline manager.
-  - Hybrid Cloud-Edge LLM Cascade: Google Gemini 3.5 Flash-Lite (Primary Cloud) $\rightarrow$ Local Ollama Qwen2.5:7b (Edge Offline Fallback) $\rightarrow$ Grounded Fallback.
+  - Hybrid Cloud-Edge LLM Cascade: Google Gemini 3.8 Flash (Primary Cloud) $\rightarrow$ Local Ollama Qwen2.5:7b (Edge Offline Fallback) $\rightarrow$ Grounded Fallback.
   - Protected Entity Neural Translation (Google Gemini & Meta NLLB-200).
 - **Data Tier**:
   - Country-partitioned ChromaDB vector stores (`vector_store/zm/` and `vector_store/zw/`).
@@ -126,7 +126,7 @@
 
 ## Slide 12: Limitations & Future Work
 - **Limitations**:
-  - Response latency on consumer CPU hardware ($27.3s$ avg when executing full offline local NLLB-200 + Qwen2.5 stack; optimized to $<1.2s$ in production via Google Gemini 3.5 Flash-Lite).
+  - Response latency on consumer CPU hardware ($27.3s$ avg when executing full offline local NLLB-200 + Qwen2.5 stack; optimized to $<1.2s$ in production via Google Gemini 3.8 Flash).
   - Purely informational (does not execute stateful financial transactions).
 - **Future Enhancements**:
   - Voice note input/output for illiterate citizens via African-accented Whisper models.
@@ -158,6 +158,6 @@
 **Answer**:  
 *"In our approved project proposal, the target evaluation threshold was set at 30 participants. We recruited 35 diverse respondents across university students (45.7%), civil servants (25.7%), market business owners (17.1%), and general citizens (11.4%). In terms of psychometric reliability, the instrument achieved a Cronbach's Alpha of $\alpha = 0.9084$, well above the accepted statistical threshold of 0.70. Furthermore, our findings replicate and validate the structural relationships established in prior peer-reviewed Zambian TAM literature by Sakala & Phiri (2019) and Soneka & Phiri (2019)."*
 
-### Q4: *"Why did you configure Google Gemini 3.5 Flash-Lite as the primary production engine instead of relying solely on local Ollama?"*
+### Q4: *"Why did you configure Google Gemini 3.8 Flash as the primary production engine instead of relying solely on local Ollama?"*
 **Answer**:  
-*"We implemented a Hybrid Cloud-Edge architecture to balance real-world performance with digital sovereignty. On standard hosting hardware without enterprise GPU accelerators, running local 7B inference alongside local neural translation takes 25 to 30 seconds per query, which impairs conversational usability and risks Twilio HTTP timeout disconnections on WhatsApp. Google Gemini 3.5 Flash-Lite reduces end-to-end latency to under 1.2 seconds, provides high free-tier throughput without quota exhaustion, and outputs natural contemporary Zambian phrasing for Bemba and Nyanja. Crucially, local Ollama (`Qwen2.5:7b`) and Meta NLLB-200 are preserved as an automatic edge fallback, ensuring that if external internet connectivity drops or air-gapped privacy is required, the system remains fully functional offline."*
+*"We implemented a Hybrid Cloud-Edge architecture to balance real-world performance with digital sovereignty. On standard hosting hardware without enterprise GPU accelerators, running local 7B inference alongside local neural translation takes 25 to 30 seconds per query, which impairs conversational usability and risks Twilio HTTP timeout disconnections on WhatsApp. Google Gemini 3.8 Flash reduces end-to-end latency to under 1.2 seconds, provides high free-tier throughput without quota exhaustion, and outputs natural contemporary Zambian phrasing for Bemba and Nyanja. Crucially, local Ollama (`Qwen2.5:7b`) and Meta NLLB-200 are preserved as an automatic edge fallback, ensuring that if external internet connectivity drops or air-gapped privacy is required, the system remains fully functional offline."*

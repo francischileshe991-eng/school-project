@@ -37,11 +37,11 @@ ZedChatBot is a production-grade, culturally anchored, multilingual conversation
  │  2. Dense Vector Store: ChromaDB with BAAI/BGE-M3 Multilingual Embeddings   │
  │  3. Domain Isolation: Curated Statutory Filtering (ZRA, NRC, ZESCO, etc.)  │
  │  4. Multi-Provider LLM Cascade:                                             │
- │     - Primary: Google Gemini 3.5 Flash-Lite (High speed cloud)              │
+ │     - Primary: Google Gemini 3.8 Flash (High speed cloud)              │
  │     - Edge Fallback: Local Ollama with Qwen2.5:7b (Offline sovereign AI)    │
  │     - Third-line: OpenAI GPT-4o-mini                                        │
  │     - Failsafe: Grounded Context Excerpt                                    │
- │  5. Multilingual Translation: Meta NLLB-200 / Gemini 3.5 Flash              │
+ │  5. Multilingual Translation: Meta NLLB-200 / Gemini 3.8 Flash              │
  └────────────────────────────────────────┬────────────────────────────────────┘
                                           │
                                           ▼
@@ -150,7 +150,7 @@ class ZedVectorStore:
 Implements a four-tier provider cascade to guarantee zero downtime and eliminate single-point-of-failure vulnerabilities:
 
 ```
- Tier 1: Google Gemini 3.5 Flash-Lite (Ultra-fast Cloud Engine)
+ Tier 1: Google Gemini 3.8 Flash (Ultra-fast Cloud Engine)
                          │
                          ▼ (On rate limit / cloud failure)
  Tier 2: Local Ollama Qwen2.5:7b (Sovereign Offline Edge LLM)
