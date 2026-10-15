@@ -209,7 +209,10 @@ class ZedGenerator:
                 )
                 res = self._invoke_llm(llm, query, context, country, prompt_override=prompt_override)
                 if res:
-                    logger.info(f"Generator: Gemini fallback succeeded with model {alt_model}")
+                    if _is_refusal(res):
+                        logger.info(f"Generator: Gemini fallback model {alt_model} returned a refusal.")
+                    else:
+                        logger.info(f"Generator: Gemini fallback succeeded with model {alt_model}")
                     return res
             except Exception as e:
                 logger.debug(f"Generator: Gemini alternate model {alt_model} failed: {e}")
@@ -260,30 +263,46 @@ class ZedGenerator:
             return None
 
         # --- Primary cascade: Gemini -> Groq -> Ollama ---
-        # 1. Gemini (primary cloud)
-        res = self._invoke_gemini(query, context, country, prompt_override=prompt_override)
-        if res:
-            return res
+        # Prefer a genuine (non-refusal) answer at each tier. If a provider only
+        # returns a refusal, keep escalating to the next provider instead of
+        # stopping there and dropping straight to the document excerpt.
+        last_answer: Optional[str] = None
+
+        # 1. Gemini (primary cloud: primary model with light-model fallback)
+        gemini_res = self._invoke_gemini(query, context, country, prompt_override=prompt_override)
+        if gemini_res and not _is_refusal(gemini_res):
+            return gemini_res
+        if gemini_res:
+            last_answer = gemini_res
+            logger.info("Generator: Gemini returned a refusal; escalating to Groq...")
 
         # 2. Groq (secondary cloud)
+        groq_res: Optional[str] = None
         if self.groq_llm:
-            logger.info("Generator: Gemini unavailable, falling back to Groq...")
-            res = self._invoke_llm(
+            if not gemini_res:
+                logger.info("Generator: Gemini unavailable, falling back to Groq...")
+            groq_res = self._invoke_llm(
                 self.groq_llm, query, context, country, prompt_override=prompt_override
             )
-            if res:
-                return res
+            if groq_res and not _is_refusal(groq_res):
+                return groq_res
+            if groq_res:
+                last_answer = groq_res
+                logger.info("Generator: Groq returned a refusal; escalating to local Ollama...")
 
         # 3. Ollama (local edge fallback)
         if self.ollama_llm:
-            logger.info("Generator: Cloud providers unavailable, falling back to local Ollama...")
-            res = self._invoke_llm(
+            if not gemini_res and not groq_res:
+                logger.info("Generator: Cloud providers unavailable, falling back to local Ollama...")
+            ollama_res = self._invoke_llm(
                 self.ollama_llm, query, context, country, prompt_override=prompt_override
             )
-            if res:
-                return res
+            if ollama_res and not _is_refusal(ollama_res):
+                return ollama_res
+            if ollama_res:
+                last_answer = ollama_res
 
-        return None
+        return last_answer
 
     def generate(self, query: str, context: str, country: str, language: str) -> str:
         """Generates a response based on query and retrieved context using provider cascade with refusal consistency."""
