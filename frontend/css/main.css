@@ -1,50 +1,56 @@
 /* ==========================================================================
-   DeepSeek-Inspired Theme & Design Tokens
-   ZedChatBot for African Community
+   Zedchatbot — African Community Theme & Design Tokens
+   Palette: Zambian flag colours (green, red, black, orange) + warm earth tones
+   Motifs : chitenge / kitenge textile patterns
    ========================================================================== */
 
 :root {
-  /* Core Color System (DeepSeek Light Mode Signature) */
-  --bg-base: #f8fafc;
+  /* Core Surfaces (warm sand / cream) */
+  --bg-base: #faf6ef;
   --bg-surface: #ffffff;
-  --bg-surface-elevated: #ffffff;
-  --bg-subtle: #f1f5f9;
-  --bg-pill: #f1f5f9;
-  --bg-pill-hover: #e2e8f0;
+  --bg-surface-elevated: #fffdfa;
+  --bg-subtle: #f4ece0;
+  --bg-pill: #f4ece0;
+  --bg-pill-hover: #eadfcd;
 
   /* Layout & Container Elements */
-  --nav-bg: rgba(248, 250, 252, 0.85);
-  --nav-border: rgba(226, 232, 240, 0.7);
-  --dock-bg: linear-gradient(to top, rgba(248, 250, 252, 0.95) 75%, transparent);
-  --heading-color: #1e293b;
+  --nav-bg: rgba(250, 246, 239, 0.85);
+  --nav-border: rgba(120, 90, 60, 0.14);
+  --dock-bg: linear-gradient(to top, rgba(250, 246, 239, 0.96) 75%, transparent);
+  --heading-color: #3d2b1c;
 
   /* Typography Colors */
-  --text-primary: #0f172a;       /* Deep slate for crisp readability */
-  --text-secondary: #475569;     /* Balanced body text */
-  --text-muted: #64748b;         /* Subtext & placeholders */
-  --text-subtle: #94a3b8;        /* Very light metadata */
+  --text-primary: #2b2118;       /* Deep warm charcoal-brown */
+  --text-secondary: #5c4a38;     /* Balanced body text */
+  --text-muted: #8a745c;         /* Subtext & placeholders */
+  --text-subtle: #a89680;        /* Very light metadata */
 
-  /* Brand Accents (DeepSeek Signature Blue + Zambian Emerald Highlight) */
-  --brand-blue: #2563eb;         /* Vibrant DeepSeek Blue */
-  --brand-blue-hover: #1d4ed8;
-  --brand-blue-light: #eff6ff;
-  --brand-blue-border: #bfdbfe;
-  --brand-blue-glow: rgba(37, 99, 235, 0.25);
+  /* Brand Accent (Zambian emerald green) */
+  --brand-primary: #157a4c;
+  --brand-primary-hover: #0f6240;
+  --brand-primary-light: #e7f3ec;
+  --brand-primary-border: #b6dcc6;
+  --brand-primary-glow: rgba(21, 122, 76, 0.28);
 
-  --accent-emerald: #10b981;     /* Zambian Emerald for badges */
-  --accent-emerald-light: #ecfdf5;
+  /* Earth & Flag Accents */
+  --accent-copper: #c1502e;      /* Terracotta / copper */
+  --accent-copper-light: #fbeae2;
+  --accent-ochre: #d98a1f;       /* Sunset ochre */
+  --accent-red: #c8341f;         /* Zambian flag red */
+  --accent-flag-green: #198a00;  /* Zambian flag green */
+  --accent-flag-black: #10100f;  /* Zambian flag black */
 
-  /* Borders & Grid */
-  --border-light: #e2e8f0;
-  --border-card: #e2e8f0;
-  --border-focus: #3b82f6;
-  --grid-line: rgba(226, 232, 240, 0.65);
+  /* Borders */
+  --border-light: #e8ddcc;
+  --border-card: #e3d6c3;
+  --border-hover: #d8c4a8;
+  --border-focus: #157a4c;
 
-  /* Shadows */
-  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.04);
-  --shadow-card: 0 10px 30px -4px rgba(15, 23, 42, 0.06), 0 4px 12px -2px rgba(15, 23, 42, 0.03);
-  --shadow-elevated: 0 20px 40px -10px rgba(15, 23, 42, 0.08), 0 8px 16px -4px rgba(15, 23, 42, 0.04);
-  --shadow-btn: 0 4px 14px rgba(37, 99, 235, 0.35);
+  /* Shadows (warm) */
+  --shadow-sm: 0 1px 2px 0 rgba(61, 43, 28, 0.06);
+  --shadow-card: 0 12px 30px -6px rgba(61, 43, 28, 0.14), 0 4px 12px -2px rgba(61, 43, 28, 0.06);
+  --shadow-elevated: 0 22px 44px -12px rgba(61, 43, 28, 0.2), 0 8px 18px -6px rgba(61, 43, 28, 0.08);
+  --shadow-btn: 0 4px 14px rgba(21, 122, 76, 0.34);
 
   /* Radii */
   --radius-full: 9999px;
@@ -56,50 +62,61 @@
   /* Font Family */
   --font-sans: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --font-mono: 'JetBrains Mono', monospace;
+
+  /* Chitenge textile tile (concentric diamonds + lattice) */
+  --chitenge-tile: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='84' height='84' viewBox='0 0 84 84'%3E%3Cg fill='none' stroke='%23157a4c' stroke-width='1.3' opacity='0.14'%3E%3Cpath d='M42 6 L78 42 L42 78 L6 42 Z'/%3E%3Cpath d='M42 20 L64 42 L42 64 L20 42 Z'/%3E%3C/g%3E%3Cg fill='%23c1502e' opacity='0.12'%3E%3Cpath d='M0 -12 L12 0 L0 12 L-12 0 Z'/%3E%3Cpath d='M84 -12 L96 0 L84 12 L72 0 Z'/%3E%3Cpath d='M0 72 L12 84 L0 96 L-12 84 Z'/%3E%3Cpath d='M84 72 L96 84 L84 96 L72 84 Z'/%3E%3C/g%3E%3Ccircle cx='42' cy='42' r='3' fill='%23d98a1f' opacity='0.18'/%3E%3C/svg%3E");
+
+  /* Zambian flag zig-zag accent band */
+  --flag-band: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='12' viewBox='0 0 60 12'%3E%3Crect width='60' height='3' fill='%23198a00'/%3E%3Crect y='3' width='60' height='9' fill='%2310100f'/%3E%3Cpath d='M0 12 L15 3 L30 12 Z' fill='%23c8341f'/%3E%3Cpath d='M30 12 L45 3 L60 12 Z' fill='%23d98a1f'/%3E%3C/svg%3E");
 }
 
-/* Dark Mode Tokens */
+/* Dark Mode Tokens (warm savanna night) */
 [data-theme="dark"] {
-  --bg-base: #0b0f19;
-  --bg-surface: #111827;
-  --bg-surface-elevated: #1a2234;
-  --bg-subtle: #1e293b;
-  --bg-pill: #1a2234;
-  --bg-pill-hover: #26334d;
+  --bg-base: #16120f;
+  --bg-surface: #211a15;
+  --bg-surface-elevated: #2a211a;
+  --bg-subtle: #2a211a;
+  --bg-pill: #2a211a;
+  --bg-pill-hover: #3a2d23;
 
   /* Layout & Container Elements */
-  --nav-bg: rgba(11, 15, 25, 0.88);
+  --nav-bg: rgba(22, 18, 15, 0.9);
   --nav-border: rgba(255, 255, 255, 0.08);
-  --dock-bg: linear-gradient(to top, rgba(11, 15, 25, 0.98) 75%, transparent);
-  --heading-color: #f8fafc;
+  --dock-bg: linear-gradient(to top, rgba(22, 18, 15, 0.98) 75%, transparent);
+  --heading-color: #f7efe4;
 
   /* Typography */
-  --text-primary: #f8fafc;
-  --text-secondary: #cbd5e1;
-  --text-muted: #94a3b8;
-  --text-subtle: #64748b;
+  --text-primary: #f7efe4;
+  --text-secondary: #d8c8b6;
+  --text-muted: #a89680;
+  --text-subtle: #7d6b58;
 
-  /* Brand Accents */
-  --brand-blue: #3b82f6;
-  --brand-blue-hover: #60a5fa;
-  --brand-blue-light: rgba(59, 130, 246, 0.15);
-  --brand-blue-border: rgba(59, 130, 246, 0.35);
-  --brand-blue-glow: rgba(59, 130, 246, 0.4);
+  /* Brand Accent */
+  --brand-primary: #2fa06a;
+  --brand-primary-hover: #46b57f;
+  --brand-primary-light: rgba(47, 160, 106, 0.16);
+  --brand-primary-border: rgba(47, 160, 106, 0.4);
+  --brand-primary-glow: rgba(47, 160, 106, 0.45);
 
-  --accent-emerald: #10b981;
-  --accent-emerald-light: rgba(16, 185, 129, 0.15);
+  /* Earth & Flag Accents */
+  --accent-copper: #d4673f;
+  --accent-copper-light: rgba(212, 103, 63, 0.16);
+  --accent-ochre: #e19f3a;
 
-  /* Borders & Grid */
+  /* Borders */
   --border-light: rgba(255, 255, 255, 0.09);
   --border-card: rgba(255, 255, 255, 0.1);
-  --border-focus: #3b82f6;
-  --grid-line: rgba(255, 255, 255, 0.04);
+  --border-hover: rgba(255, 255, 255, 0.22);
+  --border-focus: #2fa06a;
 
   /* Shadows */
   --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.4);
-  --shadow-card: 0 12px 36px -4px rgba(0, 0, 0, 0.55), 0 4px 16px -2px rgba(0, 0, 0, 0.35);
-  --shadow-elevated: 0 20px 44px -8px rgba(0, 0, 0, 0.7), 0 8px 20px -4px rgba(0, 0, 0, 0.45);
-  --shadow-btn: 0 4px 16px rgba(59, 130, 246, 0.45);
+  --shadow-card: 0 12px 36px -6px rgba(0, 0, 0, 0.6), 0 4px 16px -4px rgba(0, 0, 0, 0.4);
+  --shadow-elevated: 0 22px 48px -12px rgba(0, 0, 0, 0.72), 0 8px 20px -6px rgba(0, 0, 0, 0.5);
+  --shadow-btn: 0 4px 16px rgba(47, 160, 106, 0.45);
+
+  /* Chitenge textile tile (dark) */
+  --chitenge-tile: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='84' height='84' viewBox='0 0 84 84'%3E%3Cg fill='none' stroke='%232fa06a' stroke-width='1.3' opacity='0.16'%3E%3Cpath d='M42 6 L78 42 L42 78 L6 42 Z'/%3E%3Cpath d='M42 20 L64 42 L42 64 L20 42 Z'/%3E%3C/g%3E%3Cg fill='%23d4673f' opacity='0.14'%3E%3Cpath d='M0 -12 L12 0 L0 12 L-12 0 Z'/%3E%3Cpath d='M84 -12 L96 0 L84 12 L72 0 Z'/%3E%3Cpath d='M0 72 L12 84 L0 96 L-12 84 Z'/%3E%3Cpath d='M84 72 L96 84 L84 96 L72 84 Z'/%3E%3C/g%3E%3Ccircle cx='42' cy='42' r='3' fill='%23e19f3a' opacity='0.2'/%3E%3C/svg%3E");
 }
 
 /* Base Reset & Geometry */
@@ -122,27 +139,26 @@ html, body {
 body {
   background-color: var(--bg-base);
   background-image:
-    radial-gradient(ellipse 900px 500px at 50% 120px, rgba(219, 234, 254, 0.75) 0%, rgba(239, 246, 255, 0.45) 45%, transparent 75%),
-    radial-gradient(circle at 10% 20%, rgba(224, 231, 255, 0.35) 0%, transparent 40%),
-    radial-gradient(circle at 90% 30%, rgba(219, 234, 254, 0.35) 0%, transparent 40%),
-    linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
-    linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px);
-  background-size: 100% 100%, 100% 100%, 100% 100%, 72px 72px, 72px 72px;
-  background-position: center top, center top, center top, center top, center top;
-  background-repeat: no-repeat, no-repeat, no-repeat, repeat, repeat;
+    radial-gradient(ellipse 900px 520px at 50% 90px, rgba(217, 138, 31, 0.12) 0%, rgba(217, 138, 31, 0.04) 45%, transparent 72%),
+    radial-gradient(circle at 88% 14%, rgba(193, 80, 46, 0.1) 0%, transparent 42%),
+    radial-gradient(circle at 8% 22%, rgba(21, 122, 76, 0.08) 0%, transparent 40%),
+    var(--chitenge-tile);
+  background-size: 100% 100%, 100% 100%, 100% 100%, 84px 84px;
+  background-position: center top, center top, center top, center top;
+  background-repeat: no-repeat, no-repeat, no-repeat, repeat;
   background-attachment: fixed;
   display: flex;
   flex-direction: column;
 }
 
 [data-theme="dark"] body {
-  background-color: #0b0f19;
+  background-color: #16120f;
   background-image:
-    radial-gradient(ellipse 900px 500px at 50% 120px, rgba(30, 58, 138, 0.38) 0%, rgba(15, 23, 42, 0.5) 45%, transparent 75%),
-    radial-gradient(circle at 10% 20%, rgba(67, 56, 202, 0.22) 0%, transparent 40%),
-    radial-gradient(circle at 90% 30%, rgba(30, 58, 138, 0.25) 0%, transparent 40%),
-    linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
-    linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px);
+    radial-gradient(ellipse 900px 520px at 50% 90px, rgba(217, 138, 31, 0.12) 0%, transparent 70%),
+    radial-gradient(circle at 88% 14%, rgba(212, 103, 63, 0.12) 0%, transparent 42%),
+    radial-gradient(circle at 8% 22%, rgba(47, 160, 106, 0.1) 0%, transparent 40%),
+    var(--chitenge-tile);
+  background-size: 100% 100%, 100% 100%, 100% 100%, 84px 84px;
 }
 
 /* Theme Toggle Button Icons */
@@ -172,13 +188,13 @@ body {
 }
 
 ::selection {
-  background: rgba(37, 99, 235, 0.18);
-  color: #1e3a8a;
+  background: rgba(21, 122, 76, 0.18);
+  color: #0f3d26;
 }
 
 [data-theme="dark"] ::selection {
-  background: rgba(59, 130, 246, 0.35);
-  color: #eff6ff;
+  background: rgba(47, 160, 106, 0.35);
+  color: #eafff4;
 }
 
 .sr-only {

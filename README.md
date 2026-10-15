@@ -91,7 +91,7 @@ Accessing vital public service records—such as National Registration Cards (NR
 ## 3. Key Features
 
 1. **Dual-Channel Deployment**:
-   - **Web Interface**: Sleek, accessible, mobile-responsive chat application inspired by modern conversational design (central input capsule, luminous grid backdrop, instant dark/light mode toggle, dedicated country and language dropdowns, vector SVG prompt chips, verified source citations, and real-time 👍/👎 feedback logging).
+   - **Web Interface**: Sleek, accessible, mobile-responsive chat application with a culturally anchored African design (chitenge/kitenge textile motifs, Zambian flag colour accents, a warm earth-tone palette, and a framed African-artwork hero), an instant dark/light mode toggle, dedicated country and language dropdowns, vector SVG prompt chips, verified source citations, and real-time 👍/👎 feedback logging.
    - **WhatsApp Integration**: Fully compatible with the official Twilio WhatsApp Sandbox (`+1 415 523 8886`) and live number (`+260 953805423`), enabling access for low-bandwidth users on basic smartphones without mobile data bundles.
 
 2. **True Multilingual Auto-Detection**:

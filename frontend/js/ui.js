@@ -138,7 +138,7 @@ export const UI = {
     }
   },
 
-  appendMessage(text, role, sources = [], interactionId = null, onFeedback = null) {
+  appendMessage(text, role, sources = [], interactionId = null, onFeedback = null, lang = null, onRetry = null) {
     const container = this.messagesContainer;
     if (!container) return;
 
@@ -157,6 +157,7 @@ export const UI = {
       const card = document.createElement("article");
       card.className = "message-card-bot";
       card.setAttribute("role", "status");
+      if (lang) card.setAttribute("lang", lang);
 
       // Bot Card Header with Mini Avatar
       const header = document.createElement("div");
@@ -227,7 +228,7 @@ export const UI = {
         footer.className = "bot-card-footer";
         footer.innerHTML = `
           <div class="feedback-controls">
-            <span style="font-size: 0.775rem; color: #64748b; font-weight: 500; margin-right: 0.25rem;">Accurate?</span>
+            <span style="font-size: 0.775rem; color: var(--text-muted); font-weight: 500; margin-right: 0.25rem;">Accurate?</span>
           </div>
         `;
 
@@ -266,7 +267,30 @@ export const UI = {
     } else if (role === "error") {
       const errCard = document.createElement("div");
       errCard.className = "message-card-error";
-      errCard.textContent = text;
+
+      const errText = document.createElement("span");
+      errText.className = "error-text";
+      errText.textContent = text;
+      errCard.appendChild(errText);
+
+      if (onRetry) {
+        const retryBtn = document.createElement("button");
+        retryBtn.type = "button";
+        retryBtn.className = "error-retry-btn";
+        retryBtn.innerHTML = `
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="23 4 23 10 17 10"></polyline>
+            <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path>
+          </svg>
+          <span>Try again</span>
+        `;
+        retryBtn.addEventListener("click", () => {
+          retryBtn.disabled = true;
+          onRetry();
+        });
+        errCard.appendChild(retryBtn);
+      }
+
       row.appendChild(errCard);
     }
 

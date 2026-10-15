@@ -7,17 +7,44 @@
   <title>Zedchatbot | African Community Assistant</title>
   <meta name="description"
     content="A multilingual AI assistant for Zambian and Zimbabwean communities, powered by Grounded RAG technology." />
+  <meta name="theme-color" content="#157a4c" />
+  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#16120f" />
+
+  <!-- Icons -->
   <link rel="icon" href="./assets/images/logo.jpeg" type="image/jpeg" />
-  <!-- Google Fonts: Outfit for sleek modern DeepSeek-like typography -->
+  <link rel="apple-touch-icon" href="./assets/images/logo.jpeg" />
+
+  <!-- Social preview (Open Graph / Twitter) -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Zedchatbot | African Community Assistant" />
+  <meta property="og:description"
+    content="Instant, grounded answers on public IDs, tariffs, admissions and civic services for Zambian and Zimbabwean communities." />
+  <meta property="og:image" content="./assets/images/hero-art-ndebele.jpg" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Zedchatbot | African Community Assistant" />
+  <meta name="twitter:description"
+    content="Instant, grounded answers on public IDs, tariffs, admissions and civic services." />
+  <meta name="twitter:image" content="./assets/images/hero-art-ndebele.jpg" />
+
+  <!-- Google Fonts: Outfit for clean, modern typography -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link
-    href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
     rel="stylesheet" />
+
+  <!-- Preload the hero artwork (largest contentful paint) -->
+  <link rel="preload" as="image" href="./assets/images/hero-art-ndebele.webp" type="image/webp"
+    fetchpriority="high" />
+  <!--
+    Hero artwork attribution (CC BY 4.0):
+    "Ndebele Architecture" by Angela Abel — https://commons.wikimedia.org/wiki/File:Ndebele_Architecture.jpg
+    Licensed under Creative Commons Attribution 4.0 (https://creativecommons.org/licenses/by/4.0/)
+    -->
   <!-- Modular Styles -->
-  <link rel="stylesheet" href="./css/main.css?v=8" />
-  <link rel="stylesheet" href="./css/layout.css?v=8" />
-  <link rel="stylesheet" href="./css/components.css?v=8" />
+  <link rel="stylesheet" href="./css/main.css?v=15" />
+  <link rel="stylesheet" href="./css/layout.css?v=15" />
+  <link rel="stylesheet" href="./css/components.css?v=15" />
 
 </head>
 
@@ -98,11 +125,14 @@
   <!-- Main Container -->
   <main class="main-viewport" id="main-viewport">
 
-    <!-- Hero Section (DeepSeek Landing State) -->
+    <!-- Hero Section — chitenge-framed African artwork -->
     <section class="hero-stage" id="hero-stage">
-      <!-- Headline -->
-      <h1 class="hero-headline">For the African Community</h1>
-      <p class="hero-subtext">Instant answers on public IDs, tariffs, admissions, and civic services.</p>
+      <div class="hero-inner">
+        <div class="hero-panel">
+          <h1 class="hero-headline">For the African Community</h1>
+          <p class="hero-subtext">Instant answers on public IDs, tariffs, admissions, and civic services.</p>
+        </div>
+      </div>
     </section>
 
     <!-- Messages Container (Visible during active conversation) -->
@@ -112,17 +142,17 @@
       </div>
     </section>
 
-    <!-- DeepSeek Input Capsule Card (Central in Hero, Docked in Chat) -->
+    <!-- Chat Input Capsule Card (Centred in Hero, Docked in Chat) -->
     <section class="input-stage" id="input-stage">
-      <form id="chat-form" class="deepseek-input-card">
+      <form id="chat-form" class="chat-input-card">
         <!-- Textarea input -->
-        <textarea id="message" name="message" class="deepseek-textarea" placeholder="Ask anything, explore together..."
+        <textarea id="message" name="message" class="chat-textarea" placeholder="Ask anything, explore together..."
           rows="1" maxlength="2000" autocomplete="off" required></textarea>
 
         <!-- Bottom Toolbar inside the input card -->
         <div class="card-toolbar">
           <div class="toolbar-right">
-            <!-- Circular Blue Send Button with Upward Arrow -->
+            <!-- Circular Green Send Button with Upward Arrow -->
             <button type="submit" id="send-btn" class="send-circle-btn" aria-label="Send message">
               <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5"
                 stroke-linecap="round" stroke-linejoin="round">
@@ -134,81 +164,9 @@
         </div>
       </form>
 
-      <!-- Suggestion Prompt Chips (Directly below input) -->
+      <!-- Suggestion Prompt Chips (rendered per selected country) -->
       <div class="suggestions-stage" id="suggestions-stage">
-        <div class="suggestions-grid">
-          <button type="button" class="suggestion-chip" data-prompt="What are the 2026 ZESCO electricity tariffs?">
-            <span class="chip-svg-wrap">
-              <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"
-                stroke-linecap="round" stroke-linejoin="round">
-                <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
-              </svg>
-            </span>
-            <span>2026 ZESCO Tariffs</span>
-          </button>
-          <button type="button" class="suggestion-chip"
-            data-prompt="How do I apply for a National Registration Card (NRC)?">
-            <span class="chip-svg-wrap">
-              <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"
-                stroke-linecap="round" stroke-linejoin="round">
-                <rect x="3" y="4" width="18" height="16" rx="2"></rect>
-                <line x1="7" y1="8" x2="11" y2="8"></line>
-                <line x1="7" y1="12" x2="17" y2="12"></line>
-                <line x1="7" y1="16" x2="13" y2="16"></line>
-              </svg>
-            </span>
-            <span>Green NRC Card</span>
-          </button>
-          <button type="button" class="suggestion-chip" data-prompt="What are the requirements for applying to UNZA?">
-            <span class="chip-svg-wrap">
-              <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"
-                stroke-linecap="round" stroke-linejoin="round">
-                <path d="M22 10v6M2 10l10-5 10 5-10 5z"></path>
-                <path d="M6 12v5c3 3 9 3 12 0v-5"></path>
-              </svg>
-            </span>
-            <span>UNZA Admission</span>
-          </button>
-          <button type="button" class="suggestion-chip" data-prompt="How do I contribute to NHIMA health insurance?">
-            <span class="chip-svg-wrap">
-              <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"
-                stroke-linecap="round" stroke-linejoin="round">
-                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
-                <line x1="12" y1="8" x2="12" y2="14"></line>
-                <line x1="9" y1="11" x2="15" y2="11"></line>
-              </svg>
-            </span>
-            <span>NHIMA Insurance</span>
-          </button>
-          <button type="button" class="suggestion-chip"
-            data-prompt="How do farmers apply for FISP fertilizer and seed?">
-            <span class="chip-svg-wrap">
-              <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"
-                stroke-linecap="round" stroke-linejoin="round">
-                <path d="M7 20h10"></path>
-                <path d="M10 20c0-4.4 2-7.8 6-9"></path>
-                <path d="M16 11c-2-4-6-4-8-1-2 3-1 6 2 8"></path>
-                <path d="M12 20V4"></path>
-              </svg>
-            </span>
-            <span>FISP Agriculture</span>
-          </button>
-          <button type="button" class="suggestion-chip"
-            data-prompt="What are the funding windows under the 2026 CDF guidelines?">
-            <span class="chip-svg-wrap">
-              <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"
-                stroke-linecap="round" stroke-linejoin="round">
-                <line x1="3" y1="21" x2="21" y2="21"></line>
-                <line x1="6" y1="18" x2="6" y2="11"></line>
-                <line x1="10" y1="18" x2="10" y2="11"></line>
-                <line x1="14" y1="18" x2="14" y2="11"></line>
-                <line x1="18" y1="18" x2="18" y2="11"></line>
-                <polygon points="12 2 20 7 4 7 12 2"></polygon>
-              </svg>
-            </span>
-            <span>CDF Community Grants</span>
-          </button>
-        </div>
+        <div class="suggestions-grid" id="suggestions-grid"></div>
       </div>
     </section>
 
@@ -224,7 +182,7 @@
   </footer>
 
   <!-- Modular Scripts -->
-  <script type="module" src="./js/app.js?v=8"></script>
+  <script type="module" src="./js/app.js?v=15"></script>
 </body>
 
 </html>

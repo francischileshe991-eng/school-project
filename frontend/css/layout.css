@@ -1,5 +1,5 @@
 /* ==========================================================================
-   Layout & Structural Architecture (DeepSeek Flow)
+   Layout & Structural Architecture (African Community Flow)
    ========================================================================== */
 
 /* Top Navigation Header */
@@ -16,6 +16,36 @@
   -webkit-backdrop-filter: blur(14px);
   border-bottom: 1px solid var(--nav-border);
   width: 100%;
+  transition: transform 0.32s ease, opacity 0.32s ease;
+  will-change: transform;
+}
+
+/* Auto-hide while scrolling down, fade back in when scrolling up */
+.top-nav.nav-hidden {
+  transform: translateY(-100%);
+  opacity: 0;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .top-nav {
+    transition: none;
+  }
+}
+
+/* Zambian flag zig-zag accent band beneath the nav */
+.top-nav::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -8px;
+  height: 8px;
+  background-image: var(--flag-band);
+  background-size: 60px 8px;
+  background-repeat: repeat-x;
+  opacity: 0.9;
+  pointer-events: none;
 }
 
 .nav-left {
@@ -42,8 +72,8 @@
   height: 32px;
   border-radius: 9px;
   object-fit: cover;
-  border: 1px solid rgba(37, 99, 235, 0.2);
-  box-shadow: 0 2px 6px rgba(37, 99, 235, 0.12);
+  border: 1px solid var(--brand-primary-border);
+  box-shadow: 0 2px 6px rgba(21, 122, 76, 0.18);
 }
 
 .brand-title {
@@ -80,14 +110,20 @@ body.in-conversation .main-viewport {
   padding-bottom: 9rem; /* Space for docked bottom input */
 }
 
-/* Hero Section (Centered Initial State) */
+/* Hero Section — chitenge-framed African artwork (Centered Initial State) */
 .hero-stage {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  text-align: center;
-  margin-bottom: 2.25rem;
   width: 100%;
+  max-width: 880px;
+  margin-bottom: 2.25rem;
+  padding: 12px;
+  border-radius: 30px;
+  background-color: var(--bg-surface);
+  background-image: var(--chitenge-tile);
+  background-size: 84px 84px;
+  border: 1px solid var(--border-card);
+  box-shadow: var(--shadow-card);
   transition: all 0.35s ease;
 }
 
@@ -95,21 +131,66 @@ body.in-conversation .hero-stage {
   display: none;
 }
 
+/* Artwork layer */
+.hero-inner {
+  position: relative;
+  width: 100%;
+  min-height: 330px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem 1.5rem;
+  border-radius: 22px;
+  overflow: hidden;
+  background-image: url("../assets/images/hero-art-ndebele.jpg");
+  background-image: -webkit-image-set(url("../assets/images/hero-art-ndebele.webp") type("image/webp") 1x,
+      url("../assets/images/hero-art-ndebele.jpg") type("image/jpeg") 1x);
+  background-image: image-set(url("../assets/images/hero-art-ndebele.webp") type("image/webp") 1x,
+      url("../assets/images/hero-art-ndebele.jpg") type("image/jpeg") 1x);
+  background-size: cover;
+  background-position: center 45%;
+  background-repeat: no-repeat;
+}
+
+/* Soft radial scrim keeps the centre readable while the artwork stays visible */
+.hero-inner::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 64% 60% at 50% 50%, rgba(24, 16, 9, 0.62) 0%, rgba(24, 16, 9, 0.42) 48%, rgba(24, 16, 9, 0.12) 78%, transparent 100%);
+}
+
+[data-theme="dark"] .hero-inner::before {
+  background: radial-gradient(ellipse 64% 60% at 50% 50%, rgba(8, 6, 4, 0.7) 0%, rgba(8, 6, 4, 0.5) 48%, rgba(8, 6, 4, 0.2) 78%, transparent 100%);
+}
+
+/* Transparent overlay — text sits directly on the artwork */
+.hero-panel {
+  position: relative;
+  z-index: 1;
+  max-width: 640px;
+  padding: 1.5rem 1.5rem;
+  text-align: center;
+}
+
 .hero-headline {
-  font-size: clamp(2.4rem, 6vw, 3.8rem);
-  font-weight: 600;
-  color: var(--heading-color);
+  font-size: clamp(2.1rem, 5.5vw, 3.4rem);
+  font-weight: 700;
+  color: #fff8ec;
   letter-spacing: -0.035em;
   line-height: 1.15;
-  margin: 1.25rem 0 0.85rem;
+  margin: 0 0 0.6rem;
+  text-shadow: 0 2px 16px rgba(0, 0, 0, 0.6), 0 1px 3px rgba(0, 0, 0, 0.55);
 }
 
 .hero-subtext {
   max-width: 54ch;
-  color: var(--text-muted);
+  margin: 0 auto;
+  color: #f6e9d6;
   font-size: clamp(0.95rem, 2.5vw, 1.1rem);
   line-height: 1.6;
   font-weight: 400;
+  text-shadow: 0 1px 10px rgba(0, 0, 0, 0.7), 0 1px 2px rgba(0, 0, 0, 0.55);
 }
 
 /* Conversation Stage */
@@ -209,8 +290,22 @@ body.in-conversation .suggestions-stage {
     min-height: calc(100vh - 100px);
   }
 
-  .hero-headline {
-    font-size: 2.25rem;
+  .hero-stage {
+    padding: 9px;
+    border-radius: 24px;
+  }
+
+  .hero-inner {
+    min-height: 260px;
+    padding: 2rem 1rem;
+  }
+
+  .hero-panel {
+    padding: 1.25rem 1.25rem;
+  }
+
+.hero-headline {
+    font-size: 2.05rem;
   }
 
   .suggestions-grid {
