@@ -1,14 +1,23 @@
 # Examination Council of Zambia (ECZ) - Results Guide
 
-## 1. How to Check Results Online
-1. Visit the ECZ Service Portal (portal.exams-council.org.zm).
-2. Select the Exam Level (Grade 7, 9, or 12).
+## 1. How to Check Results / Get a Results Slip Online
+1. Visit the ECZ Examination Results Slip Service at **estatements.exams-council.org.zm:8000**.
+2. Select the Exam Level (Grade 7, 9, or 12 / GCE).
 3. Select the Examination Year.
 4. Enter your Examination Number and click Search.
+5. The full result details are displayed; click **Generate Slip** to download an official PDF results slip. Enable pop-ups in your browser if the slip does not appear.
+- For online confirmation of results, use the Online Results Confirmation System (ORCS) at **verify.exams-council.org.zm**.
+- Other ECZ portals: **serviceportal.exams-council.org.zm** (services) and **systems.exams-council.org.zm** (candidate registration).
 
 ## 2. How to Check Results via SMS
-1. Open your SMS app (MTN or Zamtel).
+1. Open your SMS app (MTN, ZAMTEL or AIRTEL).
 2. Type: [Examination Number] [Year] [Grade].
    Example: 230123456789 2023 G12
 3. Send the message to **8383**.
 4. A service fee (approx. K4 - K5) will be deducted from your airtime.
+
+## 3. Collecting Original Results
+Candidates should collect original transcripts/results from the **school or examination centre** where they wrote, not from ECZ offices.
+
+## 4. ECZ Contact
+Examinations Council of Zambia, 6953 Haile Selassie Avenue, Longacres, P.O. Box 50432, Lusaka. Phone **+260 211 252 544**, email info@exams-council.org.zm, website www.exams-council.org.zm.

@@ -134,7 +134,7 @@ zedchatbot-for-african-community/
 │   ├── ORAL_DEFENSE_PROMPT_HANDBOOK.md# Oral Defense Demonstration Prompt Guide
 │   ├── TAM_EVALUATION_REPORT.md       # Objective 2: TAM Survey Analysis Report
 │   ├── TAM_QUESTIONNAIRE_INSTRUMENT.md# 14-Item Likert Evaluation Instrument
-│   ├── WHATSAPP_SETUP_GUIDE.md        # Twilio WhatsApp Sandbox Connection Guide
+│   ├── WHATSAPP_SETUP_GUIDE_v2.0.md   # Twilio + Node.js WhatsApp Gateway Setup Guide
 │   └── figures/                       # Publication-grade evaluation figures (1-6)
 ├── frontend/
 │   ├── css/
@@ -289,7 +289,7 @@ To test WhatsApp messaging on your personal smartphone:
    https://<your-ngrok-subdomain>.ngrok-free.dev/whatsapp
    ```
 3. Send the join code from WhatsApp to **`+1 415 523 8886`** and start chatting!  
-*(For detailed steps, refer to [docs/WHATSAPP_SETUP_GUIDE.md](docs/WHATSAPP_SETUP_GUIDE.md)).*
+*(For detailed steps, refer to [docs/WHATSAPP_SETUP_GUIDE_v2.0.md](docs/WHATSAPP_SETUP_GUIDE_v2.0.md)).*
 
 ---
 
@@ -337,7 +337,7 @@ The system was evaluated against two rigorous frameworks in accordance with the 
 An automated 40-query benchmark across 4 languages and 4 domains evaluated retrieval accuracy:
 - **Retrieval Hit Rate (Recall@3)**: **100.00%** (All 40 benchmark queries successfully retrieved their gold-standard document chunk in the top-3 results).
 - **Retrieval Precision@3**: **81.25%** (High concentration of relevant chunks per query).
-- **Keyword Grounding Recall**: **84.58%**.
+- **Keyword Grounding Recall**: **65.83%** (measured in grounded-excerpt fallback mode during a provider outage; see `docs/BENCHMARK_EVALUATION_REPORT.md`).
 
 To reproduce the benchmark:
 ```powershell
@@ -368,7 +368,7 @@ Full documentation prepared for academic submission and examination:
 - 📊 [Benchmark Evaluation Report (IR Metrics)](docs/BENCHMARK_EVALUATION_REPORT.md)
 - 📈 [TAM Evaluation Report (Empirical Findings)](docs/TAM_EVALUATION_REPORT.md)
 - 📋 [TAM Questionnaire Instrument](docs/TAM_QUESTIONNAIRE_INSTRUMENT.md)
-- 📱 [Twilio WhatsApp Setup Guide](docs/WHATSAPP_SETUP_GUIDE.md)
+- 📱 [WhatsApp Setup Guide v2.0 (Twilio + Node.js Gateway)](docs/WHATSAPP_SETUP_GUIDE_v2.0.md)
 
 ---
 

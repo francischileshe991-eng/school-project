@@ -20,6 +20,8 @@ This report provides empirical quantitative evaluation of the **Zedchatbot** sys
 - **Answer Grounding Keyword Recall**: **65.8%**
 - **Average Response Latency**: **27367.8 ms**
 
+> **Run-Condition Note (important):** This benchmark run was executed while the configured cloud LLM providers (Gemini, Groq) were unreachable. All 40 responses were therefore produced by the system's deterministic **grounded-excerpt fallback**: the retrieved official-document chunks (truncated to 600 characters), locally translated for non-English queries — not LLM-synthesized prose. Consequently, the grounding-recall figure characterizes the **factual coverage of the retrieval layer**: the 100% hit rate confirms the correct statutory document was retrieved in every query, while grounding recall measures how much of the expected factual content survived chunk selection, excerpt truncation, and translation. Latency figures likewise reflect fallback-mode timings (provider timeout retries included), not steady-state live generation. The live-generation cascade has since been verified operational, and the identical evaluation protocol (`scripts/evaluate_system.py`) can be rerun against it.
+
 ---
 
 ## 2. Breakdown by Domain

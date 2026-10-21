@@ -7,13 +7,17 @@
 - **Documents:** Certified NRC (Zambians) or Passport (Foreigners), TPIN from ZRA.
 
 ## 2. Official Fees (ZMW)
-| Service | Fee (ZMW) |
-| :--- | :--- |
-| Name Clearance | K120.00 |
-| Name Reservation | K213.33 |
-| Certificate of Incorporation | K200.00 |
-| Certificate of Share Capital | K200.00 |
-| Annual Returns (Private) | K200.00 |
+| Service | Form | Fee (ZMW) |
+| :--- | :--- | :--- |
+| Name Clearance | Form 1 | K120.00 |
+| Name Reservation (60 days) | Form 2 | K213.33 |
+| Appeal against rejected name | - | K266.67 |
+| Incorporation (company limited by shares) | Form 3 | From K1,266.67 |
+| Change of company name | Form 4 | From K733.33 |
+| Registration of company limited by guarantee | Form 5 | K1,000.00 |
+| Company name search (eRegistry) | - | K90.00 |
+
+- Annual return and share capital fees are no longer fixed flat amounts; they scale with issued share capital. Check the PACRA fee schedule for the exact figure.
 
 ## 3. How to Register
 1. Visit the PACRA Portal (www.pacra.org.zm).

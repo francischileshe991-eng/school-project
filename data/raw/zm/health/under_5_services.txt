@@ -12,6 +12,8 @@ Zambia protects children against major preventable diseases.
 - **At Birth:** BCG (Tuberculosis), OPV 0 (Polio).
 - **6, 10, & 14 Weeks:** Polio, Diphtheria, Pertussis, Tetanus, Hep B, Hib, Pneumonia, Rotavirus (Diarrhea).
 - **9 Months:** Measles-Rubella 1, Vitamin A.
+- **Malaria Vaccine (R21/Matrix-M):** Launched in Zambia on 27 October 2025. Four doses given at 6, 7, 8 and 18-23 months of age. Introduced in a phased manner, starting in 83 high-burden districts, alongside bed nets and other malaria control measures.
+- **HPV Vaccine:** Given to girls aged 9-14 years to protect against cervical cancer.
 - **18 Months:** Measles-Rubella 2 (Booster).
 - **Nyanja:** Katemera amaperekedwa pa kubadwa, pa milungu 6, 10, 14, ndiponso pa miyezi 9 ndi 18 kuti ateteze mwana ku matenda oopsa.
 - **Bemba:** Umwana alapeelwa katemera pa kufyalwa, pa milungu 6, 10, 14, na pa myeshi 9 na 18 pa kuti acingililwe ku malwele ayakalamba.

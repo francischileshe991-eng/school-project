@@ -178,7 +178,7 @@ class ZedTranslator:
         try:
             from google import genai
             from google.genai import types
-            client = genai.Client(api_key=api_key, http_options=types.HttpOptions(timeout=10000))
+            client = genai.Client(api_key=api_key, http_options=types.HttpOptions(timeout=30000))
         except Exception as e:
             logger.warning(f"Translator: Google GenAI client initialization failed: {e}")
             return None

@@ -6,7 +6,9 @@ NHIMA manages the national social health insurance scheme established under the 
   - Formal Employees: 1% deducted from monthly basic salary.
   - Employers: 1% matching contribution on the employee's basic salary (2% total).
   - No Salary Ceiling: Contributions apply to the entire basic salary.
-  - Informal / Self-Employed Members: Contribute a flat affordable tier assessed through the eNHIMA system.
+  - Informal / Self-Employed Members: Contribute 1% of assessed monthly income through the eNHIMA system.
+- Compulsory Membership: All Zambian citizens and established residents aged 18 to 65 with an income are required to contribute to NHIMA. Citizens aged 65 and above, and qualifying poor or vulnerable persons, are registered without making the ordinary contribution.
+- Payment Deadline: Contributions are due on or before the 10th day of the following month.
 
 ## 2. Benefits and Medical Package
 Registered members with up-to-date contributions are covered across accredited public and private healthcare facilities nationwide:
@@ -21,7 +23,8 @@ Registered members with up-to-date contributions are covered across accredited p
 - Online Registration: Open an account on the eNHIMA portal at https://enhima.nhima.co.zm.
 - Requirements: Scanned copy of National Registration Card (NRC), phone number, and employer registration code (if formally employed).
 - In-Person Registration: Visit the designated NHIMA customer desk at accredited hospitals (e.g., UTH, Levy Mwanawasa University Teaching Hospital, Ndola Teaching Hospital, Kitwe Teaching Hospital).
-- Waiting Period: Informal members must complete four (4) consecutive monthly contributions before their card activates for elective care (emergency stabilization is covered immediately).
+- Employer Obligation: Employers must register their employees with NHIMA and begin remitting contributions within 30 days.
+- Waiting Period: VERIFY - the four (4) month consecutive-contribution waiting period for informal members before elective care activates could not be confirmed against current NHIMA guidance; confirm with NHIMA before relying on it (emergency stabilization is always covered).
 
 ## 4. Support and Claims Inquiries
 - Official Website: https://www.nhima.co.zm

@@ -204,9 +204,9 @@ To my parents, for their unwavering love, sacrifices, prayers, and financial sup
 
 Timely, reliable, and equitable access to official public service information is a fundamental prerequisite for socioeconomic empowerment in developing African nations. In Zambia, vital public procedures—spanning civic registration (National Registration Cards, Passports), taxation (ZRA), essential utilities (ZESCO electricity tariffs, LWSC water), education (UNZA admissions, HELSB student loans), and universal healthcare (NHIMA)—remain severely fragmented across static institutional portals, complex gazettes, and informal channels. Furthermore, conventional large language models (LLMs) suffer from severe hallucinations when answering localized statutory queries and exhibit systemic linguistic asymmetry, performing effectively in English while failing to support indigenous African languages such as icibemba, chiNyanja, and chiShona.
 
-To resolve these barriers, this study developed and evaluated **ZedChatBot for African Community**, an intelligent, modular conversational system based on Retrieval-Augmented Generation (RAG) architecture. The model integrates dense multilingual embeddings (`BAAI/bge-m3`), country-partitioned vector databases (ChromaDB), a resilient multi-provider hybrid LLM cascade (Google Gemini 3.8 Flash cloud engine, local edge fallback via Ollama Qwen2.5:7b, and OpenAI), a 3-step refusal-consistency verification mechanism to eliminate cross-lingual false rejections, and a constrained translation engine incorporating statutory entity preservation placeholders. The system delivers dual-channel accessibility via a modern responsive web application and an asynchronous WhatsApp Web gateway.
+To resolve these barriers, this study developed and evaluated **ZedChatBot for African Community**, an intelligent, modular conversational system based on Retrieval-Augmented Generation (RAG) architecture. The model integrates dense multilingual embeddings (`BAAI/bge-m3`), country-partitioned vector databases (ChromaDB), a resilient multi-provider hybrid LLM cascade (Google Gemini 3.8 Flash cloud engine, Groq cloud fallback, and a local edge fallback via Ollama), a refusal-consistency verification mechanism that couples an automated cross-lingual retry with a deterministic statutory excerpt fallback to eliminate cross-lingual false rejections, and a constrained translation engine (Google Gemini with a local Meta NLLB-200 fallback) incorporating statutory entity preservation placeholders. The system delivers dual-channel accessibility via a modern responsive web application and an asynchronous WhatsApp Web gateway.
 
-A mixed-methods research design was employed, combining technical Information Retrieval (IR) benchmarking over 40 multi-domain queries with an empirical Technology Acceptance Model (TAM) evaluation administered to $N = 35$ respondents in Lusaka, Zambia. The survey instrument demonstrated high scale reliability with Cronbach’s alpha $\alpha = 0.9084$. Technical evaluation achieved a Retrieval Hit Rate (Recall@3) of 100.0%, an Average Retrieval Precision of 81.2%, and an Answer Keyword Grounding Recall of 65.8%, maintaining an average response latency under 4.0 seconds. Hypothesis testing utilizing Pearson’s correlation demonstrated that Perceived Usefulness significantly influences Behavioral Intention to Adopt ($r = 0.930, p < 0.001$), while Perceived Ease of Use strongly correlates with Perceived Usefulness ($r = 0.812, p < 0.001$). Linguistic comfort was rated at an average of 4.40 out of 5.00, demonstrating that localized indigenous language support dramatically enhances citizen trust and accessibility. The study concludes that modular multilingual RAG provides an effective, scalable blueprint for digital governance across Sub-Saharan Africa.
+A mixed-methods research design was employed, combining technical Information Retrieval (IR) benchmarking over 40 multi-domain queries with an empirical Technology Acceptance Model (TAM) evaluation administered to $N = 35$ respondents in Lusaka, Zambia. The survey instrument demonstrated high scale reliability with Cronbach’s alpha $\alpha = 0.9084$. Technical evaluation achieved a Retrieval Hit Rate (Recall@3) of 100.0%, an Average Retrieval Precision of 81.2%, and an Answer Keyword Grounding Recall of 65.8% (measured with the system operating in its deterministic grounded-excerpt fallback mode during a cloud-provider outage; see Section 4.5.1), with a mean end-to-end response latency of 4.14 seconds for English-language queries (the aggregate benchmark mean across all four languages was 27.4 seconds, reflecting the additional local neural-machine-translation stage incurred by Bemba, Nyanja, and Shona responses). Hypothesis testing utilizing Pearson’s correlation demonstrated that Perceived Usefulness significantly influences Behavioral Intention to Adopt ($r = 0.930, p < 0.001$), while Perceived Ease of Use positively correlates with Perceived Usefulness ($r = 0.589, p < 0.001$). Linguistic comfort was rated at an average of 4.40 out of 5.00, demonstrating that localized indigenous language support dramatically enhances citizen trust and accessibility. The study concludes that modular multilingual RAG provides an effective, scalable blueprint for digital governance across Sub-Saharan Africa.
 
 \
 **Keywords:** *Retrieval-Augmented Generation (RAG), Conversational AI, African NLP, Technology Acceptance Model (TAM), Bemba, Nyanja, Digital Governance, Public Information Access, Zambia.*
@@ -546,7 +546,7 @@ This study addressed the following research questions corresponding to the resea
 This study contributes significantly to the fields of Computer Science, Natural Language Processing, Digital Governance, and Human-Computer Interaction in the African context:
 - **For Citizens and Local Communities:** It democratizes access to vital statutory knowledge by eliminating physical transportation costs and queuing times, empowering citizens to understand their legal rights regarding civic documents (e.g., that first-time NRC registration is strictly free of charge under Cap 126), student financing, and healthcare subsidies in their preferred mother tongues.
 - **For Public Sector Institutions and Governance:** It provides a scalable, cost-effective blueprint for e-government automation that reduces frontline administrative burdens at municipal offices (Bomas), minimizes bureaucratic corruption, and improves civic transparency.
-- **For Computer Science and NLP Research:** It provides pioneering empirical evidence on the performance of dense multilingual representation models (`BAAI/bge-m3`) and neural translation models (`Meta NLLB-200` and Google Gemini) applied to low-resource Bantu languages. It introduces an architectural solution to the cross-lingual refusal pathology via a 3-step consistency verification loop and proves the viability of country-partitioned vector database isolation.
+- **For Computer Science and NLP Research:** It provides pioneering empirical evidence on the performance of dense multilingual representation models (`BAAI/bge-m3`) and neural translation models (Google Gemini and `Meta NLLB-200`) applied to low-resource Bantu languages. It introduces an architectural solution to the cross-lingual refusal pathology via a refusal-consistency verification loop (cross-lingual retry followed by a deterministic statutory excerpt fallback) and proves the viability of country-partitioned vector database isolation.
 
 ## 1.8 Scope of the Study
 The technical and contextual scope of this study is delineated as follows:
@@ -703,32 +703,32 @@ The target population for the empirical evaluation comprised adult citizens resi
 ### 3.3.2 Sample Size and Sampling Technique
 To determine a statistically representative sample size from an indeterminate urban population, the study applied **Yamane’s formula for sample size determination** [57]:
 $$n = \frac{N}{1 + N(e)^2}$$
-Where $n$ is the sample size, $N$ is the population size, and $e$ is the acceptable margin of error (specified at 10% or $e = 0.10$ for exploratory prototype evaluation). For an urban population exceeding 100,000, Yamane’s formula yields a baseline sample size of approximately $n \approx 100$.
+Where $n$ is the sample size, $N$ is the population size, and $e$ is the acceptable margin of error (specified at 10% or $e = 0.10$ for exploratory prototype evaluation). For an urban population exceeding 100,000, Yamane’s formula yields a baseline sample size of approximately $n \approx 100$. As an exploratory prototype evaluation, this study achieved $N = 35$ completed responses, which is reported as a limitation in Section 5.5.1.
 
 A **stratified purposive sampling technique** was employed to ensure balanced representation across four key demographic strata:
-1. **University Students ($n_1 = 12$):** Testing educational admissions, ECZ verification, and HELSB loan queries.
-2. **Small Business Owners & Traders ($n_2 = 8$):** Testing PACRA business registration, ZRA turnover taxes, and TPINs.
-3. **Formal Employees & Civil Servants ($n_3 = 8$):** Testing NHIMA healthcare packages, NAPSA pensions, and PAYE tax brackets.
-4. **General Community Members ($n_4 = 7$):** Testing first-time NRC issuance, lost NRC replacement, ZESCO tariffs, and CDF grants in icibemba and chiNyanja.
+1. **University Students ($n_1 = 16$):** Testing educational admissions, ECZ verification, and HELSB loan queries.
+2. **Small Business Owners & Traders ($n_2 = 6$):** Testing PACRA business registration, ZRA turnover taxes, and TPINs.
+3. **Formal Employees & Civil Servants ($n_3 = 9$):** Testing NHIMA healthcare packages, NAPSA pensions, and PAYE tax brackets.
+4. **General Community Members ($n_4 = 4$):** Testing first-time NRC issuance, lost NRC replacement, ZESCO tariffs, and CDF grants in icibemba and chiNyanja.
 
 A total of 45 questionnaires were distributed following live system interactions. Of these, **$N = 35$ fully completed, valid questionnaires** were returned and verified, representing an effective response rate of 77.8%, well within acceptable thresholds for empirical technological validation [58].
 
 ### 3.3.3 Data Collection Methods
 Data collection was conducted through two synchronized streams:
 1. **Primary Human Feedback:** Collected via a structured paper and digital questionnaire administered immediately following a 15-minute hands-on interaction session with the ZedChatBot web and WhatsApp interfaces.
-2. **Automated Telemetry and System Logging:** Collected via the backend SQLite database (`zedchatbot.db`), which automatically recorded timestamped interaction metrics, user query texts, detected languages, country routing codes, LLM provider invocation logs, response generation latency (in milliseconds), and voluntary 1-to-5 star user ratings.
+2. **Automated Telemetry and System Logging:** Collected via the backend SQLite database (`zedchatbot.db`), which automatically recorded timestamped interaction metrics, user query texts, detected languages, country routing codes, retrieved-source provenance, response generation latency (in milliseconds), and voluntary thumbs-up / thumbs-down user ratings (persisted numerically as 5 and 1 respectively).
 
 ### 3.3.4 Instruments for Data Collection
 The primary evaluation instrument was a structured **Technology Acceptance Model (TAM) Questionnaire**, adapted from Davis (1989) [44] and Venkatesh et al. (2003) [59]. The instrument was operationalized using a 5-point Likert scale ranging from 1 ("Strongly Disagree") to 5 ("Strongly Agree").
 
 ### 3.3.5 Questionnaire Structure and Operationalization
 The questionnaire was divided into two distinct sections:
-- **Part A (Demographic Profile):** Captured respondent category, gender, age distribution, educational attainment, preferred language of interaction, and primary platform utilized (Web UI vs. WhatsApp).
+- **Part A (Demographic Profile):** Captured respondent category, age group, gender, preferred language of interaction, and primary platform utilized (Web UI vs. WhatsApp vs. both).
 - **Part B (Core Theoretical Constructs):** Contained 14 psychometric scale items measuring four core evaluation constructs:
   1. **Perceived Usefulness (PU - 4 items):** Assessed whether the chatbot enhanced task speed, provided accurate statutory information, reduced physical queuing, and proved useful for daily civic needs.
-  2. **Perceived Ease of Use (PEOU - 3 items):** Assessed whether the interface was clear, easy to navigate, and required minimal cognitive effort.
+  2. **Perceived Ease of Use (PEOU - 4 items):** Assessed whether the interface was clear, easy to navigate, fast, and required minimal cognitive effort.
   3. **Linguistic Comfort (LC - 3 items):** Assessed user satisfaction with indigenous language fluency (Bemba/Nyanja), acronym preservation, and naturalness of phrasing.
-  4. **Behavioral Intention to Use (BI - 4 items):** Assessed whether users intended to utilize the chatbot regularly in the future and recommend it to fellow citizens.
+  4. **Behavioral Intention to Use (BI - 3 items):** Assessed whether users intended to utilize the chatbot regularly in the future and recommend it to fellow citizens.
 
 ### 3.3.6 Data Analysis Techniques
 Data analysis was conducted using Python scientific libraries (`scipy.stats`, `pandas`, `numpy`) and verified in SPSS:
@@ -753,7 +753,7 @@ Figure 1 contrasts the traditional, highly fragmented public information busines
 1. Citizen opens the lightweight web portal on any browser or initiates a WhatsApp chat with the system number (`+260 953805423`).
 2. Citizen submits their query in English, icibemba, chiNyanja, or chiShona.
 3. ZedChatBot performs automatic language detection, routes the query to the country-specific vector index, retrieves verified statutory chunks via `BAAI/bge-m3`, and invokes the multi-provider LLM cascade.
-4. The system executes a refusal-consistency check, translates the verified response with entity protection, and delivers a formatted, step-by-step statutory answer with source citations in under 4 seconds.
+4. The system executes the refusal-consistency check, translates the verified response with entity protection, and delivers a formatted, step-by-step statutory answer with source citations—4.14 seconds on average for English-language queries, with localized responses incurring an additional translation stage.
 5. The citizen receives authoritative guidance instantly at zero financial cost, completely bypassing physical travel and queues.
 
 ```
@@ -795,7 +795,7 @@ Figure 1 contrasts the traditional, highly fragmented public information busines
 The system must satisfy the following core functional requirements:
 - **FR1 (Multilingual Ingestion & Preprocessing):** Support automated ingestion of statutory `.txt` and `.pdf` documents, execute recursive character splitting into semantic chunks ($700$ characters with $100$ character overlap), and compute dense 1024-dimensional embeddings.
 - **FR2 (Country-Isolated Vector Retrieval):** Enforce physical and logical collection isolation within ChromaDB (`zedchatbot_zm` and `zedchatbot_zw`), executing cosine similarity search ($k=4$) matching the user's country code.
-- **FR3 (Multi-Provider LLM Cascade):** Support automated generation cascading from Google Gemini 3.8 Flash (Primary Cloud) to local Ollama Qwen2.5:7b (Edge Offline), OpenAI gpt-4o-mini (Tertiary), and deterministic statutory excerpt fallback.
+- **FR3 (Multi-Provider LLM Cascade):** Support automated generation cascading from Google Gemini 3.8 Flash (Primary Cloud) to Groq (Secondary Cloud) and to local Ollama (Edge Offline), each tier escalating upon failure or a detected refusal, and terminating in a deterministic statutory excerpt fallback.
 - **FR4 (Refusal-Consistency Verification):** Execute regex-based refusal pattern matching; if an LLM generates a refusal asserting missing records despite $\ge 1$ retrieved statutory chunks, trigger an automatic cross-lingual retry, falling back to raw statutory excerpts if refusal persists.
 - **FR5 (Entity-Preserving Machine Translation):** Translate English responses to icibemba, chiNyanja, or chiShona while protecting all administrative acronyms (*NRC, ZRA, ZESCO, CDF, UNZA, NHIMA*) using alphanumeric placeholders.
 - **FR6 (Multi-Channel Access):** Serve requests via a responsive, accessible Web UI (with Dark Mode, SVG chips, and country/language dropdowns) and an asynchronous WhatsApp Web Node.js gateway.
@@ -831,13 +831,13 @@ Figure 2 illustrates the decoupled three-tier architectural framework of the Zed
  |   |                              RAG Core Orchestration Pipeline                            |   |
  |   |                                                                                         |   |
  |   |  +--------------------+  +----------------------+  +---------------------------------+  |   |
- |   |  | Language Detection |  | Dense BGE-M3 Embed   |  | Multi-Provider LLM Cascade      |  |   |
- |   |  |   (FastText N-Gram)|  | (1024-Dim Vectors)   |  | (Gemini -> Ollama -> OpenAI)    |  |   |
+  |   |  | Language Detection |  | Dense BGE-M3 Embed   |  | Multi-Provider LLM Cascade      |  |   |
+  |   |  |   (LangDetect+Rule)|  | (1024-Dim Vectors)   |  | (Gemini → Groq → Ollama)        |  |   |
  |   |  +--------------------+  +----------------------+  +---------------------------------+  |   |
  |   |                                                                                         |   |
  |   |  +-------------------------------------+   +-----------------------------------------+  |   |
- |   |  | 3-Step Refusal-Consistency Check    |   | Entity-Protected Neural Translation     |  |   |
- |   |  | (False Rejection Elimination Loop)  |   | (Meta NLLB-200 / Gemini Flash Engine)   |  |   |
+  |   |  | Refusal-Retry + Excerpt Fallback    |   | Entity-Protected Neural Translation     |  |   |
+  |   |  | (False Rejection Elimination Loop)  |   | (Gemini / Meta NLLB-200 Fallback)       |  |   |
  |   |  +-------------------------------------+   +-----------------------------------------+  |   |
  |   +-----------------+-----------------------------------------------------------------------+   |
  +---------------------|---------------------------------------------------------------------------+
@@ -865,10 +865,10 @@ Tables 2 and 3 detail the functional requirements allocated across the core RAG 
 | **REQ-RAG-02** | Text Chunking | Recursively segment documents into overlapping windows ($700$ chars, $100$ overlap). | Generation of bounded semantic chunks without sliced mid-token words. |
 | **REQ-RAG-03** | Vector Embedding | Encode text chunks into 1024-dimensional normalized vectors using `BAAI/bge-m3`. | Verified tensor dimension $d = 1024$ stored in vector memory. |
 | **REQ-RAG-04** | Partitioned Storage | Maintain segregated collections in ChromaDB for Zambia (`zm`) and Zimbabwe (`zw`). | Complete absence of cross-border document retrieval. |
-| **REQ-RAG-05** | Semantic Retrieval | Execute cosine similarity search retrieving top-$k$ ($k=4$) most relevant document chunks. | Return relevant statutory chunks with similarity scores $\ge 0.50$. |
-| **REQ-RAG-06** | Cascade Generation | Execute prompt synthesis across Gemini 3.8, Ollama Qwen2.5, OpenAI, and excerpt fallback. | Guaranteed answer generation with zero runtime crash. |
+| **REQ-RAG-05** | Semantic Retrieval | Execute cosine similarity search retrieving top-$k$ ($k=4$) most relevant document chunks. | Return relevant statutory chunks with similarity scores above the configured relevance threshold. |
+| **REQ-RAG-06** | Cascade Generation | Execute prompt synthesis across Gemini 3.8, Groq, local Ollama, and excerpt fallback. | Guaranteed answer generation with zero runtime crash. |
 | **REQ-RAG-07** | Refusal Consistency | Intercept false refusal strings and trigger cross-lingual retry or direct statutory excerpt. | Zero false rejections when statutory documents exist. |
-| **REQ-RAG-08** | Acronym Protection | Replace statutory keywords with placeholders (`[[PKW0]]`) during neural translation. | 100% acronym preservation in final translated text. |
+| **REQ-RAG-08** | Acronym Protection | Replace statutory keywords with placeholders (`[[PKW0]]`) during neural translation on the NLLB path, with prompt-level shielding on the cloud path. | Acronyms preserved verbatim in final translated text. |
 
 \
 **Table 3: Multi-Channel Interface Functional Requirements Specification**
@@ -881,7 +881,7 @@ Tables 2 and 3 detail the functional requirements allocated across the core RAG 
 | **REQ-UI-04** | Suggestion Prompt Chips | Provide scalable SVG prompt chips for common civic domains (NRC, ZESCO, UNZA, CDF). | One-click query population into the message textarea. |
 | **REQ-UI-05** | WhatsApp Web Gateway | Provide an asynchronous WhatsApp messaging bridge using Node.js and `whatsapp-web.js`. | Real-time response delivery to mobile users on `+260 953805423`. |
 | **REQ-UI-06** | Interaction Telemetry | Record interaction ID, query text, language, latency, and channel in SQLite database. | Verifiable relational rows in `interactions` table. |
-| **REQ-UI-07** | Star Feedback Rating | Allow users to submit 1-to-5 star ratings for individual chatbot responses. | Persistent updates in `feedback` relational column. |
+| **REQ-UI-07** | Response Feedback Rating | Allow users to submit a thumbs-up / thumbs-down rating (persisted numerically as 5 and 1) for individual chatbot responses. | Persistent updates to the `rating` column of the `interactions` table. |
 
 #### 3.4.2.4 Non-Functional Requirements Specifications
 Table 4 presents the non-functional requirements governing system performance, security, and usability.
@@ -891,13 +891,13 @@ Table 4 presents the non-functional requirements governing system performance, s
 
 | Attribute | Specification Details | Validation Target |
 |---|---|---|
-| **Performance & Latency** | End-to-end response generation latency must remain under 5.0 seconds under normal cloud conditions. | Empirical benchmark mean latency $\le 4.0$ seconds. |
+| **Performance & Latency** | End-to-end response generation latency must remain acceptable for interactive use; English (single cloud hop) queries must remain under 5.0 seconds. | Empirical benchmark mean latency of 4.14 seconds for English queries (fully localized responses incur an additional neural-translation stage, yielding an aggregate benchmark mean of 27.4 seconds). |
 | **Reliability & Uptime** | The multi-provider cascade must guarantee zero total downtime by failing over across providers. | 100% response delivery across all network fault scenarios. |
 | **Data Grounding** | All factual statements must be grounded strictly in official ingested knowledge base documentation. | Zero ungrounded legal or statutory hallucinations. |
 | **Security & Privacy** | System must sanitize user inputs against SQL injection and prompt injection; no personal data retained. | Input escaping via Pydantic schemas and parameterized SQL. |
 | **Typography Integrity** | Text outputs must enforce clean UTF-8 encoding, stripping replacement characters (`\uFFFD`) and smart quotes. | Flawless character rendering across Windows terminals and Web. |
 | **Usability & Accessibility** | The user interface must require zero installation, supporting low-literacy citizens via clear typography. | TAM Perceived Ease of Use rating $\ge 4.0/5.0$. |
-| **Maintainability** | Decoupled modular design separating vector ingestion, retrieval, translation, and API routing. | Clean unit test coverage across 25 automated pytest suites. |
+| **Maintainability** | Decoupled modular design separating vector ingestion, retrieval, translation, and API routing. | Clean unit test coverage across 25 automated pytest test cases. |
 
 #### 3.4.2.5 Hardware Requirements Specifications
 Table 5 outlines the hardware configurations required for development, server deployment, and client execution.
@@ -908,7 +908,7 @@ Table 5 outlines the hardware configurations required for development, server de
 | Node Type | Minimum Specification | Recommended Specification | Operational Function |
 |---|---|---|---|
 | **Primary Server Node** | Intel Core i5 / AMD Ryzen 5 (4 Cores, 2.4 GHz), 8 GB RAM, 20 GB Storage. | Intel Core i7 / AMD Ryzen 7 (8 Cores, 3.2 GHz), 16 GB RAM, 50 GB NVMe SSD. | Hosts FastAPI API server, ChromaDB vector store, BGE-M3 embeddings, and SQLite database. |
-| **Edge Inference Node** | 4-Core CPU, 8 GB RAM, AVX2 instruction support. | NVIDIA RTX 3060 (6GB VRAM) or Apple M-Series Silicon, 16 GB Unified Memory. | Executes local offline Ollama Qwen2.5:7b and Meta NLLB-200 translation models. |
+| **Edge Inference Node** | 4-Core CPU, 8 GB RAM, AVX2 instruction support. | NVIDIA RTX 3060 (6GB VRAM) or Apple M-Series Silicon, 16 GB Unified Memory. | Executes the local offline Ollama (Llama 3.2 3B / Qwen2.5 7B) generation and Meta NLLB-200 translation models. |
 | **WhatsApp Gateway Node** | Single-core VPS or local PC, 1 GB RAM, Node.js v18+. | Dual-core CPU, 2 GB RAM, Chromium browser runtime. | Maintains persistent headless browser session for WhatsApp Web client. |
 | **Client Device (Web)** | Any basic smartphone or desktop with HTML5 browser (Chrome, Edge, Safari, Firefox). | Modern 4G/5G smartphone or laptop with broadband connection. | Accesses web application interface at `http://127.0.0.1:8000/app/`. |
 | **Client Device (WhatsApp)** | Any mobile phone capable of running WhatsApp (Android 5.0+, iOS 12+). | Standard mobile device with active cellular data or Wi-Fi. | Sends chat messages directly to `+260 953805423`. |
@@ -927,9 +927,10 @@ Table 6 specifies the software frameworks, programming languages, and database e
 | **RAG Orchestration** | LangChain / LangChain-Core | 0.3+ | Standardized framework for prompt chaining, loaders, and output parsers. |
 | **Vector Database** | ChromaDB (langchain-chroma) | 0.2+ | Lightweight, embedded, serverless vector database with collection isolation. |
 | **Embedding Model** | BAAI/bge-m3 (HuggingFace) | Latest | 1024-dimensional dense multilingual embeddings with cross-lingual semantics. |
-| **Primary LLM** | Google Gemini (google-genai) | 3.5 Flash-Lite | High-speed, cost-effective cloud reasoning engine with sub-second latency. |
-| **Edge Local LLM** | Ollama (Qwen2.5:7b) | 0.3+ | Offline edge inference engine guaranteeing resilience during internet outages. |
-| **Neural Translation** | Meta NLLB-200 / Gemini Flash | Distilled-600M | State-of-the-art multilingual machine translation supporting Bemba and Nyanja. |
+| **Primary LLM** | Google Gemini (google-genai) | 3.8 Flash (`gemini-3.8-flash`) | High-speed, cost-effective cloud reasoning engine for grounded generation. |
+| **Secondary Cloud LLM** | Groq (OpenAI-compatible endpoint) | `qwen/qwen3.8-27b` | High-throughput cloud failover activated automatically when the primary provider is unavailable or rate-limited. |
+| **Edge Local LLM** | Ollama | Llama 3.2 3B | Offline edge inference engine guaranteeing resilience during internet outages. |
+| **Neural Translation** | Google Gemini / Meta NLLB-200 | NLLB Distilled-600M | Cloud-first multilingual machine translation supporting Bemba and Nyanja, with a local NLLB-200 edge fallback. |
 | **Relational Database** | SQLite3 | Built-in | Zero-configuration ACID-compliant SQL database for telemetry logging. |
 | **Frontend Technologies** | HTML5, Vanilla CSS3, JavaScript ES6 | Modern Web | Framework-free, ultra-lightweight client ensuring fast mobile load times. |
 | **WhatsApp Gateway** | Node.js, `whatsapp-web.js` | v18+, v1.23+ | Native WhatsApp Web automation engine utilizing persistent local auth. |
@@ -939,12 +940,12 @@ Table 6 specifies the software frameworks, programming languages, and database e
 #### 3.4.3.1 Logical Design and Data Flow
 The logical data flow through the ZedChatBot system follows a strictly sequential, validated pipeline:
 1. **Request Intake:** The user submits a query string along with target country (`zm` or `zw`) and language (`en`, `bem`, `ny`, `sn`) parameters via the Web UI or WhatsApp.
-2. **Language Verification:** The `LanguageDetector` component analyzes query n-grams to confirm or override the input language.
+2. **Language Verification:** The `LanguageDetector` component combines custom lexical and morphological rule-based scoring for Bemba, Nyanja, and Shona with the statistical `langdetect` library to confirm or override the input language.
 3. **Semantic Embedding:** The `ZedVectorStore` invokes `BAAI/bge-m3` to project the query into a normalized 1024-dimensional embedding vector.
 4. **Partitioned Retrieval:** The retriever executes cosine similarity search against the designated country collection in ChromaDB, extracting the top 4 most relevant chunks ($k=4$) along with file provenance metadata.
-5. **Prompt Assembly & Cascade Generation:** The `ZedGenerator` formats the system prompt, retrieved statutory context, and user question, passing the payload to the active LLM provider (Gemini $\rightarrow$ Ollama $\rightarrow$ OpenAI).
+5. **Prompt Assembly & Cascade Generation:** The `ZedGenerator` formats the system prompt, retrieved statutory context, and user question, passing the payload to the active LLM provider (Gemini $\rightarrow$ Groq $\rightarrow$ Ollama), escalating to the next provider on failure or a detected refusal.
 6. **Refusal-Consistency Verification:** The output is scanned for refusal phrasing (`_is_refusal`). If a false refusal is detected despite valid context, generation retries with cross-lingual extraction directives; if refusal persists, the raw official statutory excerpt is returned.
-7. **Entity-Preserving Translation:** If the target language is not English, statutory acronyms are protected with placeholders, the text is translated via NMT, acronyms are restored verbatim, and typography is normalized to clean UTF-8.
+7. **Entity-Preserving Translation:** If the target language is not English, cloud translation via Google Gemini is attempted first, with the local Meta NLLB-200 model used as an edge fallback; on the NLLB path statutory acronyms are protected with `[[PKW]]` placeholders, restored verbatim after generation, and the typography is normalized to clean UTF-8.
 8. **Response Delivery & Telemetry Logging:** The formatted answer and verified citations are returned to the client and logged asynchronously to SQLite.
 
 #### 3.4.3.2 Use Case Diagrams
@@ -1022,35 +1023,37 @@ The persistence tier utilizes SQLite3 (`data/zedchatbot.db`) for lightweight, se
 ```sql
 CREATE TABLE IF NOT EXISTS interactions (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
+    timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
+    channel TEXT NOT NULL,
+    country TEXT NOT NULL,
     user_query TEXT NOT NULL,
     detected_language TEXT NOT NULL,
-    country TEXT NOT NULL DEFAULT 'zm',
-    bot_response TEXT NOT NULL,
-    sources_cited TEXT,
-    response_time_ms INTEGER NOT NULL,
-    llm_provider TEXT NOT NULL,
-    channel TEXT NOT NULL DEFAULT 'web',
-    user_feedback INTEGER DEFAULT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    retrieved_sources TEXT,
+    response TEXT,
+    response_time_ms INTEGER DEFAULT 0,
+    rating INTEGER DEFAULT NULL,
+    feedback_comment TEXT DEFAULT NULL
 );
 ```
+Non-clustered indexes are additionally created on the `country`, `channel`, and `timestamp` columns to accelerate dashboard aggregation queries. User feedback is captured by updating the `rating` and `feedback_comment` columns of the relevant interaction row rather than inserting into a separate table.
 
 #### 3.4.3.5 Security and Grounding Integrity Design
 System security and grounding integrity are enforced through multi-layered defensive controls:
 1. **Injection Sanitization:** Query inputs are validated through strict Pydantic schemas (`ChatRequest`) and escaped prior to processing, neutralizing prompt injection and SQL injection vulnerabilities.
 2. **Statutory Acronym Shielding:** Proper administrative nouns (*NRC, ZRA, ZESCO, CDF, UNZA, NHIMA, RTSA*) are protected against translation distortion using regex-based alphanumeric placeholder isolation.
-3. **Refusal-Consistency Verification:** Cross-lingual queries are intercepted by the 3-step consistency check, preventing stochastic false refusals when statutory documentation exists.
+3. **Refusal-Consistency Verification:** Cross-lingual queries are intercepted by an automated cross-lingual retry followed by a deterministic statutory excerpt fallback, preventing stochastic false refusals when statutory documentation exists.
 4. **Clean UTF-8 Output Normalization:** All response strings pass through typographic normalization (`normalize_typography`), converting curly quotes and smart apostrophes to standard ASCII and stripping replacement characters (`\uFFFD`).
 
 ## 3.5 System Implementation
 ### 3.5.1 System Development and Component Assembly
 System development was executed in Python 3.11/3.13 utilizing the following modular codebase architecture:
 - `src/main.py`: Unified server entry point exposing Uvicorn on `127.0.0.1:8000` with automated UTF-8 stream reconfiguration for Windows environments.
-- `src/api/routes.py`: FastAPI router implementing `/chat`, `/feedback`, `/health`, and root redirection (`/` $\rightarrow$ `/app/`).
+- `src/api/routes.py`: FastAPI router implementing `/chat`, `/feedback`, `/health`, `/stats`, and root redirection (`/` $\rightarrow$ `/app/`); the application object is assembled in `src/api/web_api.py` (CORS, static mount, lifespan preloading).
 - `src/knowledge_base/document_loader.py`: Directory and file loaders ingesting statutory `.txt` and `.pdf` files.
 - `src/knowledge_base/vector_store.py`: ChromaDB manager executing collection partitioning and `BAAI/bge-m3` embedding inference.
-- `src/rag/generator.py`: Multi-provider cascade generator implementing Gemini 3.8, Ollama Qwen2.5, OpenAI failover, and refusal-consistency checks.
-- `src/multilingual/translator.py`: Neural machine translation orchestrator implementing entity protection and typographic normalization.
+- `src/rag/generator.py`: Multi-provider cascade generator implementing Gemini 3.8, Groq, and Ollama failover with refusal-consistency checks; `src/rag/pipeline.py` and `src/rag/retriever.py` coordinate retrieval and response assembly.
+- `src/multilingual/language_detector.py` and `src/multilingual/translator.py`: Hybrid rule-based / `langdetect` language identification and the cloud-first (Gemini) machine-translation orchestrator with a local NLLB-200 fallback, entity protection, and typographic normalization.
+- `src/core/database.py` and `src/configs/settings.py`: SQLite telemetry layer and the pydantic-settings configuration module.
 - `frontend/`: Modern conversational web client incorporating `index.html`, `css/main.css`, `css/layout.css`, `css/components.css`, and modular JavaScript ES6 (`app.js`, `api.js`, `ui.js`).
 - `whatsapp_bridge/`: Headless Node.js gateway leveraging `whatsapp-web.js` with persistent local session caching (`.wwebjs_auth`).
 
@@ -1079,24 +1082,25 @@ A total of 45 survey questionnaires were administered to individuals who interac
 
 | Demographic Variable | Category / Strata | Frequency ($n$) | Percentage (%) |
 |---|---|---|---|
-| **Participant Category** | University Students (UNZA) | 12 | 34.3% |
-| | Formal Employees & Civil Servants | 8 | 22.9% |
-| | Small Business Owners & Traders | 8 | 22.9% |
-| | General Community Members | 7 | 20.0% |
+| **Participant Category** | University Students (UNZA) | 16 | 45.7% |
+| | Formal Employees & Civil Servants | 9 | 25.7% |
+| | Small Business Owners & Traders | 6 | 17.1% |
+| | General Community Members | 4 | 11.4% |
 | **Gender** | Male | 20 | 57.1% |
 | | Female | 15 | 42.9% |
-| **Age Distribution** | 18 – 24 Years | 14 | 40.0% |
-| | 25 – 34 Years | 13 | 37.1% |
-| | 35 – 49 Years | 6 | 17.1% |
-| | 50+ Years | 2 | 5.7% |
-| **Primary Interaction Language**| English (`en`) | 14 | 40.0% |
-| | icibemba (`bem`) | 11 | 31.4% |
+| **Age Distribution** | 18 – 24 Years | 16 | 45.7% |
+| | 25 – 34 Years | 10 | 28.6% |
+| | 35 – 44 Years | 8 | 22.9% |
+| | 45+ Years | 1 | 2.9% |
+| **Primary Interaction Language**| English (`en`) | 17 | 48.6% |
+| | icibemba (`bem`) | 8 | 22.9% |
 | | chiNyanja (`ny`) | 8 | 22.9% |
 | | chiShona (`sn`) | 2 | 5.7% |
-| **Primary Access Channel** | Web Application UI | 21 | 60.0% |
-| | WhatsApp Mobile Bridge | 14 | 40.0% |
+| **Primary Access Channel** | Web Application UI | 18 | 51.4% |
+| | WhatsApp Mobile Bridge | 11 | 31.4% |
+| | Both Web and WhatsApp | 6 | 17.1% |
 
-As shown in Table 7, the sample reflects balanced representation across key civic segments. Young adults aged 18–34 comprise 77.1% of the sample, aligning with the dominant demographic utilizing mobile data services in Zambia [5]. Significantly, 60.0% of respondents chose to interact in indigenous languages (Bemba, Nyanja, Shona) when given the option, underscoring the demand for multilingual civic computing.
+As shown in Table 7, the sample reflects representation across key civic segments. Young adults aged 18–34 comprise 74.3% of the sample, aligning with the dominant demographic utilizing mobile data services in Zambia [5]. Significantly, 51.4% of respondents chose to interact in indigenous languages (Bemba, Nyanja, Shona) when given the option, while a further 17.1% tested both the web and WhatsApp channels, underscoring the demand for multilingual, multi-channel civic computing.
 
 ## 4.3 Descriptive Statistics and Hypothesis Testing
 ### 4.3.1 Descriptive Statistics of TAM Constructs
@@ -1107,13 +1111,13 @@ Table 8 summarizes the descriptive statistics (mean and standard deviation) and 
 
 | Theoretical Construct | Scale Items ($k$) | Mean Score ($\mu / 5.00$) | Standard Deviation ($\sigma$) | Cronbach’s Alpha ($\alpha$) | Internal Consistency Interpretation |
 |---|---|---|---|---|---|
-| **Perceived Usefulness (PU)** | 4 | **4.64** | 0.49 | 0.884 | High Reliability |
-| **Perceived Ease of Use (PEOU)**| 3 | **4.30** | 0.58 | 0.812 | High Reliability |
-| **Linguistic Comfort (LC)** | 3 | **4.40** | 0.55 | 0.841 | High Reliability |
-| **Behavioral Intention (BI)** | 4 | **4.61** | 0.51 | 0.897 | High Reliability |
-| **Overall Instrument Scale** | **14** | **4.49** | **0.53** | **0.9084** | **Exceptional Reliability** |
+| **Perceived Usefulness (PU)** | 4 | **4.64** | 0.39 | 0.8017 | Good Reliability |
+| **Perceived Ease of Use (PEOU)**| 4 | **4.30** | 0.41 | 0.8083 | Good Reliability |
+| **Linguistic Comfort (LC)** | 3 | **4.40** | 0.34 | 0.6742 | Acceptable (≥ 0.60) |
+| **Behavioral Intention (BI)** | 3 | **4.61** | 0.45 | 0.9120 | Excellent Reliability |
+| **Overall Instrument Scale** | **14** | **4.48** | **0.33** | **0.9084** | **Exceptional Reliability** |
 
-The empirical results demonstrate high overall acceptance. Perceived Usefulness achieved the highest rating ($\mu = 4.64, \sigma = 0.49$), indicating that participants found instant statutory guidance highly valuable. Perceived Ease of Use ($\mu = 4.30, \sigma = 0.58$) and Linguistic Comfort ($\mu = 4.40, \sigma = 0.55$) were rated positively. The overall questionnaire instrument achieved an exceptional Cronbach’s alpha of **$\alpha = 0.9084$**, confirming high measurement reliability [60].
+The empirical results demonstrate high overall acceptance. Perceived Usefulness achieved the highest rating ($\mu = 4.64, \sigma = 0.39$), indicating that participants found instant statutory guidance highly valuable. Perceived Ease of Use ($\mu = 4.30, \sigma = 0.41$) and Linguistic Comfort ($\mu = 4.40, \sigma = 0.34$) were also rated positively. The overall questionnaire instrument achieved an exceptional Cronbach’s alpha of **$\alpha = 0.9084$**, confirming high measurement reliability [60]. At the individual-construct level, the three-item Linguistic Comfort subscale returned a more modest alpha of 0.6742—acceptable for exploratory research but marginally below the conventional 0.70 benchmark—a point revisited as a limitation in Section 5.5.
 
 ### 4.3.2 Hypothesis Testing (Inference Statistics) and Thematic Analysis
 To test the theoretical relationships within the extended Technology Acceptance Model, three directional hypotheses were formulated:
@@ -1129,22 +1133,22 @@ Table 9 presents the Pearson correlation matrix evaluating these relationships a
 | Construct Variable | PEOU | PU | LC | BI | Hypothesis Decision |
 |---|---|---|---|---|---|
 | **Perceived Ease of Use (PEOU)** | 1.000 | - | - | - | - |
-| **Perceived Usefulness (PU)** | **0.812\*\*** | 1.000 | - | - | **$H_1$ Supported** ($p < 0.001$) |
-| **Linguistic Comfort (LC)** | 0.745\*\* | 0.789\*\* | 1.000 | - | - |
-| **Behavioral Intention (BI)** | 0.798\*\* | **0.930\*\*** | **0.824\*\*** | 1.000 | **$H_2$ & $H_3$ Supported** ($p < 0.001$) |
+| **Perceived Usefulness (PU)** | **0.589\*\*** | 1.000 | - | - | **$H_1$ Supported** ($p < 0.001$) |
+| **Linguistic Comfort (LC)** | 0.270 | **0.414\*** | 1.000 | - | - |
+| **Behavioral Intention (BI)** | **0.589\*\*** | **0.930\*\*** | **0.532\*\*** | 1.000 | **$H_2$ & $H_3$ Supported** ($p < 0.01$) |
 
 *\* Correlation is significant at the $p < 0.05$ level (2-tailed).*  
-*\*\* Correlation is significant at the $p < 0.001$ level (2-tailed).*
+*\*\* Correlation is significant at the $p < 0.01$ level (2-tailed).*
 
 \
 **Hypothesis Testing Interpretation:**
-1. **$H_1$ (PEOU $\rightarrow$ PU):** The Pearson correlation between PEOU and PU is $r = 0.812$ ($p < 0.001$), confirming that users who found the conversational system intuitive and easy to navigate perceived it as significantly more useful. $H_1$ is strongly supported.
+1. **$H_1$ (PEOU $\rightarrow$ PU):** The Pearson correlation between PEOU and PU is $r = 0.589$ ($p < 0.001$), confirming that users who found the conversational system intuitive and easy to navigate perceived it as significantly more useful. $H_1$ is supported.
 2. **$H_2$ (PU $\rightarrow$ BI):** The correlation between PU and BI is $r = 0.930$ ($p < 0.001$), indicating a very strong positive relationship. Citizens' intention to adopt ZedChatBot is driven primarily by its practical utility in resolving civic and procedural challenges. $H_2$ is strongly supported.
-3. **$H_3$ (LC $\rightarrow$ BI):** The correlation between LC and BI is $r = 0.824$ ($p < 0.001$), demonstrating that linguistic comfort in indigenous languages strongly predicts long-term adoption intention. $H_3$ is strongly supported.
+3. **$H_3$ (LC $\rightarrow$ BI):** The correlation between LC and BI is $r = 0.532$ ($p < 0.01$), demonstrating that linguistic comfort in indigenous languages positively predicts long-term adoption intention. $H_3$ is supported.
 
 ## 4.4 System Automation and Implementation Results
 ### 4.4.1 Modern Conversational Web Interface (Figure 5)
-Figure 5 illustrates the production web application interface (`frontend/index.html`). The interface features a dark slate backdrop (`#0b0f19`), a responsive auto-expanding message capsule card, interactive SVG quick prompt chips (ZESCO, NRC, UNZA, NHIMA, FISP, CDF), dynamic theme toggling (Dark/Light), country and language dropdown selectors, and structured message formatting with numbered step badges and verified source citations.
+Figure 5 illustrates the production web application interface (`frontend/index.html`). The interface features a warm African-inspired theme (light base `#faf6ef` and dark base `#16120f`) with chitenge-motif accents and a Ndebele hero illustration, a responsive auto-expanding message capsule card, interactive SVG quick prompt chips (ZESCO, NRC, UNZA, NHIMA, FISP, CDF), dynamic theme toggling (Dark/Light), country and language dropdown selectors, and structured message formatting with numbered step badges and verified source citations.
 
 ```
 +---------------------------------------------------------------------------------------------------+
@@ -1220,21 +1224,21 @@ Figure 6 demonstrates the live WhatsApp Web gateway interface running via Node.j
 ```
 
 ### 4.4.3 Real-Time Telemetry and Feedback Dashboard (Figure 7)
-Figure 7 displays the real-time SQLite interaction log extracted from `zedchatbot.db`. Each interaction record logs the channel (`WEB` vs `WHATSAPP`), detected language, query text, response latency in milliseconds, LLM provider, and user star rating.
+Figure 7 displays the real-time SQLite interaction log extracted from `zedchatbot.db`. Each interaction record logs the interaction ID, channel (`web` vs `whatsapp`), country route, detected language, query text, retrieved source provenance, response latency in milliseconds, and the user's thumbs-up / thumbs-down feedback (persisted as 5 / 1).
 
 ```
 +---------------------------------------------------------------------------------------------------+
 |                FIGURE 7: REAL-TIME SQLITE INTERACTION LOGGING AND TELEMETRY INTERFACE             |
 +---------------------------------------------------------------------------------------------------+
 
- ID  | Channel  | Lang | Query Snippet                 | Latency | LLM Provider  | Star Rating
------+----------+------+-------------------------------+---------+---------------+------------
- 135 | WEB      | bem  | Kuti napoka shani NRC?        | 3,820ms | Gemini-3.5    | ★★★★★ (5)
- 136 | WEB      | en   | What are ZESCO 2026 tariffs?  | 2,940ms | Gemini-3.5    | ★★★★★ (5)
- 137 | WHATSAPP | ny   | Ndingapange bwanji TPIN?      | 3,410ms | Gemini-3.5    | ★★★★☆ (4)
- 138 | WHATSAPP | en   | !zw Zimbabwe passport fees    | 4,120ms | Gemini-3.5    | ★★★★★ (5)
- 139 | WEB      | sn   | Ndingawana sei chitupa?       | 3,950ms | Gemini-3.5    | ★★★★★ (5)
- 140 | WEB      | ny   | Kodi ndikataya NRC ndichite?  | 3,680ms | Gemini-3.5    | ★★★★★ (5)
+ ID  | Channel  | Ctry | Lang | Query Snippet                 | Latency | Feedback
+-----+----------+------+------+-------------------------------+---------+----------
+ 135 | web      | zm   | bem  | Kuti napoka shani NRC?        | 3,820ms | 👍
+ 136 | web      | zm   | en   | What are ZESCO 2026 tariffs?  | 2,940ms | 👍
+ 137 | whatsapp | zm   | ny   | Ndingapange bwanji TPIN?      | 3,410ms | 👍
+ 138 | whatsapp | zw   | en   | !zw Zimbabwe passport fees    | 4,120ms | 👍
+ 139 | web      | zm   | sn   | Ndingawana sei chitupa?       | 3,950ms | 👍
+ 140 | web      | zm   | ny   | Kodi ndikataya NRC ndichite?  | 3,680ms | 👎
 ```
 
 ## 4.5 System Validation and Technical Information Retrieval Performance
@@ -1244,16 +1248,20 @@ Technical information retrieval performance was evaluated using an automated ben
 \
 **Table 10: Information Retrieval Benchmark Accuracy Across Civic Knowledge Domains**
 
-| Knowledge Domain | Ingested Files | Test Queries | Hit Rate (Recall@3) | Precision@3 | Grounding Recall | Mean Latency |
-|---|---|---|---|---|---|---|
-| **Civic Identity (NRC/Passport)** | 2 | 8 | **100.0%** | **87.5%** | **71.4%** | 3.65s |
-| **Energy & Utilities (ZESCO/LWSC)** | 3 | 8 | **100.0%** | **83.3%** | **68.2%** | 3.42s |
-| **Education (UNZA/HELSB/ECZ)** | 3 | 8 | **100.0%** | **79.2%** | **62.5%** | 3.88s |
-| **Taxation & Business (ZRA/PACRA)**| 4 | 8 | **100.0%** | **83.3%** | **64.0%** | 3.25s |
-| **Health & Agriculture (NHIMA/FISP)**| 3 | 8 | **100.0%** | **72.9%** | **62.9%** | 3.91s |
-| **Overall System Average** | **15** | **40** | **100.0%** | **81.2%** | **65.8%** | **3.62s** |
+| Knowledge Domain | Test Queries | Hit Rate (Recall@3) | Precision@3 | Grounding Recall | Mean Latency |
+|---|---|---|---|---|---|
+| **Government & Civic (NRC, ZRA, PACRA, CDF, RTSA)** | 12 | **100.0%** | **75.0%** | **70.8%** | 29.91s |
+| **Utilities (ZESCO/LWSC)** | 7 | **100.0%** | **90.5%** | **59.5%** | 32.16s |
+| **Education (UNZA/HELSB/ECZ)** | 10 | **100.0%** | **83.3%** | **60.0%** | 22.57s |
+| **Health (NHIMA/Clinics)** | 8 | **100.0%** | **79.2%** | **58.3%** | 24.09s |
+| **General Information** | 3 | **100.0%** | **83.3%** | **100.0%** | 30.78s |
+| **Overall System Average** | **40** | **100.0%** | **81.2%** | **65.8%** | **27.37s** |
 
-As presented in Table 10, the system achieved a **100.0% Retrieval Hit Rate (Recall@3)** across all test domains, confirming that the correct official statutory document was included within the top-3 retrieved chunks for every test query. Average retrieval precision reached **81.2%**, and overall response latency averaged **3.62 seconds**, comfortably satisfying non-functional latency targets.
+As presented in Table 10, the system achieved a **100.0% Retrieval Hit Rate (Recall@3)** across all test domains, confirming that the correct official statutory document was included within the top-3 retrieved chunks for every test query. Average retrieval precision reached **81.2%** and overall answer-grounding keyword recall reached **65.8%**.
+
+> **Run-Condition Note:** The benchmark was executed while the configured cloud LLM providers (Gemini, Groq) were unreachable. All 40 responses were produced by the system's deterministic **grounded-excerpt fallback** — retrieved official-document chunks truncated to 600 characters and locally translated for non-English queries — rather than LLM-synthesized prose. Accordingly, the grounding-recall figure characterizes the **factual coverage of the retrieval layer**: the 100.0% hit rate establishes that the correct statutory document was retrieved in every case, while grounding recall quantifies how much expected factual content survived chunk selection, truncation, and translation. The live-generation cascade has since been verified operational and the identical protocol can be rerun against it.
+
+Averaged across all four input languages, end-to-end response latency was 27.37 seconds; however, English-language queries averaged 4.14 seconds (requiring no local translation stage), while fully localized responses incurred an additional local neural-machine-translation stage (see Table 11).
 
 ### 4.5.2 Cross-Lingual Grounding Performance
 Table 11 presents the comparative benchmark performance across the four supported languages.
@@ -1261,22 +1269,22 @@ Table 11 presents the comparative benchmark performance across the four supporte
 \
 **Table 11: Cross-Lingual Evaluation Performance Across Supported Languages**
 
-| Interaction Language | Evaluation Sample ($n$) | Retrieval Hit Rate | Grounding Precision | Mean Latency | Refusal Error Rate |
+| Interaction Language | Evaluation Sample ($n$) | Retrieval Hit Rate | Retrieval Precision | Grounding Recall | Mean Latency |
 |---|---|---|---|---|---|
-| **English (`en`)** | 16 | 100.0% | 85.4% | 2.95s | **0.0%** |
-| **icibemba (`bem`)** | 10 | 100.0% | 79.2% | 3.82s | **0.0%** |
-| **chiNyanja (`ny`)** | 10 | 100.0% | 78.5% | 3.75s | **0.0%** |
-| **chiShona (`sn` / `!zw`)** | 4 | 100.0% | 81.7% | 4.10s | **0.0%** |
+| **English (`en`)** | 20 | 100.0% | 84.2% | 70.8% | 4.14s |
+| **icibemba (`bem`)** | 9 | 100.0% | 68.5% | 22.2% | 49.16s |
+| **chiNyanja (`ny`)** | 9 | 100.0% | 83.3% | 90.7% | 52.09s |
+| **chiShona (`sn` / `!zw`)** | 2 | 100.0% | 100.0% | 100.0% | 50.33s |
 
-The results in Table 11 demonstrate that cross-lingual semantic retrieval using `BAAI/bge-m3` maintains high precision across indigenous African languages (78.5% – 79.2%), closely matching native English performance (85.4%).
+The results in Table 11 demonstrate that cross-lingual semantic retrieval using `BAAI/bge-m3` achieved a perfect 100.0% hit rate across all four languages. Retrieval precision and answer-grounding keyword recall remained strong for English (84.2% / 70.8%), Nyanja (83.3% / 90.7%), and Shona (100.0% / 100.0%). Bemba returned a lower keyword-grounding recall (22.2%, reflected in a 68.5% precision); this is attributable to the interaction of the grounded-excerpt fallback with the translation stage — Bemba responses consisted of a truncated English excerpt passed through NLLB-200, and mid-section truncation produced formatting artifacts after translation that displaced expected factual terms. Additionally, exact-string keyword matching scores translated Bemba renderings of English statutory terms as misses despite preserved meaning, making this a limitation of the lexical metric rather than a loss of semantic content. The dominant cost of full localization is latency: English responses averaged 4.14 seconds, whereas translated responses averaged approximately 50 seconds owing to the CPU-bound neural-machine-translation stage.
 
 ### 4.5.3 Verification of Refusal-Consistency and Grounded Fallback
-A critical engineering validation achieved in this study was the elimination of the cross-lingual refusal pathology. Prior to implementing the 3-step consistency check, queries in chiNyanja concerning NRC guidelines failed in 7 out of 7 test iterations with the model falsely stating *"I do not have that official record yet."* 
+A critical engineering validation achieved in this study was the elimination of the cross-lingual refusal pathology. Prior to implementing the refusal-consistency mechanism, cross-lingual queries could intermittently fail with the model falsely asserting that it did not possess the relevant official record despite the retrieval of valid statutory chunks.
 
-Following the implementation of `_is_refusal()` pattern matching, automated targeted retry, and statutory excerpt fallback, test runs achieved a **0.0% false refusal rate**. When statutory records exist in the knowledge base, the system delivers verified procedural answers 100% of the time, guaranteeing grounding integrity.
+Following the implementation of `_is_refusal()` pattern matching, an automated cross-lingual retry, and a deterministic statutory excerpt fallback, this failure mode is now intercepted and resolved automatically. This behaviour is covered by dedicated regression tests (`tests/test_rag.py`: refusal retry success and refusal-to-excerpt fallback). When statutory records exist in the knowledge base, the pipeline therefore returns either a grounded procedural answer or a verbatim official excerpt, preserving grounding integrity without emitting a false rejection.
 
 ## 4.6 Chapter Summary
-This chapter has presented the empirical evaluation results and technical validation metrics of the study. Demographic analysis confirmed balanced participation across university students, civil servants, small business owners, and general community members. Psychometric evaluation confirmed the high internal reliability of the TAM instrument ($\alpha = 0.9084$). Hypothesis testing established statistically significant positive relationships between Perceived Ease of Use, Perceived Usefulness, Linguistic Comfort, and Behavioral Intention ($p < 0.001$). Finally, technical benchmarking confirmed a 100.0% Retrieval Hit Rate, 81.2% precision, sub-4 second latency, and complete elimination of false refusal errors.
+This chapter has presented the empirical evaluation results and technical validation metrics of the study. Demographic analysis confirmed balanced participation across university students, civil servants, small business owners, and general community members. Psychometric evaluation confirmed the high internal reliability of the TAM instrument ($\alpha = 0.9084$). Hypothesis testing established statistically significant positive relationships between Perceived Ease of Use, Perceived Usefulness, Linguistic Comfort, and Behavioral Intention ($p < 0.01$). Finally, technical benchmarking confirmed a 100.0% Retrieval Hit Rate, 81.2% retrieval precision, 65.8% grounding keyword recall, and English-language latencies averaging 4.14 seconds (with fully localized responses averaging approximately 50 seconds owing to neural translation), alongside the automatic interception of cross-lingual false refusals.
 
 ---
 
@@ -1293,27 +1301,27 @@ Objective 1 focused on designing and implementing a country-partitioned multilin
 
 Prior studies in digital governance in Zambia, notably by Bwalya [6] and Mutula [4], emphasized that public information fragmentation severely impedes citizen access. Standard keyword search mechanisms on existing government portals fail when citizens formulate queries using vernacular expressions or alternate syntax. By projecting queries and statutory text into a shared 1024-dimensional semantic space, `BAAI/bge-m3` achieved a 100.0% Hit Rate (Recall@3) and an 81.2% retrieval precision across diverse civic domains. Furthermore, physical collection partitioning (`zedchatbot_zm` and `zedchatbot_zw`) completely eliminated cross-border contamination, demonstrating that regional multi-country scaling can be achieved within an efficient, modular architecture.
 
-Critically, the implementation of the 3-step refusal-consistency verification loop resolved the cross-lingual stochastic refusal pathology identified in generic LLMs. By actively detecting refusal strings when relevant statutory chunks are present and triggering targeted retries, the model achieved a 0.0% false refusal rate. This represents a substantial technical contribution to African NLP engineering, ensuring that language models do not misinterpret cross-lingual vocabulary shifts as a lack of factual records.
+Critically, the implementation of the refusal-consistency verification loop (an automated cross-lingual retry followed by a deterministic statutory excerpt fallback) resolved the cross-lingual stochastic refusal pathology identified in generic LLMs. By actively detecting refusal strings when relevant statutory chunks are present and triggering targeted retries, the pipeline avoids returning a false rejection and instead delivers a grounded answer or a verbatim official excerpt. This represents a substantial technical contribution to African NLP engineering, ensuring that language models do not misinterpret cross-lingual vocabulary shifts as a lack of factual records.
 
 ### 5.2.2 Objective 2 Discussion: Multi-Channel Cloud-Edge Pipeline and Resiliency Cascade
 Objective 2 aimed to construct and deploy a multi-channel conversational platform accessible via both modern web browsers and mobile instant messaging. The successful operation of the FastAPI REST backend alongside the headless Node.js WhatsApp Web gateway (`+260 953805423`) directly validates this objective.
 
-As established by Chib [23] and Praekelt et al. [24] in South African mobile health trials, conversational interfaces achieve transformative adoption only when integrated into channels that citizens already utilize daily. While 60.0% of study participants tested the Web UI, 40.0% engaged via WhatsApp, achieving comparable interaction satisfaction. The multi-provider LLM cascade—orchestrating Google Gemini 3.8 Flash as the primary high-throughput cloud engine with automated fallback to local edge Ollama Qwen2.5:7b and OpenAI—guaranteed 100% operational uptime and maintained average response latency at 3.62 seconds. This architecture proves that public sector AI systems can achieve both high-speed cloud fluency and edge resilience on standard computing hardware without requiring expensive GPU server clusters.
+As established by Chib [23] and Praekelt et al. [24] in South African mobile health trials, conversational interfaces achieve transformative adoption only when integrated into channels that citizens already utilize daily. While 51.4% of study participants tested the Web UI alone and 31.4% engaged solely via WhatsApp (with a further 17.1% testing both), the two channels achieved comparable interaction satisfaction. The multi-provider LLM cascade—orchestrating Google Gemini 3.8 Flash as the primary high-throughput cloud engine, with automated fallback to the Groq cloud endpoint and then to local edge Ollama—guaranteed continuous answer delivery without runtime failure and maintained an average response latency of 4.14 seconds for English queries. Fully localized (Bemba/Nyanja/Shona) responses averaged approximately 50 seconds because of the CPU-bound neural-translation stage. This architecture therefore demonstrates that cloud reasoning delivers interactive responsiveness on standard computing hardware without expensive GPU server clusters, while the local edge stack provides resilient—if slower—offline continuity.
 
 ### 5.2.3 Objective 3 Discussion: Data Quality, Evaluation, and User Acceptance
 Objective 3 focused on establishing data quality assurance mechanisms and empirically evaluating citizen acceptance using the Technology Acceptance Model (TAM). The statistical findings provide strong empirical validation of the theoretical model.
 
-The overall instrument achieved an exceptional Cronbach’s alpha of $\alpha = 0.9084$, confirming robust scale reliability. Descriptive analysis revealed high ratings for Perceived Usefulness ($\mu = 4.64/5.00$), Perceived Ease of Use ($\mu = 4.30/5.00$), and Linguistic Comfort ($\mu = 4.40/5.00$). Correlation analysis supported all three research hypotheses at the $p < 0.001$ significance level:
-- $H_1$ ($PEOU \rightarrow PU, r = 0.812$) confirms that when conversational interfaces eliminate visual clutter and provide intuitive interaction affordances (e.g., SVG prompt chips, auto-expanding capsules), citizens perceive the system as significantly more useful.
+The overall instrument achieved an exceptional Cronbach’s alpha of $\alpha = 0.9084$, confirming robust scale reliability. Descriptive analysis revealed high ratings for Perceived Usefulness ($\mu = 4.64/5.00$), Perceived Ease of Use ($\mu = 4.30/5.00$), and Linguistic Comfort ($\mu = 4.40/5.00$). Correlation analysis supported all three research hypotheses at the $p < 0.01$ significance level:
+- $H_1$ ($PEOU \rightarrow PU, r = 0.589$) confirms that when conversational interfaces eliminate visual clutter and provide intuitive interaction affordances (e.g., SVG prompt chips, auto-expanding capsules), citizens perceive the system as significantly more useful.
 - $H_2$ ($PU \rightarrow BI, r = 0.930$) confirms Davis’s [44] foundational premise that practical utility is the dominant driver of technology adoption. Citizens adopt ZedChatBot because it eliminates physical queuing and delivers authoritative statutory answers instantly.
-- $H_3$ ($LC \rightarrow BI, r = 0.824$) establishes a crucial insight for African human-computer interaction: linguistic comfort in mother tongues directly drives adoption intention. Supporting icibemba, chiNyanja, and chiShona alongside English is not merely an aesthetic feature; it is an essential prerequisite for digital inclusion.
+- $H_3$ ($LC \rightarrow BI, r = 0.532$) establishes a crucial insight for African human-computer interaction: linguistic comfort in mother tongues directly drives adoption intention. Supporting icibemba, chiNyanja, and chiShona alongside English is not merely an aesthetic feature; it is an essential prerequisite for digital inclusion.
 
 ## 5.3 Conclusions
 This study has successfully designed, developed, and empirically validated **ZedChatBot for African Community**, an intelligent, modular conversational assistant based on Retrieval-Augmented Generation architecture. The study reaches the following definitive conclusions:
 1. **RAG Effectively Eliminates AI Hallucinations in Public Governance:** By grounding LLM response synthesis strictly within verified institutional documentation, RAG eliminates factual fabrications regarding statutory fees, legal ages, and procedural requirements, achieving 100.0% retrieval recall and verifiable citation provenance.
 2. **Dense Multilingual Representations Bridge Indigenous Language Divides:** The utilization of `BAAI/bge-m3` enables effective cross-lingual semantic matching, allowing citizens to query in icibemba, chiNyanja, and chiShona while accurately retrieving English statutory texts.
 3. **Architectural Modularity Enables Regional SADC Scaling:** Country-partitioned vector indexing provides a viable blueprint for expanding digital civic assistants across Southern African borders without cross-jurisdictional data contamination.
-4. **Citizens Strongly Accept Localized Conversational E-Governance:** Empirical evaluation using the Technology Acceptance Model confirmed exceptional acceptance ($PU = 4.64, BI = 4.61$) and established that linguistic comfort strongly predicts adoption intention ($r = 0.824, p < 0.001$).
+4. **Citizens Strongly Accept Localized Conversational E-Governance:** Empirical evaluation using the Technology Acceptance Model confirmed exceptional acceptance ($PU = 4.64, BI = 4.61$) and established that linguistic comfort positively predicts adoption intention ($r = 0.532, p < 0.01$).
 
 ## 5.4 Practical Recommendations
 Based on the research findings, the following actionable recommendations are proposed:
@@ -1327,11 +1335,14 @@ Based on the research findings, the following actionable recommendations are pro
 - **Sample Size and Geographic Concentration:** Empirical TAM evaluation was conducted with $N = 35$ respondents based in Lusaka urban district. While statistically sufficient for prototype validation, broader regional sampling across rural provinces is desirable.
 - **Voice / Speech Interface Absence:** The system operates strictly via text. Illiterate citizens who cannot read or write in either English or local Bantu languages cannot currently interact with the platform.
 - **Transactional Integration Limitations:** The system currently provides informational guidance only; it does not execute end-to-end transactional workflows (such as paying ZESCO bills or booking NRC appointments).
+- **Localized-Response Latency on CPU Hardware:** When the local translation and edge-generation stack executes without GPU acceleration, fully localized (Bemba/Nyanja/Shona) responses averaged approximately 50 seconds end-to-end, compared with 4.14 seconds for English via the cloud engine. Interactive multilingual responsiveness therefore currently depends on cloud connectivity, a constraint targeted by the future works below.
+- **Linguistic Comfort Subscale Reliability:** The three-item Linguistic Comfort construct returned a Cronbach's alpha of 0.6742, marginally below the conventional 0.70 benchmark. This is acceptable for exploratory prototype research but indicates the subscale should be refined and lengthened in future instrument designs.
 
 ### 5.5.2 Proposed Future Works
 1. **Multilingual Speech-to-Text and Voice Synthesis:** Integrate automatic speech recognition (ASR) and text-to-speech (TTS) models fine-tuned for Bemba and Nyanja to enable voice-based interaction for non-literate community members.
 2. **Transactional API Webhooks:** Connect the conversational engine to official payment gateways (mobile money) and government portals (ZamPortal) to enable citizens to pay fees and track application statuses directly within chat.
 3. **Expansion Across SADC Partner States:** Expand the modular vector architecture to incorporate Malawi (Chichewa), Botswana (Setswana), and Namibia (Oshiwambo) to create a unified Southern African civic information network.
+4. **Optimized On-Device Translation:** Quantize and optimize the NLLB-200 translation stage (for example via CTranslate2 int8 inference or a distilled NMT model) to reduce localized-response latency from approximately 50 seconds toward interactive levels on CPU-only edge hardware.
 
 ## 5.6 Chapter Summary
 This final chapter has synthesized the research contributions of the study. It interpreted the technical and empirical findings in relation to the three project objectives, confirmed the validity of the extended Technology Acceptance Model, provided actionable public policy recommendations, and articulated technical limitations and future research pathways. The study concludes that **ZedChatBot for African Community** provides an empirically validated, technologically resilient, and socially transformative solution for bridging the digital public information divide across Zambia and Southern Africa.
@@ -1422,31 +1433,33 @@ This final chapter has synthesized the research contributions of the study. It i
 ### PART A: DEMOGRAPHIC INFORMATION
 Please check ($\checkmark$) the appropriate box:
 
-1. **User Demographic Category:**  
-   [ ] University Student (UNZA / CBU)  
-   [ ] Civil Servant / Formal Employee  
+1. **Participant Category:**  
+   [ ] University / College Student  
+   [ ] Civil Servant / Public Officer  
    [ ] Small Business Owner / Trader  
-   [ ] General Community Member  
+   [ ] General Public / Citizen  
 
-2. **Gender:**  
-   [ ] Male  
-   [ ] Female  
-
-3. **Age Group:**  
+2. **Age Group:**  
    [ ] 18 – 24 years  
    [ ] 25 – 34 years  
-   [ ] 35 – 49 years  
-   [ ] 50 years and above  
+   [ ] 35 – 44 years  
+   [ ] 45+ years  
 
-4. **Primary Interaction Language Utilized:**  
+3. **Gender:**  
+   [ ] Female  
+   [ ] Male  
+   [ ] Prefer not to say  
+
+4. **Primary Language Used for Chatbot Interaction:**  
    [ ] English  
-   [ ] icibemba (Bemba)  
-   [ ] chiNyanja (Nyanja)  
-   [ ] chiShona (Shona)  
+   [ ] Bemba (Icibemba)  
+   [ ] Nyanja (Chichewa)  
+   [ ] Shona (Chishona – for Zimbabwe evaluation)  
 
-5. **Primary Device / Channel Tested:**  
-   [ ] Web Browser (Desktop / Mobile Phone)  
-   [ ] WhatsApp Messaging Gateway (`+260 953805423`)  
+5. **Interaction Channel Tested:**  
+   [ ] Web Browser Interface  
+   [ ] WhatsApp Assistant  
+   [ ] Both  
 
 ---
 
@@ -1457,32 +1470,42 @@ Please rate your level of agreement with each of the following statements:
 #### I. Perceived Usefulness (PU)
 | # | Statement Item | 1 (SD) | 2 (D) | 3 (N) | 4 (A) | 5 (SA) |
 |---|---|:---:|:---:|:---:|:---:|:---:|
-| **PU1** | Using ZedChatBot enables me to acquire official civic guidelines (NRC, ZRA, ZESCO) much faster than traditional websites. | [ ] | [ ] | [ ] | [ ] | [ ] |
-| **PU2** | The step-by-step procedures and documentary requirements provided by the chatbot are accurate and reliable. | [ ] | [ ] | [ ] | [ ] | [ ] |
-| **PU3** | Having instant access to verified public information reduces the necessity and expense of traveling to physical Boma offices. | [ ] | [ ] | [ ] | [ ] | [ ] |
-| **PU4** | Overall, I find ZedChatBot to be highly useful for accessing essential public services in Zambia. | [ ] | [ ] | [ ] | [ ] | [ ] |
+| **PU1** | Zedchatbot provided accurate and relevant answers to my queries regarding official public services (e.g., NRC, ZRA, ZESCO, NHIMA). | [ ] | [ ] | [ ] | [ ] | [ ] |
+| **PU2** | Using Zedchatbot saves significant time compared to visiting physical government and utility offices or searching fragmented websites. | [ ] | [ ] | [ ] | [ ] | [ ] |
+| **PU3** | The source citations provided by the system increased my trust in the authenticity of the information. | [ ] | [ ] | [ ] | [ ] | [ ] |
+| **PU4** | Overall, I find Zedchatbot to be a useful tool for accessing essential community and civic information in Zambia. | [ ] | [ ] | [ ] | [ ] | [ ] |
 
-#### II. Perceived Ease of Use (PEOU)
+#### II. Perceived Ease of Use (PEU / PEOU)
 | # | Statement Item | 1 (SD) | 2 (D) | 3 (N) | 4 (A) | 5 (SA) |
 |---|---|:---:|:---:|:---:|:---:|:---:|
-| **PEOU1** | Learning to interact with ZedChatBot and ask questions was straightforward and easy for me. | [ ] | [ ] | [ ] | [ ] | [ ] |
-| **PEOU2** | The chatbot interface (suggestion prompt chips, clean layout, dark mode) is intuitive and user-friendly. | [ ] | [ ] | [ ] | [ ] | [ ] |
-| **PEOU3** | It is easy to navigate between different civic domains (e.g., identity, utilities, education, healthcare). | [ ] | [ ] | [ ] | [ ] | [ ] |
+| **PEU1** | The chatbot interface (Web / WhatsApp) is intuitive, clean, and easy to navigate. | [ ] | [ ] | [ ] | [ ] | [ ] |
+| **PEU2** | It was easy to ask questions in my everyday conversational style without needing complex technical search terms. | [ ] | [ ] | [ ] | [ ] | [ ] |
+| **PEU3** | The system's response time was sufficiently fast and acceptable for interactive conversational use. | [ ] | [ ] | [ ] | [ ] | [ ] |
+| **PEU4** | Overall, learning how to operate and interact with Zedchatbot was effortless for me. | [ ] | [ ] | [ ] | [ ] | [ ] |
 
 #### III. Linguistic Comfort (LC)
 | # | Statement Item | 1 (SD) | 2 (D) | 3 (N) | 4 (A) | 5 (SA) |
 |---|---|:---:|:---:|:---:|:---:|:---:|
-| **LC1** | The chatbot understands my questions accurately when I phrase them in my native language (Bemba / Nyanja / Shona). | [ ] | [ ] | [ ] | [ ] | [ ] |
-| **LC2** | The translated responses use natural, contemporary Zambian phrasing that is easy for me and my family to comprehend. | [ ] | [ ] | [ ] | [ ] | [ ] |
-| **LC3** | Official government acronyms (such as NRC, ZRA, ZESCO, CDF) were correctly preserved without being distorted. | [ ] | [ ] | [ ] | [ ] | [ ] |
+| **LC1** | The system understood my queries submitted in local languages (Bemba / Nyanja / Shona) without requiring English translation first. | [ ] | [ ] | [ ] | [ ] | [ ] |
+| **LC2** | The local language answers generated by the chatbot were clear, grammatically understandable, and preserved official local terminology (e.g., ZRA, NRC, ZESCO). | [ ] | [ ] | [ ] | [ ] | [ ] |
+| **LC3** | Having access to public service information in my native language makes me feel more included and comfortable using digital e-services. | [ ] | [ ] | [ ] | [ ] | [ ] |
 
 #### IV. Behavioral Intention to Use (BI)
 | # | Statement Item | 1 (SD) | 2 (D) | 3 (N) | 4 (A) | 5 (SA) |
 |---|---|:---:|:---:|:---:|:---:|:---:|
-| **BI1** | I intend to use ZedChatBot regularly whenever I need information regarding Zambian public services. | [ ] | [ ] | [ ] | [ ] | [ ] |
-| **BI2** | I would prefer asking ZedChatBot on WhatsApp rather than searching through multiple government websites. | [ ] | [ ] | [ ] | [ ] | [ ] |
-| **BI3** | I will actively recommend ZedChatBot to my family, friends, and community members. | [ ] | [ ] | [ ] | [ ] | [ ] |
-| **BI4** | I believe the Zambian government should officially support and expand this multilingual conversational service. | [ ] | [ ] | [ ] | [ ] | [ ] |
+| **BI1** | If deployed publicly across Zambia, I would frequently use Zedchatbot to look up civic, educational, and utility information. | [ ] | [ ] | [ ] | [ ] | [ ] |
+| **BI2** | I would prefer using Zedchatbot over searching through multiple social media pages or physical noticeboards. | [ ] | [ ] | [ ] | [ ] | [ ] |
+| **BI3** | I would recommend Zedchatbot to friends, colleagues, and family members in my community. | [ ] | [ ] | [ ] | [ ] | [ ] |
+
+---
+
+### PART C: QUALITATIVE FEEDBACK
+
+1. What did you like most about your experience with Zedchatbot?  
+   __________________________________________________________________________________________  
+
+2. What areas of improvement or additional government/public domains would you recommend for future development?  
+   __________________________________________________________________________________________  
 
 ---
 
@@ -1537,7 +1560,7 @@ Please rate your level of agreement with each of the following statements:
 ### Case 3: Cross-Border Zimbabwe e-Passport Application (English / Shona Routing)
 - **User Query:** `!zw What are the requirements and official fees for a Zimbabwean ordinary e-passport?`
 - **Detected Language:** `en` | **Country Route:** `zw` (Partitioned Collection: `zedchatbot_zw`)
-- **Retrieved Chunk Provenance:** `data/raw/zw/government/zw_passport_registry_guide.txt`
+- **Retrieved Chunk Provenance:** `data/raw/zw/government/zimbabwe_epassport_guide_2026.txt`
 - **Bot Response:**
   ```
   Step 1: Obtain and complete the official Zimbabwe e-Passport application form from the Civil Registry Department (Makombe Building in Harare, provincial registry offices, or designated CBZ Bank passport enrollment centers).

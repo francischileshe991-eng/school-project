@@ -11,20 +11,28 @@ The law explicitly prescribes legally binding minimum wages for categories of vu
 
 ### Category 1: Domestic Workers
 - **Covered Roles:** Housemaids, domestic servants, house cleaners, residential cooks, nannies/babysitters, domestic gardeners, and residential security watchmen.
-- **Statutory Minimum Wage Structure:**
-  - Basic monthly minimum wage mandated by statutory instrument.
-  - Mandatory transport allowance if the employer does not provide physical transport to and from work.
-  - Mandatory lunch / food allowance or provision of adequate daily meals on duty.
-  - Mandatory enrollment and monthly statutory pension contributions to NAPSA (5% employer and 5% employee).
-  - Mandatory monthly health insurance contribution to NHIMA (1% employer and 1% employee).
+- **Legal Instrument:** Domestic Workers (Employment) Order, **Statutory Instrument No. 49 of 2023**, effective 1 January 2024.
+- **Statutory Minimum Wage (2024 rates, still in force in 2026):**
+  - Basic monthly minimum wage: **K1,100** (or K5.29 per hour).
+  - With housing provided: **gross minimum K1,300 per month** (K1,100 basic + K200 housing).
+  - Employer must also provide transport and lunch where the employee is not entitled to them.
+- Mandatory enrollment and monthly statutory pension contributions to NAPSA (5% employer and 5% employee).
+- Mandatory monthly health insurance contribution to NHIMA (1% employer and 1% employee).
 - **Working Hours:** Maximum of 48 hours per week (equivalent to 8 hours per day for a 6-day week, or 9 hours per day for a 5-day week). Work exceeding these hours constitutes overtime.
 
 ### Category 2: Shop Workers & Commercial Assistants
 - **Covered Roles:** Shop cashiers, packers, sales assistants, shelf stackers, dispatched messengers, and store handymen.
+- **Legal Instrument:** Shop Workers (Employment) Order, **Statutory Instrument No. 50 of 2023** (for commercial undertakings).
 - **Statutory Structure:** Graded minimum wages across Grade 1 to Grade 4 depending on skills and responsibility, accompanied by mandatory housing, transport, and meal allowances.
+- **Grade 1 (Shop) 2024 rates, still in force in 2026:** basic **K1,487** + housing **K446.10** + transport **K200** + lunch/other **K180** = **gross K2,313.10 per month**.
 
 ### Category 3: General Workers & Office Cleaners
 - **Covered Roles:** Cleaners in commercial offices, general construction laborers, day watchmen, farm workers, and utility assistants.
+- **Legal Instrument:** General Workers Order, **Statutory Instrument No. 48 of 2023**, effective 1 January 2024.
+- **Category I 2024 rates, still in force in 2026:** basic **K1,487** + housing **K446.10** + transport **K200** + lunch/other **K180** = **gross K2,313.10 per month**.
+
+### Category 4: Truck and Bus Drivers
+- **Legal Instrument:** **Statutory Instrument No. 3 of 2025** introduced a statutory minimum wage for truck and bus drivers, alongside the mandatory housing, transport and meal components. Verify current figures with the Ministry of Labour and Social Security.
 
 ## 3. Statutory Leave Entitlements under the Employment Code Act 2019
 

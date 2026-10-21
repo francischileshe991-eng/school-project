@@ -25,8 +25,8 @@ Each selected smallholder farmer receives a comprehensive agricultural input pac
   - Crop diversification packs: Certified seed for Soya Beans, Sorghum, Groundnuts, or Sunflower.
 
 ### Delivery Modalities:
-1. **Direct Input Supply (DIS):** Physical delivery of fertilizer and seed bags to designated district storage sheds, cooperative distribution points, and agricultural depots.
-2. **Electronic Voucher (E-Voucher) System:** Beneficiaries receive a pre-loaded electronic Visa card or USSD voucher, allowing them to purchase approved agricultural inputs of their personal preference directly from accredited agro-dealers.
+1. **Electronic Voucher (E-Voucher) System - now the nationwide standard:** Since the 2025/2026 farming season the e-voucher is the sole delivery modality. The old Direct Input Supply (DIS) model, in which fertiliser and seed bags were physically delivered to district sheds, was phased out. Beneficiaries receive a pre-loaded electronic Visa card or USSD voucher and buy approved inputs of their preference directly from accredited agro-dealers.
+2. **Scale:** The Ministry of Agriculture targets **1,024,434 smallholder farmers across 116 districts** under the e-voucher for the 2026/2027 season.
 
 ### How to Apply for FISP:
 - **Step 1:** Join or register with your local community Agricultural Cooperative or Farmer Club.

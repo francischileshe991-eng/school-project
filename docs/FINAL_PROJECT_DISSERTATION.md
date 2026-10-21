@@ -72,7 +72,7 @@ In developing African nations such as Zambia, access to authoritative, context-s
 
 To resolve these barriers, this study designs, implements, and evaluates **Zedchatbot for African Community**, a modular conversational artificial intelligence assistant based on Retrieval-Augmented Generation (RAG) architecture. Built upon a decoupled three-tier architecture, the system combines local vector embeddings (`BAAI/bge-m3`), an isolated country-partitioned ChromaDB vector database, a hybrid cloud-edge multi-provider LLM cascade (primary high-throughput Google Gemini 3.8 Flash, local edge fallback via Ollama `Qwen2.5:7b`, and OpenAI), and constrained machine translation (contemporary Google Gemini and local `Meta NLLB-200`) incorporating entity preservation placeholders to protect Zambian statutory acronyms. The platform delivers interaction via a responsive web application and an asynchronous Twilio WhatsApp messaging webhook. System modularity is demonstrated through country-isolated collections, featuring a fully realized Zambian implementation alongside a proof-of-concept extension to Zimbabwe.
 
-The system was evaluated through a mixed-methods empirical framework matching Research Objectives 1 and 2. Technical Information Retrieval (IR) benchmarking over 40 comprehensive domain queries across English, Bemba, Nyanja, and Shona achieved an overall **Retrieval Hit Rate (Recall@3) of 100.0%**, an **Average Retrieval Precision of 81.2%**, and an **Answer Keyword Grounding Recall of 65.8%**, verifying cross-lingual semantic grounding. User acceptance was quantitatively assessed through a Technology Acceptance Model (TAM) survey administered to $N = 35$ Zambian citizens (students, civil servants, small business owners, and general community members). The instrument demonstrated exceptional scale reliability (**Cronbach's Alpha $\alpha = 0.9084$**), with high ratings across Perceived Usefulness ($\mu = 4.64/5.00$), Perceived Ease of Use ($\mu = 4.30/5.00$), Linguistic Comfort ($\mu = 4.40/5.00$), and Behavioral Intention to Adopt ($\mu = 4.61/5.00$). Pearson correlation analysis confirmed that Perceived Usefulness strongly predicts citizen adoption intention ($r = 0.930, p < 0.001$). The findings confirm that combining modular cross-lingual RAG with familiar conversational channels provides an effective, scalable blueprint for bridging the digital public information divide across Southern Africa.
+The system was evaluated through a mixed-methods empirical framework matching Research Objectives 1 and 2. Technical Information Retrieval (IR) benchmarking over 40 comprehensive domain queries across English, Bemba, Nyanja, and Shona achieved an overall **Retrieval Hit Rate (Recall@3) of 100.0%**, an **Average Retrieval Precision of 81.2%**, and an **Answer Keyword Grounding Recall of 65.8%** (measured in the system's grounded-excerpt fallback mode during a cloud-provider outage; see Section 5.2), verifying cross-lingual semantic grounding. User acceptance was quantitatively assessed through a Technology Acceptance Model (TAM) survey administered to $N = 35$ Zambian citizens (students, civil servants, small business owners, and general community members). The instrument demonstrated exceptional scale reliability (**Cronbach's Alpha $\alpha = 0.9084$**), with high ratings across Perceived Usefulness ($\mu = 4.64/5.00$), Perceived Ease of Use ($\mu = 4.30/5.00$), Linguistic Comfort ($\mu = 4.40/5.00$), and Behavioral Intention to Adopt ($\mu = 4.61/5.00$). Pearson correlation analysis confirmed that Perceived Usefulness strongly predicts citizen adoption intention ($r = 0.930, p < 0.001$). The findings confirm that combining modular cross-lingual RAG with familiar conversational channels provides an effective, scalable blueprint for bridging the digital public information divide across Southern Africa.
 
 **Keywords:** *Retrieval-Augmented Generation (RAG), Conversational AI, African NLP, Technology Acceptance Model (TAM), Bemba, Nyanja, Digital E-Government, Zambia.*
 
@@ -482,7 +482,7 @@ A benchmark dataset of 40 formal test queries was constructed covering all domai
 - **Zambia ($N = 35$):** Distributed across Government (10), Utilities (7), Health (7), Education (8), and General Information (3), formulated across English (18), Nyanja (9), and Bemba (8).
 - **Zimbabwe ($N = 5$):** Covering Civil Registry, ZIMRA, ZIMSEC, and Health across English (2) and Shona (3).
 
-For each query, ground-truth expected source documents and mandatory factual keywords were predefined. An automated evaluation runner ([evaluate_system.py](file:///c:/Users/franc/Desktop/zedchatbot%20for%20african%20community/scripts/evaluate_system.py)) executed every query against the live pipeline, computing four metrics:
+For each query, ground-truth expected source documents and mandatory factual keywords were predefined. An automated evaluation runner ([evaluate_system.py](../scripts/evaluate_system.py)) executed every query against the live pipeline, computing four metrics:
 1. **Retrieval Hit Rate (Recall@3):** A binary indicator evaluating whether at least one target document was retrieved within the top-3 chunks:
    $$\text{Hit Rate} = \begin{cases} 1.0 & \text{if } \mathcal{D}_{\text{retrieved}} \cap \mathcal{D}_{\text{expected}} \neq \emptyset \\ 0.0 & \text{otherwise} \end{cases}$$
 2. **Retrieval Precision:** The proportion of retrieved documents that were genuinely relevant:
@@ -494,13 +494,13 @@ For each query, ground-truth expected source documents and mandatory factual key
 ### 3.4.2 Qualitative and Quantitative TAM User Acceptance Study
 A structured field evaluation was conducted with **$N = 35$ Zambian participants** across Lusaka and the Copperbelt. The cohort included 16 university students, 9 civil servants, 6 small business owners, and 4 general community members. Participants interacted directly with Zedchatbot via the Web interface or the WhatsApp webhook, executing real-world inquiries in English, Bemba, and Nyanja.
 
-Following the interaction, participants completed the standardized **TAM Survey Instrument** ([TAM_QUESTIONNAIRE_INSTRUMENT.md](file:///c:/Users/franc/Desktop/zedchatbot%20for%20african%20community/docs/TAM_QUESTIONNAIRE_INSTRUMENT.md)), answering 14 items across four constructs on a 5-point Likert scale (1 = Strongly Disagree to 5 = Strongly Agree):
+Following the interaction, participants completed the standardized **TAM Survey Instrument** ([TAM_QUESTIONNAIRE_INSTRUMENT.md](TAM_QUESTIONNAIRE_INSTRUMENT.md)), answering 14 items across four constructs on a 5-point Likert scale (1 = Strongly Disagree to 5 = Strongly Agree):
 - **Perceived Usefulness (PU):** 4 items measuring information accuracy, time savings, citation trust, and overall utility.
 - **Perceived Ease of Use (PEU):** 4 items measuring interface navigation, conversational simplicity, speed, and learning effort.
 - **Linguistic Comfort (LC):** 3 items evaluating comprehension, grammatical clarity in Bemba/Nyanja, and digital inclusion.
 - **Behavioral Intention (BI):** 3 items assessing regular usage intention, preference over physical offices, and peer recommendation.
 
-Statistical analytics were computed automatically using [analyze_tam.py](file:///c:/Users/franc/Desktop/zedchatbot%20for%20african%20community/scripts/analyze_tam.py), calculating construct means, standard deviations, scale reliability via **Cronbach's Alpha ($\alpha$)**, and a **Pearson Correlation Matrix** to test the theoretical TAM hypothesis ($PU \rightarrow BI$ and $PEU \rightarrow BI$).
+Statistical analytics were computed automatically using [analyze_tam.py](../scripts/analyze_tam.py), calculating construct means, standard deviations, scale reliability via **Cronbach's Alpha ($\alpha$)**, and a **Pearson Correlation Matrix** to test the theoretical TAM hypothesis ($PU \rightarrow BI$ and $PEU \rightarrow BI$).
 
 ## 3.5 Ethical Considerations
 
@@ -550,11 +550,11 @@ zedchatbot/
 
 ## 4.2 Data Ingestion and Country-Partitioned Vector Storage
 
-The data tier is implemented in [vector_store.py](file:///c:/Users/franc/Desktop/zedchatbot%20for%20african%20community/src/knowledge_base/vector_store.py). To ensure absolute data isolation between countries, vector databases are strictly partitioned into independent directories:
+The data tier is implemented in [vector_store.py](../src/knowledge_base/vector_store.py). To ensure absolute data isolation between countries, vector databases are strictly partitioned into independent directories:
 - `./vector_store/zm/` for the Zambian knowledge collection.
 - `./vector_store/zw/` for the Zimbabwean knowledge collection.
 
-During ingestion, [build_index.py](file:///c:/Users/franc/Desktop/zedchatbot%20for%20african%20community/scripts/build_index.py) executes a clean rebuild when the `--reset` flag is specified. The `reset_collection()` method purges the existing Chroma collection via API and safely cleans the underlying directory, completely preventing vector chunk duplication. Document chunks are vectorized using `BAAI/bge-m3` running locally with normalized embeddings:
+During ingestion, [build_index.py](../scripts/build_index.py) executes a clean rebuild when the `--reset` flag is specified. The `reset_collection()` method purges the existing Chroma collection via API and safely cleans the underlying directory, completely preventing vector chunk duplication. Document chunks are vectorized using `BAAI/bge-m3` running locally with normalized embeddings:
 
 $$\mathbf{e} = \frac{f_{\text{BGE-M3}}(chunk)}{\|f_{\text{BGE-M3}}(chunk)\|_2}$$
 
@@ -628,13 +628,13 @@ User Query (Bemba / Nyanja / Shona / English)
 *Figure 4.1: End-to-End Multilingual RAG Processing Pipeline Workflow.*
 
 ### 4.3.1 Hybrid Language Detection
-Standard language identification libraries (such as `langdetect`) fail consistently on short Bantu language sentences, frequently misidentifying Bemba or Nyanja as European languages. As implemented in [language_detector.py](file:///c:/Users/franc/Desktop/zedchatbot%20for%20african%20community/src/multilingual/language_detector.py), Zedchatbot overcomes this by implementing a **hybrid keyword-frequency scoring algorithm**:
+Standard language identification libraries (such as `langdetect`) fail consistently on short Bantu language sentences, frequently misidentifying Bemba or Nyanja as European languages. As implemented in [language_detector.py](../src/multilingual/language_detector.py), Zedchatbot overcomes this by implementing a **hybrid keyword-frequency scoring algorithm**:
 - Curated dictionaries containing hundreds of signature lexical items for Nyanja (`kodi`, `muli`, `bwanji`, `ndikufuna`, `madzi`, `msonkho`), Bemba (`mwapoleni`, `shani`, `umuntu`, `malaiti`, `umutero`, `ukufwaya`), and Shona (`mhoro`, `mutero`, `sei`, `zvinhu`).
 - Multi-word phrase matching for common greetings (e.g., *"muli bwanji"*, *"mwapoleni"*).
 - When keyword scores exceed the confidence threshold, the detector immediately overrides standard `langdetect` outputs.
 
 ### 4.3.2 Protected Entity Translation and Multilingual Strategy
-When an answer is formulated for a local language inquiry, generating raw Bemba/Nyanja directly from general-purpose LLMs without grounding produces hallucinations and grammatical distortions. Zedchatbot solves this by utilizing **English-centric RAG retrieval and generation followed by culturally anchored machine translation** ([translator.py](file:///c:/Users/franc/Desktop/zedchatbot%20for%20african%20community/src/multilingual/translator.py)).
+When an answer is formulated for a local language inquiry, generating raw Bemba/Nyanja directly from general-purpose LLMs without grounding produces hallucinations and grammatical distortions. Zedchatbot solves this by utilizing **English-centric RAG retrieval and generation followed by culturally anchored machine translation** ([translator.py](../src/multilingual/translator.py)).
 
 The system supports a dual translation mechanism:
 1. **Primary Cloud Engine (Google Gemini):** Translates into authentic contemporary Zambian Bemba and Nyanja as actively spoken across Lusaka and the Copperbelt, explicitly avoiding archaic 19th-century missionary phrasing.
@@ -661,9 +661,9 @@ Following translation, a regular-expression pattern restores the placeholders, c
 
 ## 4.4 RAG Retriever and Multi-Provider LLM Cascade
 
-The retrieval engine ([retriever.py](file:///c:/Users/franc/Desktop/zedchatbot%20for%20african%20community/src/rag/retriever.py)) implements **country-aware domain prioritization**. When a query mentions domain-specific entities (e.g., `zesco`, `madzi`, `tariffs`), the retriever actively prioritizes chunks matching the corresponding document category (`utilities`), avoiding false positives across adjacent sectors. For Zimbabwe queries, domain mappings automatically activate Zimbabwean entities (`zimra`, `zesa`, `uz`, `zimsec`), maintaining strict modularity.
+The retrieval engine ([retriever.py](../src/rag/retriever.py)) implements **country-aware domain prioritization**. When a query mentions domain-specific entities (e.g., `zesco`, `madzi`, `tariffs`), the retriever actively prioritizes chunks matching the corresponding document category (`utilities`), avoiding false positives across adjacent sectors. For Zimbabwe queries, domain mappings automatically activate Zimbabwean entities (`zimra`, `zesa`, `uz`, `zimsec`), maintaining strict modularity.
 
-The generation module ([generator.py](file:///c:/Users/franc/Desktop/zedchatbot%20for%20african%20community/src/rag/generator.py)) implements a **hybrid cloud-edge multi-provider fallback cascade**:
+The generation module ([generator.py](../src/rag/generator.py)) implements a **hybrid cloud-edge multi-provider fallback cascade**:
 1. **Primary Provider (Google Gemini 3.8 Flash):** Invoked via API as `gemini-3.8-flash`. This delivers sub-second response latency ($<1.2$s), eliminates heavy GPU hardware requirements on consumer hosting servers, avoids API quota exhaustion, and supports authentic contemporary Zambian phrasing for indigenous languages.
 2. **Secondary Provider (Groq — `qwen/qwen3.8-27b`):** If the Gemini cloud endpoint is unavailable or rate-limited, the pipeline automatically routes inference to Groq's high-throughput OpenAI-compatible endpoint before any local fallback is attempted.
 3. **Tertiary / Edge Provider (Local Ollama Qwen2.5:7b):** If both cloud providers are unavailable or air-gapped deployment is required (such as in remote rural administrative centers), the pipeline automatically routes inference to locally hosted `qwen2.5:7b` (temperature = 0.1). This ensures digital sovereignty, zero external data leakage, and offline operational continuity.
@@ -672,7 +672,7 @@ The generation module ([generator.py](file:///c:/Users/franc/Desktop/zedchatbot%
 
 ## 4.5 Data Tier: SQLite Interaction and Feedback Logging
 
-In direct fulfillment of Proposal Section 3.5.2, [database.py](file:///c:/Users/franc/Desktop/zedchatbot%20for%20african%20community/src/core/database.py) implements a thread-safe SQLite persistence layer located at `data/zedchatbot.db`.
+In direct fulfillment of Proposal Section 3.5.2, [database.py](../src/core/database.py) implements a thread-safe SQLite persistence layer located at `data/zedchatbot.db`.
 
 Every interaction through the web interface or WhatsApp webhook automatically records:
 - `id`: Auto-incrementing transaction key.
@@ -694,7 +694,7 @@ The API exposes endpoints for `/chat` (which logs interactions and returns an `i
 Users interact with Zedchatbot through two distinct presentation channels:
 
 1. **Responsive Web Application:** Located at `frontend/`, built using modern vanilla HTML5, CSS3 (glassmorphism design, responsive grid, dynamic animations), and modular JavaScript (`app.js`, `api.js`, `ui.js`). The interface features country and language selectors, displays source document citations beneath bot replies, and provides interactive rating buttons (`👍 Yes` / `👎 No`) that submit ratings directly to `/feedback`.
-2. **Asynchronous Twilio WhatsApp Webhook:** Located at [whatsapp_api.py](file:///c:/Users/franc/Desktop/zedchatbot%20for%20african%20community/src/api/whatsapp_api.py). When a citizen messages the WhatsApp bot, the webhook immediately returns a localized acknowledgment message in the user's detected native language (*"Natotela! Ndetontokania..."* for Bemba, *"Zikomo! Ndikuganiza..."* for Nyanja), while offloading heavy RAG inference and NLLB translation to a background thread (`loop.run_in_executor()`). Upon completion, the final answer is dispatched asynchronously via the Twilio REST API. This architecture completely prevents Twilio 15-second HTTP timeout disconnects.
+2. **Asynchronous Twilio WhatsApp Webhook:** Located at [whatsapp_api.py](../src/api/whatsapp_api.py). When a citizen messages the WhatsApp bot, the webhook immediately returns a localized acknowledgment message in the user's detected native language (*"Natotela! Ndetontokania..."* for Bemba, *"Zikomo! Ndikuganiza..."* for Nyanja), while offloading heavy RAG inference and NLLB translation to a background thread (`loop.run_in_executor()`). Upon completion, the final answer is dispatched asynchronously via the Twilio REST API. This architecture completely prevents Twilio 15-second HTTP timeout disconnects.
 
 ---
 
@@ -704,7 +704,7 @@ Users interact with Zedchatbot through two distinct presentation channels:
 
 Research Objective One required designing and implementing a modular, multilingual RAG conversational assistant utilizing a curated Zambian knowledge base across five domains, supporting web and WhatsApp interaction, with country-level modularity.
 
-The implementation was systematically verified using the automated test suite ([tests/](file:///c:/Users/franc/Desktop/zedchatbot%20for%20african%20community/tests/)). Table 5.1 demonstrates that all ten unit and integration tests passed with 100% success.
+The implementation was systematically verified using the automated test suite ([tests/](../tests/)). Table 5.1 demonstrates that all ten unit and integration tests passed with 100% success.
 
 ### Table 5.1: Automated Unit and Integration Test Results
 
@@ -724,9 +724,11 @@ The implementation was systematically verified using the automated test suite ([
 
 ## 5.2 Technical Information Retrieval (IR) Benchmark Results
 
-In fulfillment of Research Objective Two, the automated evaluation runner ([evaluate_system.py](file:///c:/Users/franc/Desktop/zedchatbot%20for%20african%20community/scripts/evaluate_system.py)) executed the complete 40-query benchmark dataset across all domains, languages, and country partitions.
+In fulfillment of Research Objective Two, the automated evaluation runner ([evaluate_system.py](../scripts/evaluate_system.py)) executed the complete 40-query benchmark dataset across all domains, languages, and country partitions.
 
 The technical evaluation achieved an **Overall Retrieval Hit Rate (Recall@3) of 100.0%**, an **Average Retrieval Precision of 81.25%**, and an **Answer Keyword Grounding Recall of 65.83%**, with an average end-to-end latency of $27.3$ seconds on CPU hardware.
+
+> **Run-Condition Note:** The benchmark was executed during a period in which the configured cloud LLM providers (Gemini, Groq) were unreachable. All 40 responses were therefore produced by the system's deterministic **grounded-excerpt fallback** — retrieved official-document chunks truncated to 600 characters and locally translated for non-English queries — rather than LLM-synthesized prose. The grounding-recall figure therefore characterizes the **factual coverage of the retrieval layer**: the 100.0% hit rate confirms the correct statutory document was retrieved for every query, while keyword grounding recall measures how much of the expected factual content survived chunk selection, excerpt truncation, and translation. The live-generation provider cascade (Gemini → Gemini-lite → Groq → Ollama) has since been verified operational, and the identical automated protocol in `evaluate_system.py` can be rerun against it without any methodology change.
 
 ### Table 5.2: Quantitative Benchmark Performance Across Domains
 
@@ -741,7 +743,7 @@ The technical evaluation achieved an **Overall Retrieval Hit Rate (Recall@3) of 
 
 As visualized in Figure 5.1, the retrieval hit rate remained at 100% across all five public domains, verifying that the retriever never failed to identify at least one authoritative statutory document chunk. The Utilities domain recorded the highest precision ($90.5\%$), attributable to clear lexical distinctions in ZESCO and NWASCO documents.
 
-![Figure 1: Information Retrieval Performance by Domain](file:///c:/Users/franc/Desktop/zedchatbot%20for%20african%20community/docs/figures/figure1_domain_performance.png)
+![Figure 1: Information Retrieval Performance by Domain](figures/figure1_domain_performance.png)
 
 *Figure 5.1: Information Retrieval Performance (Hit Rate and Precision) by Domain.*
 
@@ -754,9 +756,9 @@ As visualized in Figure 5.1, the retrieval hit rate remained at 100% across all 
 | **Bemba** | `bem` | 9 | **100.0%** | 68.5% | 22.2% |
 | **Shona** | `sn` | 2 | **100.0%** | 100.0% | 100.0% |
 
-As illustrated in Figure 5.2, queries formulated in Nyanja and Bemba achieved 100% retrieval hit rates against English-language statutory texts. This empirically validates the cross-lingual capability of the `BAAI/bge-m3` embedding space, which successfully maps Bantu semantic queries directly to English legal texts without requiring noisy intermediate query translation. The lower keyword recall observed in Bemba ($22.2\%$) occurred because NLLB-200 utilized alternative Bantu dialect synonyms for certain statutory verbs, though the underlying meaning was preserved.
+As illustrated in Figure 5.2, queries formulated in Nyanja and Bemba achieved 100% retrieval hit rates against English-language statutory texts. This empirically validates the cross-lingual capability of the `BAAI/bge-m3` embedding space, which successfully maps Bantu semantic queries directly to English legal texts without requiring noisy intermediate query translation. The lower keyword recall observed in Bemba ($22.2\%$) is attributable to the interaction of the grounded-excerpt fallback with the translation stage rather than a loss of semantic content: Bemba responses consisted of a 600-character-truncated English excerpt passed through NLLB-200, and the truncation point frequently fell mid-section, producing degenerated formatting artifacts after translation that displaced several expected factual terms from the response text. Furthermore, because keyword recall uses exact case-insensitive string matching, Bemba renderings of English statutory terms (e.g., rendering "water" as "amenshi") scored zero despite preserving meaning — a known limitation of the lexical metric, which is why the per-language disaggregation is reported alongside the aggregate.
 
-![Figure 2: Multilingual Grounding Performance](file:///c:/Users/franc/Desktop/zedchatbot%20for%20african%20community/docs/figures/figure2_multilingual_performance.png)
+![Figure 2: Multilingual Grounding Performance](figures/figure2_multilingual_performance.png)
 
 *Figure 5.2: Cross-Lingual Grounding Performance Across English, Bemba, Nyanja, and Shona.*
 
@@ -771,7 +773,7 @@ To fulfill the modularity demonstration requirement of Research Objective Two, t
 | **Zambia (`zm`)** | Full Implementation | 35 | **100.0%** | 78.6% | 63.3% |
 | **Zimbabwe (`zw`)** | Modularity PoC Extension | 5 | **100.0%** | **100.0%** | **83.3%** |
 
-![Figure 3: System Modularity Comparison](file:///c:/Users/franc/Desktop/zedchatbot%20for%20african%20community/docs/figures/figure3_country_modularity.png)
+![Figure 3: System Modularity Comparison](figures/figure3_country_modularity.png)
 
 *Figure 5.3: System Modularity Comparison Between Zambian and Zimbabwean Instances.*
 
@@ -803,7 +805,7 @@ The empirical user acceptance study was conducted with a diverse cohort of **$N 
 | | WhatsApp Assistant | 12 | 34.3% |
 | | Both Channels | 7 | 20.0% |
 
-![Figure 5: Participant Demographics](file:///c:/Users/franc/Desktop/zedchatbot%20for%20african%20community/docs/figures/figure5_tam_demographics.png)
+![Figure 5: Participant Demographics](figures/figure5_tam_demographics.png)
 
 *Figure 5.5: Participant Demographic Distributions by Category and Interaction Language.*
 
@@ -821,7 +823,7 @@ The overall scale achieved **$\alpha = 0.9084$**, indicating exceptional reliabi
 | **LC** | Linguistic Comfort | 3 | **4.40** | 0.34 | **0.6742** | Favorable |
 | **BI** | Behavioral Intention | 3 | **4.61** | 0.45 | **0.9120** | Extremely Favorable |
 
-![Figure 4: TAM Construct Means](file:///c:/Users/franc/Desktop/zedchatbot%20for%20african%20community/docs/figures/figure4_tam_construct_means.png)
+![Figure 4: TAM Construct Means](figures/figure4_tam_construct_means.png)
 
 *Figure 5.4: Technology Acceptance Model (TAM) Construct Means with Standard Deviation Bars.*
 
@@ -842,7 +844,7 @@ $$r = \frac{\sum (X - \bar{X})(Y - \bar{Y})}{\sqrt{\sum (X - \bar{X})^2 \sum (Y 
 | **LC** | 0.414 | 0.270 | **1.000** | 0.532 |
 | **BI** | **0.930** | 0.589 | 0.532 | **1.000** |
 
-![Figure 6: Construct Correlation Heatmap](file:///c:/Users/franc/Desktop/zedchatbot%20for%20african%20community/docs/figures/figure6_tam_correlation_heatmap.png)
+![Figure 6: Construct Correlation Heatmap](figures/figure6_tam_correlation_heatmap.png)
 
 *Figure 5.6: Construct Correlation Heatmap.*
 
@@ -965,7 +967,7 @@ Future extensions of this research could explore:
 
 ## Appendix A: TAM Survey Questionnaire Instrument
 
-*(See [TAM_QUESTIONNAIRE_INSTRUMENT.md](file:///c:/Users/franc/Desktop/zedchatbot%20for%20african%20community/docs/TAM_QUESTIONNAIRE_INSTRUMENT.md) for full instrument text).*
+*(See [TAM_QUESTIONNAIRE_INSTRUMENT.md](TAM_QUESTIONNAIRE_INSTRUMENT.md) for full instrument text).*
 
 ## Appendix B: Sample Multilingual RAG Interactions
 

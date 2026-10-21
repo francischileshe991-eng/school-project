@@ -29,13 +29,19 @@ A provisional driving license is the first mandatory step for all learner driver
 - Renewal of Expired License: K398.00.
 - Duplicate / Replacement of Lost or Defaced License: K144.00 (requires Police Report and Affidavit).
 - Conversion of Foreign Driver's License: K348.00.
+- PSV Driver's License Renewal: K364.00.
+- International Driving Permit (IDP): K81.00.
+- Driving Instructor Test: K132.00; Driving Instructor License: K162.00.
 
 ## 5. Public Service Vehicle (PSV) Licensing
-- Eligibility: Must be at least 25 years old.
-- Experience: Must have held a standard Class B driver's license for a minimum of 2 years.
+- Eligibility: PSV endorsement for passenger-carrying classes (Class B, C1 and C) is available from 18 years of age on the official RTSA schedule. VERIFY - some RTSA listings state a minimum of 25 years of age with at least 2 years' driving experience; confirm the applicable age with RTSA before applying.
+- Experience: Must have held a standard full driver's license for a minimum of 2 years.
 - Additional medical fitness clearance and criminal record check required.
+- PSV Driver's License Renewal Fee: K364.00.
 
-## 6. Online Services on ZamPortal
-- Motorists can access RTSA services online through the Government ZamPortal (zampass.gsb.gov.zm).
-- Online services include: Road Tax (Motor Vehicle License) renewal, driver's license renewal, change of motor vehicle ownership, and appointment booking.
-- Customer Contact: RTSA Toll-Free line: 983. Official website: www.rtsa.org.zm.
+## 6. Online Services
+- Register, book tests, and track applications on the RTSA online system: https://zampass.gsb.gov.zm/register
+- Access government services via the ZamPortal: https://zamportal.gov.zm
+- Access e-Government services via: https://eservices.gov.zm
+- Online services include: Driver's License (renewal and duplicate), Road Tax / Motor Vehicle License, Motor Vehicle Registration, Certificate of Roadworthiness, Physical Vehicle Examination, Driving Instructor and Driving School Licenses, Practical Driving Test Booking, Provisional License (additional class), and PSV Driver's License Renewal.
+- Customer Contact: RTSA Toll-Free line: 983; Hotline: +260 955 983 983; WhatsApp: +260 96 5429499; Email: info@rtsa.org.zm. Official website: https://www.rtsa.org.zm.

@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Zedchatbot | Admin Telemetry</title>
+  <meta name="description" content="Admin telemetry console for Zedchatbot interaction logs." />
+  <meta name="theme-color" content="#157a4c" />
+  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#16120f" />
+  <meta name="robots" content="noindex, nofollow" />
+
+  <link rel="icon" href="./assets/images/logo.jpeg" type="image/jpeg" />
+
+  <!-- Google Fonts: Outfit for clean, modern typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+    rel="stylesheet" />
+
+  <!-- Modular Styles -->
+  <link rel="stylesheet" href="./css/main.css?v=1" />
+  <link rel="stylesheet" href="./css/admin.css?v=1" />
+
+  <script>
+    // Apply saved theme before paint to avoid flashing.
+    (function () {
+      try {
+        var saved = localStorage.getItem("zedchatbot-theme");
+        if (!saved) {
+          saved = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+        }
+        document.documentElement.setAttribute("data-theme", saved);
+      } catch (e) {
+        document.documentElement.setAttribute("data-theme", "light");
+      }
+    })();
+  </script>
+</head>
+
+<body class="admin-body">
+  <header class="admin-topbar">
+    <div class="admin-brand">
+      <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round">
+        <path d="M3 3v18h18"></path>
+        <path d="M18 17V9"></path>
+        <path d="M13 17V5"></path>
+        <path d="M8 17v-3"></path>
+      </svg>
+      <span class="admin-brand-name">Zedchatbot</span>
+      <span class="admin-badge">Admin Telemetry</span>
+    </div>
+
+    <div class="admin-topbar-actions">
+      <label class="admin-toggle">
+        <input type="checkbox" id="auto-refresh" />
+        <span>Auto-refresh</span>
+      </label>
+
+      <button type="button" id="refresh-btn" class="admin-btn" title="Refresh data">
+        <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round">
+          <path d="M23 4v6h-6"></path>
+          <path d="M1 20v-6h6"></path>
+          <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10"></path>
+          <path d="M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
+        </svg>
+        <span>Refresh</span>
+      </button>
+
+      <a href="./index.html" class="admin-btn" title="Open the chat app">
+        <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+        </svg>
+        <span>Chat</span>
+      </a>
+
+      <button type="button" id="theme-toggle-btn" class="admin-icon-btn" title="Toggle dark mode">
+        <svg class="theme-icon theme-icon-sun" viewBox="0 0 24 24" width="16" height="16" fill="none"
+          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="5"></circle>
+          <line x1="12" y1="1" x2="12" y2="3"></line>
+          <line x1="12" y1="21" x2="12" y2="23"></line>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+          <line x1="1" y1="12" x2="3" y2="12"></line>
+          <line x1="21" y1="12" x2="23" y2="12"></line>
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+        </svg>
+        <svg class="theme-icon theme-icon-moon" viewBox="0 0 24 24" width="16" height="16" fill="none"
+          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <main class="admin-main">
+    <h1 class="admin-title">Interaction Telemetry</h1>
+    <p class="admin-subtitle">
+      Live view of every logged chat interaction — queries, responses, channels, latency and ratings.
+    </p>
+
+    <!-- KPI cards -->
+    <section class="admin-kpis" id="kpis">
+      <div class="kpi-card">
+        <span class="kpi-label">Total Interactions</span>
+        <span class="kpi-value" id="kpi-total">—</span>
+      </div>
+      <div class="kpi-card">
+        <span class="kpi-label">Avg Latency</span>
+        <span class="kpi-value" id="kpi-latency">—</span>
+      </div>
+      <div class="kpi-card">
+        <span class="kpi-label">Avg Rating</span>
+        <span class="kpi-value" id="kpi-rating">—</span>
+      </div>
+      <div class="kpi-card">
+        <span class="kpi-label">Rated Responses</span>
+        <span class="kpi-value" id="kpi-rated">—</span>
+      </div>
+      <div class="kpi-card kpi-wide">
+        <span class="kpi-label">By Channel</span>
+        <span class="kpi-meta" id="kpi-channels">—</span>
+      </div>
+      <div class="kpi-card kpi-wide">
+        <span class="kpi-label">By Language</span>
+        <span class="kpi-meta" id="kpi-languages">—</span>
+      </div>
+    </section>
+
+    <!-- Filters -->
+    <section class="admin-filters">
+      <div class="filter-field">
+        <label for="f-country">Country</label>
+        <select id="f-country">
+          <option value="">All</option>
+          <option value="zm">Zambia (zm)</option>
+          <option value="zw">Zimbabwe (zw)</option>
+        </select>
+      </div>
+
+      <div class="filter-field">
+        <label for="f-channel">Channel</label>
+        <select id="f-channel">
+          <option value="">All</option>
+          <option value="web">Web</option>
+          <option value="whatsapp">WhatsApp</option>
+        </select>
+      </div>
+
+      <div class="filter-field">
+        <label for="f-language">Language</label>
+        <select id="f-language">
+          <option value="">All</option>
+          <option value="en">English (en)</option>
+          <option value="bem">icibemba (bem)</option>
+          <option value="ny">chiNyanja (ny)</option>
+          <option value="sn">chiShona (sn)</option>
+        </select>
+      </div>
+
+      <div class="filter-field">
+        <label for="f-rating">Rating</label>
+        <select id="f-rating">
+          <option value="">All</option>
+          <option value="rated">Rated only</option>
+          <option value="unrated">Unrated only</option>
+          <option value="5">5+ stars</option>
+          <option value="4">4+ stars</option>
+          <option value="3">3+ stars</option>
+          <option value="2">2+ stars</option>
+          <option value="1">1+ stars</option>
+        </select>
+      </div>
+
+      <div class="filter-field filter-search">
+        <label for="f-search">Search query / response</label>
+        <input type="search" id="f-search" placeholder="e.g. NRC, ZESCO, passport…" maxlength="200" />
+      </div>
+
+      <div class="filter-field filter-actions">
+        <button type="button" id="apply-btn" class="admin-btn admin-btn-primary">Apply</button>
+        <button type="button" id="clear-btn" class="admin-btn">Clear</button>
+        <button type="button" id="export-btn" class="admin-btn">Export CSV</button>
+      </div>
+    </section>
+
+    <!-- Table -->
+    <section class="admin-table-wrap">
+      <table class="admin-table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Time</th>
+            <th>Channel</th>
+            <th>Ctry</th>
+            <th>Lang</th>
+            <th>Latency</th>
+            <th>Rating</th>
+            <th>Query</th>
+          </tr>
+        </thead>
+        <tbody id="table-body">
+          <tr>
+            <td colspan="8" class="admin-empty">Loading…</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- Pagination -->
+    <section class="admin-pager">
+      <button type="button" id="prev-btn" class="admin-btn">← Prev</button>
+      <span class="pager-status" id="pager-status">—</span>
+      <button type="button" id="next-btn" class="admin-btn">Next →</button>
+      <span class="pager-limit">
+        Rows:
+        <select id="f-limit">
+          <option value="25">25</option>
+          <option value="50" selected>50</option>
+          <option value="100">100</option>
+          <option value="200">200</option>
+        </select>
+      </span>
+    </section>
+  </main>
+
+  <!-- Detail modal -->
+  <div class="admin-modal" id="detail-modal" hidden>
+    <div class="admin-modal-backdrop" data-close></div>
+    <div class="admin-modal-card" role="dialog" aria-modal="true" aria-labelledby="detail-title">
+      <div class="admin-modal-head">
+        <h2 id="detail-title">Interaction</h2>
+        <button type="button" class="admin-icon-btn" data-close aria-label="Close">✕</button>
+      </div>
+      <div class="admin-modal-body" id="detail-body"></div>
+    </div>
+  </div>
+
+  <script type="module" src="./js/admin.js?v=2"></script>
+</body>
+
+</html>

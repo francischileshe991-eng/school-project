@@ -20,9 +20,12 @@ A TPIN is a mandatory 10-digit number required for all tax and commercial transa
 - Registration Fee: Free of charge.
 
 ## 3. Turnover Tax for Small and Medium Businesses
-- Eligibility: Micro and small businesses with annual gross turnover up to K800,000.
-- Rate: 4% of monthly gross business income.
+- Eligibility: Micro and small businesses with annual gross turnover up to K5,000,000 (K5 million). Businesses whose annual turnover exceeds K5,000,000 must register for Income Tax instead.
+- Rate (2026): 0% on annual turnover up to K30,000 (equivalent to monthly turnover of K2,500 or less); 5% on annual turnover above K30,000 up to K5,000,000.
+- Basis: Turnover Tax is charged on gross sales/turnover (not on profit).
 - Due Date: Returns and payments are due by the 14th day of the following month.
+- Exclusions: Partnerships, businesses providing management/consultancy services, mining operations (other than artisanal and small-scale miners), and businesses registered for VAT cannot register for Turnover Tax.
+- Note: The turnover ceiling was raised from K800,000 to K5,000,000 and the rate restructured from a flat 4% to 0%/5% effective 1 January 2025 (Income Tax (Amendment) Act No. 22 of 2024). The K800,000 figure is the VAT registration threshold, not the Turnover Tax ceiling.
 
 ## 4. Value Added Tax (VAT)
 - Standard VAT Rate: 16% on taxable goods and services.

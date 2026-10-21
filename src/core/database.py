@@ -34,7 +34,7 @@ class DatabaseManager:
 
     def _get_connection(self) -> sqlite3.Connection:
         """Returns a connection configured for dictionary row access."""
-        conn = sqlite3.connect(str(self.db_path), timeout=10.0)
+        conn = sqlite3.connect(str(self.db_path), timeout=30.0)
         conn.row_factory = sqlite3.Row
         return conn
 
@@ -178,26 +178,74 @@ class DatabaseManager:
                 logger.error(f"Failed to record feedback for #{interaction_id}: {e}")
                 raise DatabaseError(f"Database error while recording feedback: {e}") from e
 
-    def get_recent_interactions(self, limit: int = 50) -> List[Dict[str, Any]]:
-        """Returns the most recent interactions."""
+    def get_interactions(
+        self,
+        limit: int = 50,
+        offset: int = 0,
+        country: Optional[str] = None,
+        channel: Optional[str] = None,
+        language: Optional[str] = None,
+        rating: Optional[str] = None,
+        search: Optional[str] = None,
+    ) -> Dict[str, Any]:
+        """
+        Returns a filtered, paginated page of interactions plus the total
+        number of rows matching the filters. Used by the admin telemetry view.
+
+        `rating` accepts 'rated', 'unrated', or a numeric value ('1'..'5').
+        """
+        conditions: List[str] = []
+        params: List[Any] = []
+
+        if country:
+            conditions.append("country = ?")
+            params.append(country.strip().lower())
+        if channel:
+            conditions.append("channel = ?")
+            params.append(channel.strip().lower())
+        if language:
+            conditions.append("detected_language = ?")
+            params.append(language.strip().lower())
+        if rating:
+            r = str(rating).strip().lower()
+            if r == "rated":
+                conditions.append("rating IS NOT NULL")
+            elif r == "unrated":
+                conditions.append("rating IS NULL")
+            elif r.isdigit():
+                conditions.append("rating >= ?")
+                params.append(int(r))
+        if search:
+            like = f"%{search.strip()}%"
+            conditions.append("(user_query LIKE ? OR response LIKE ?)")
+            params.extend([like, like])
+
+        where_clause = ("WHERE " + " AND ".join(conditions)) if conditions else ""
+
         with self._lock:
             try:
                 with self._get_connection() as conn:
                     cursor = conn.cursor()
                     cursor.execute(
-                        """
+                        f"SELECT COUNT(*) AS total FROM interactions {where_clause}",
+                        params,
+                    )
+                    total = cursor.fetchone()["total"]
+
+                    cursor.execute(
+                        f"""
                         SELECT id, timestamp, channel, country, user_query,
                                detected_language, retrieved_sources, response,
                                response_time_ms, rating, feedback_comment
                         FROM interactions
+                        {where_clause}
                         ORDER BY id DESC
-                        LIMIT ?
+                        LIMIT ? OFFSET ?
                         """,
-                        (limit,),
+                        params + [limit, offset],
                     )
-                    rows = cursor.fetchall()
-                    result = []
-                    for row in rows:
+                    items = []
+                    for row in cursor.fetchall():
                         item = dict(row)
                         try:
                             item["retrieved_sources"] = json.loads(
@@ -205,11 +253,28 @@ class DatabaseManager:
                             )
                         except Exception:
                             item["retrieved_sources"] = []
-                        result.append(item)
-                    return result
+                        items.append(item)
+
+                    return {
+                        "total": total,
+                        "count": len(items),
+                        "limit": limit,
+                        "offset": offset,
+                        "items": items,
+                    }
             except Exception as e:
-                logger.error(f"Failed to fetch recent interactions: {e}")
-                return []
+                logger.error(f"Failed to fetch interactions: {e}")
+                return {
+                    "total": 0,
+                    "count": 0,
+                    "limit": limit,
+                    "offset": offset,
+                    "items": [],
+                }
+
+    def get_recent_interactions(self, limit: int = 50) -> List[Dict[str, Any]]:
+        """Returns the most recent interactions."""
+        return self.get_interactions(limit=limit)["items"]
 
     def get_stats(self) -> Dict[str, Any]:
         """Returns aggregated statistics for evaluation."""

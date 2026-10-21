@@ -1,10 +1,12 @@
-# ZESCO Electricity Tariffs Zambia (2026 Multi-Year Framework) - [Ama units / Magesi]
+# ZESCO Electricity Tariffs Zambia (Current ERB-Approved Residential Rates) - [Ama units / Magesi]
 
-## 1. RESIDENTIAL TARIFFS 2026 (Mitengo ya magesi / Unit nishi)
-- **Band 1 (Lifeline):** 0 - 100 kWh costs **K0.42 per unit**.
-- **Band 2:** 101 - 200 kWh costs **K1.19 per unit**.
-- **Band 3:** 201 - 400 kWh costs **K2.89 per unit**.
-- **Band 4:** Above 400 kWh costs **K4.12 per unit**.
+## 1. RESIDENTIAL TARIFFS (current) (Mitengo ya magesi / Unit nishi)
+- **Band 1 (Lifeline):** 0 - 100 kWh costs **K0.35 per unit**.
+- **Band 2:** 101 - 200 kWh costs **K1.00 per unit**.
+- **Band 3:** 201 - 400 kWh costs **K2.42 per unit**.
+- **Band 4:** Above 400 kWh costs **K3.45 per unit**. 
+
+*These rates apply under the 3-year Multi-Year Tariff Framework (MYTF) effective 1 November 2025 and are adjusted annually; verify the latest schedule on the ZESCO and ERB websites.*
 
 ## 2. OFFICIAL POLICY
 - The 2024 Emergency Drought Tariffs (K6.39) were officially REMOVED on Oct 31, 2025.

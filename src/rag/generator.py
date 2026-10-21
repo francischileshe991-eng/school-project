@@ -80,10 +80,19 @@ class ZedGenerator:
         )
 
 
+        # Only initialize the clients the selected provider mode will actually use.
         self.ollama_llm = self._init_ollama()
-        self.gemini_llm = self._init_gemini()
-        self.openai_llm = self._init_openai()
-        self.groq_llm = self._init_groq()
+        if self.provider == "ollama":
+            used_cloud: set = set()
+        elif self.provider == "openai":
+            used_cloud = {"openai"}
+        elif self.provider == "groq":
+            used_cloud = {"groq"}
+        else:  # auto / gemini: Gemini -> Groq -> Ollama cascade
+            used_cloud = {"gemini", "groq"}
+        self.gemini_llm = self._init_gemini() if "gemini" in used_cloud else None
+        self.openai_llm = self._init_openai() if "openai" in used_cloud else None
+        self.groq_llm = self._init_groq() if "groq" in used_cloud else None
 
     def _init_ollama(self) -> Optional[Any]:
         """Initializes local Ollama model instance."""
@@ -156,8 +165,8 @@ class ZedGenerator:
                 api_key=api_key,
                 base_url="https://api.groq.com/openai/v1",
                 temperature=0.1,
-                timeout=30.0,
-                max_retries=1,
+                timeout=10.0,
+                max_retries=0,
             )
         except Exception as e:
             logger.warning(f"Generator: Failed to initialize Groq: {e}")

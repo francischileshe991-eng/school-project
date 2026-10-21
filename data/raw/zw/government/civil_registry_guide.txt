@@ -21,9 +21,11 @@ Zimbabwe issues ICAO-compliant biometric electronic passports (e-passports) with
   - Original National Identity Document (Metal ID or plastic polythene card).
   - Original Long or Short Birth Certificate.
   - Proof of residence or marriage certificate (for married women wishing to adopt husband's surname).
-- **Application Fees & Turnaround Time:**
-  - **Ordinary e-Passport (7 working days):** USD $150 (or ZiG equivalent at prevailing interbank rate) + $20 application handling fee.
-  - **Emergency / Express e-Passport (48 hours):** USD $250 + $20 application handling fee.
+- **Application Fees & Turnaround Time (SI 2024-001):**
+  - **Ordinary e-Passport (7 working days):** US$150 + US$20 QR code fee = **US$170 total**.
+  - **Emergency / Express e-Passport (48 hours):** US$250 + US$20 QR code fee = **US$270 total**.
+  - Validity: 10 years for adults, 5 years for minors.
+  - **ID replacement (lost):** police report + birth certificate copy + statutory fee (VERIFY current fee at the registry).
 - **Online Booking Portal:** Citizens can book appointments online through the Civil Registry e-Services portal (www.rg.gov.zw) before visiting registry offices.
 
 ### 4.0 Major Civil Registry Issuance Offices in Zimbabwe

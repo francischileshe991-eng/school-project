@@ -5,21 +5,30 @@ This guide explains how to apply for a government student loan through the Highe
 ## 1. Eligibility (Ndani angapemphe / Aba kulembesha)
 - **Nationality:** Must be a Zambian citizen with a Green NRC.
 - **Age:** Must be 26 years old or younger.
-- **Admission:** Must have an admission letter from a supported public university (UNZA, CBU, MU, etc.).
+- **Admission:** Must have been admitted to one of the 10 public universities HELSB supports: **UNZA, CBU, Kapasa Makasa University (KMU), Mukuba University (MKU), Mulungushi University (MU), Chalimbana University (CHAU), Kwame Nkrumah University (KNU), Palabana University (PU), Levy Mwanawasa Medical University (LMMU) and Zambia University College of Technology (ZUT)**.
+- Must demonstrate genuine financial need and must not be a beneficiary of another government-funded scholarship or loan.
 - **Nyanja:** Muyenera kukhala nzika ya Zambia, waka zaka 26 kapena kucheperapo, ndipo muli ndi kalata yolowa sukulu ya boma.
 - **Bemba:** Mufwile ukuba umwikala calo wa Zambia, uwa myaka 26 nelyo ukucepako, kabili mufwile ukukwata kalata ya kwingila isukulu lya buteko.
 
 ## 2. Required Documents (Zofunika / Ififwaikwa)
 - Formal Application Letter to the CEO.
 - Photocopy of Admission Letter.
-- Certified Grade 12 Results.
-- Certified NRC of applicant and parents.
+- Certified Grade 12 Results (Statement of Results or School Certificate).
+- Certified NRC of applicant and parents/guardian.
 - Two passport-size photos.
-- Proof of need (Death certificates if orphan, recommendation letters).
+- Disability Card (for applicants with disabilities).
+- Proof of need (Death certificates if orphan, recommendation letters, affidavit of means).
+- All supporting documents are merged into a **single PDF**.
 - **Nyanja:** Kalata yopempha, kalata yolowa sukulu, ma results a Grade 12, NRC yanu ndi ya makolo, ndi zikalata zoonetsa kuti muli ndi thandizo lochepa.
 - **Bemba:** Kalata ya kulomba, kalata ya kwingila isukulu, ifya Grade 12, NRC yenu ne ya bafyashi, ne fipe fya kulangisha ukuti tamwakwata ifya kulipila.
 
-## 3. How to Apply Online
+## 3. Level of Support
+HELSB awards loans according to its financial capacity and the applicant's need. Awards are made at **100% (full), 75%, 50% or 25%** of the university fees. Admission does not guarantee a loan.
+
+## 4. What the Loan Covers
+Tuition fees, registration fees, accommodation fees, and allowances for meals, books and projects, paid at the rate of sponsorship.
+
+## 5. How to Apply Online
 1. Visit the portal at **www.helsb.gov.zm**.
 2. Create an account using your NRC number.
 3. Upload all required documents as a **single PDF**.
@@ -27,6 +36,9 @@ This guide explains how to apply for a government student loan through the Highe
 5. **Nyanja:** Pitani pa www.helsb.gov.zm, pangani akaunti, ikani zikalata zanu mu PDF imodzi, ndipo lipirani K100 ndi Mobile Money.
 6. **Bemba:** Kabiyeni pa www.helsb.gov.zm, pangani akaunti, bikenimo ifipe fyenu fyonse mu PDF imo, kabili lipileni K100 pa Mobile Money.
 
+## 6. Repayment
+Repayment begins one year after graduation (grace period). Borrowers who settle the full balance within the grace period are not charged the standard 10% interest. Contact HELSB on **+260 211 447 110** or info@helsb.gov.zm for help.
+
 ---
 ## Deadline
-Check the official HELSB website or Facebook page for specific institution deadlines (usually between May and October).
+Each institution has its own application window. For the 2026/2027 academic year the windows opened on 18 March 2026; the earliest closing date was **30 October 2026** (for KMU, ZUT and LMMU), while most other institutions had already closed. Award lists are published on the HELSB website. Check the official HELSB website or Facebook page for current deadlines.

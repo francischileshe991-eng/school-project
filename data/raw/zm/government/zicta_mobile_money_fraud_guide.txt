@@ -51,6 +51,9 @@ Under ZICTA Statutory Instrument No. 65 of 2011 (Registration of Electronic Comm
 - **SIM Limits:**
   - To curb identity theft and multi-line fraud syndicates, ZICTA enforces limits on the maximum number of active SIM cards an individual may register per operator.
 
+### 2026 Enforcement Update
+The *707# reporting channel remains active in 2026. Between January and June 2026, ZICTA and the mobile network operators blocked **43,500 unregistered SIM cards** and recovered **K19.8 million** from mobile money fraud cases. Subscribers are reminded that unregistered SIMs are permanently deactivated after the grace period.
+
 ## 4. Golden Rules of Digital and Mobile Financial Safety
 
 1. **Protect Your Secret PIN:** Never share your 4-digit or 5-digit Mobile Money PIN with anyone—including friends, family, agents, or individuals claiming to be customer service staff.

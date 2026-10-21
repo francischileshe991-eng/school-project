@@ -1,0 +1,42 @@
+# Zimbabwe Revenue Authority (ZIMRA) - Tax Guide 2026 (Mutero we PAYE / Mari ya ZIMRA)
+
+## 1. Currency Note
+Zimbabwe uses the **ZWG (Zimbabwe Gold)** local currency introduced in April 2024 (formerly ZiG/ZWL), alongside the US dollar in a multi-currency system. ZIMRA publishes separate tax tables for USD salaries and ZWG salaries. If a salary has both ZWG and USD components, use the **USD** tables and apportion the tax due.
+
+## 2. PAYE Tax Bands (USD - Foreign Currency)
+Based on the ZIMRA published tables (1 January - 31 December 2025, the latest tables in force for the 2026 tax year):
+- **Tax-Free Threshold:** Up to **USD 100** per month (USD 1,200 per year).
+- **USD 100.01 - USD 300:** 20%
+- **USD 300.01 - USD 1,000:** 25%
+- **USD 1,000.01 - USD 3,000:** 30%
+- **Above USD 3,000** (USD 36,000 per year): 40%
+VERIFY: intermediate band cut-offs against the official "USD Jan-Dec tax tables" PDF on zimra.co.zw/domestic-taxes/tax-tables.
+
+## 3. PAYE Tax Bands (ZWG - Local Currency)
+- **Tax-Free Threshold:** Up to **ZWG 2,800** per month (ZWG 33,600 per year).
+- **ZWG 2,800.01 - ZWG 8,400:** 20%
+- **ZWG 8,400.01 - ZWG 84,000:** 25%
+- **Above ZWG 84,000** (ZWG 1,008,000 per year): 40%
+
+## 4. Aids Levy and Tax Credits
+- **Aids Levy:** A mandatory **3%** is added to the calculated PAYE (after credits) for all taxpayers.
+- **Tax Credits:** Elderly, blind and disabled persons claim **USD 900 per year** (or ZWG equivalent). Medical credit is **USD 1 for every USD 2** of qualifying medical expenditure.
+
+## 5. Filing and Payment
+- **PAYE returns:** due on or before the **5th** of the following month.
+- **PAYE remittance:** due on or before the **10th** of the following month.
+- Returns are filed online via the ZIMRA Self Service Portal (SSP) at **mytaxselfservice.zimra.co.zw**; TaRMS is used for employer PAYE long returns. Payments go into the ZIMRA Single Account.
+
+## 6. Corporate Tax (Selected Rates)
+- Companies and trusts: **25%**. Individuals from trade/investments: **25%**.
+- Special mining lease holders: **15%**. Mining operations by company: **25%**.
+- Licensed investors: **0%** for the first 5 years, then 25%.
+
+## 7. NSSA
+Employees contribute to NSSA (pension and other funds) on top of PAYE. VERIFY the current employee/employer rate (3.5% each is the commonly cited pension rate).
+
+## 8. Contact Information
+- Website: www.zimra.co.zw
+- Tax tables: www.zimra.co.zw/domestic-taxes/tax-tables
+- Toll-Free: 0800 4224 / 4123
+- Shona keywords: Mutero (Tax), Mari (Money), ZIMRA, ZWG, USD.

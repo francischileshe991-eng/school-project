@@ -5,10 +5,12 @@ Electricity in Zambia is sold on a progressive multi-tier block tariff system ap
 
 | Tariff Band | Monthly Consumption Bracket | Rate per Unit (ZMW / kWh) |
 | :--- | :--- | :--- |
-| **Band 1 (Lifeline)** | 0 – 100 units (kWh) | K0.42 |
-| **Band 2** | 101 – 200 units (kWh) | K1.19 |
-| **Band 3** | 201 – 400 units (kWh) | K2.89 |
-| **Band 4 (High Usage)**| Above 400 units (kWh) | K4.12 |
+| **Band 1 (Lifeline)** | 0 – 100 units (kWh) | K0.35 |
+| **Band 2** | 101 – 200 units (kWh) | K1.00 |
+| **Band 3** | 201 – 400 units (kWh) | K2.42 |
+| **Band 4 (High Usage)**| Above 400 units (kWh) | K3.45 |
+
+*Note: These are the current ERB-approved residential rates under the 3-year Multi-Year Tariff Framework (MYTF) effective 1 November 2025. Tariffs are adjusted annually; verify the latest schedule on the ZESCO and ERB websites before quoting.*
 
 *Advice: To save money, purchase enough units at the beginning of the month when your meter is in Band 1, rather than making frequent excessive purchases that push your consumption into higher pricing brackets.*
 

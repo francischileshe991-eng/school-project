@@ -7,6 +7,7 @@ Enhanced with improved multilingual support.
 from typing import List, Optional, Tuple
 from src.core.logger import logger
 from src.multilingual.language_detector import detect_language
+from src.multilingual.greetings import greeting_reply, is_greeting
 from src.multilingual.translator import translate_text, normalize_typography
 from src.knowledge_base.vector_store import ZedVectorStore
 from src.rag.retriever import ZedRetriever
@@ -37,6 +38,14 @@ class RAGPipeline:
         else:
             user_lang = clean_lang
         logger.info(f"RAG Pipeline: Processing request in {user_lang} for {country}")
+
+        # 0. GREETING FAST PATH
+        # A bare greeting is not a knowledge query. Skip retrieval so the reply is a
+        # fixed, domain-neutral welcome instead of a topic list built from whichever
+        # documents happened to rank highest for an arbitrary token.
+        if is_greeting(actual_message, user_lang):
+            logger.info("RAG Pipeline: Greeting detected; returning generic welcome without retrieval.")
+            return normalize_typography(greeting_reply(user_lang)), []
 
         # 1. NATIVE SEARCH: Trust the BGE-M3 top results
         try:

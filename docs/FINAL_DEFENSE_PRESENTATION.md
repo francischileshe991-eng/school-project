@@ -91,6 +91,7 @@
 - **Overall Retrieval Hit Rate (Recall@3)**: **100.0%** (Relevant document retrieved in all 40 cases).
 - **Average Retrieval Precision**: **81.25%** across all domains.
 - **Keyword Grounding Recall**: **65.83%**.
+- **Run condition**: Executed during a cloud-provider outage — responses were the system's deterministic grounded-excerpt fallback (retrieved official excerpts, locally translated), so grounding recall characterizes retrieval-layer factual coverage; live-generation mode has since been verified and is rerunnable via the same script.
 - **By Domain**: Utilities (90.5% Prec), Education (83.3% Prec), General (83.3% Prec), Health (79.2% Prec), Government (75.0% Prec).
 - **By Language**: English (100% Hit, 84.2% Prec), Nyanja (100% Hit, 83.3% Prec), Bemba (100% Hit, 68.5% Prec), Shona (100% Hit, 100% Prec).
 - **Modularity Proof**: Zimbabwe instance achieved **100% Hit Rate and 100% Precision**.

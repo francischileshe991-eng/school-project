@@ -30,10 +30,10 @@ initTheme();
 
 function getGreeting(lang) {
   const greetings = {
-    en: "Hello! I am Zedchatbot. How can I assist you with public records, education, or utilities today?",
-    bem: "Mwapoleni! Nine Zedchatbot. Kuti namwafwa shani pa fya boma, amagetsi, nangu ama applications ilelo?",
-    ny: "Muli bwanji! Ine ndine Zedchatbot. Ndingakuyankheni bwanji pa za boma, magetsi kapena maphunziro lero?",
-    sn: "Mhoro! Ini ndini Zedchatbot. Ndingakubatsirei sei nezve mabasa ehurumende kana dzidzo nhasi?"
+    en: "Hello! I am Zedchatbot. Ask me about public records, education, utilities, health, agriculture or community funding today?",
+    bem: "Mwapoleni! Nine Zedchatbot. Kuti namwafwa pa fya boma, amasambililo, amenshi ne amagetsi, ubumi, ubulimi nangu CDF?",
+    ny: "Muli bwanji! Ine ndine Zedchatbot. Ndingakuyankheni bwanji pa za boma, maphunziro, madzi ndi magetsi, zaumoyo, ulimi kapena CDF?",
+    sn: "Mhoro! Ini ndini Zedchatbot. Ndingakubatsirei sei nezve mabasa ehurumende, dzidzo, mvura nemagetsi, hutano, kurima kana CDF?"
   };
   return greetings[lang] || greetings.en;
 }
@@ -67,23 +67,57 @@ const ICONS = {
 };
 
 const SUGGESTIONS = {
-  zm: [
-    { label: "2026 ZESCO Tariffs", icon: "bolt", prompt: "What are the 2026 ZESCO electricity tariffs?" },
-    { label: "Green NRC Card", icon: "card", prompt: "How do I apply for a National Registration Card (NRC)?" },
-    { label: "UNZA Admission", icon: "cap", prompt: "What are the requirements for applying to UNZA?" },
-    { label: "NHIMA Insurance", icon: "shield", prompt: "How do I contribute to NHIMA health insurance?" },
-    { label: "FISP Agriculture", icon: "plant", prompt: "How do farmers apply for FISP fertilizer and seed?" },
-    { label: "CDF Community Grants", icon: "bank", prompt: "What are the funding windows under the 2026 CDF guidelines?" }
+  en: {
+    zm: [
+      { label: "2026 ZESCO Tariffs", icon: "bolt", prompt: "What are the 2026 ZESCO electricity tariffs?" },
+      { label: "Green NRC Card", icon: "card", prompt: "How do I apply for a National Registration Card (NRC)?" },
+      { label: "UNZA Admission", icon: "cap", prompt: "What are the requirements for applying to UNZA?" },
+      { label: "NHIMA Insurance", icon: "shield", prompt: "How do I contribute to NHIMA health insurance?" },
+      { label: "FISP Agriculture", icon: "plant", prompt: "How do farmers apply for FISP fertilizer and seed?" },
+      { label: "How do I get or apply for CDF?", icon: "bank", prompt: "How do I get or apply for CDF?" }
+    ],
+    zw: [
+      { label: "ZIMSEC Results", icon: "doc", prompt: "How do I check my ZIMSEC results online?" },
+      { label: "Zimbabwe ID", icon: "card", prompt: "How do I apply for a Zimbabwe National Identity Card (ID)?" },
+      { label: "e-Passport", icon: "passport", prompt: "What are the requirements and fees for the Zimbabwe e-passport?" },
+      { label: "UZ Admission", icon: "cap", prompt: "What are the requirements for University of Zimbabwe (UZ) admission?" },
+      { label: "ZIMRA Tax", icon: "percent", prompt: "What are the 2024 ZIMRA PAYE tax thresholds and Aids Levy?" },
+      { label: "Health Guidance", icon: "shield", prompt: "How can I prevent cholera and malaria in Zimbabwe?" }
+    ]
+  },
+  bem: [
+    { label: "Kuti napoka shani NRC?", icon: "card", prompt: "Kuti napoka shani NRC mu Zambia?" },
+    { label: "Ama tariffs ya ZESCO 2026?", icon: "bolt", prompt: "Ama tariffs ya ZESCO ya malaiti yaba shani muli 2026?" },
+    { label: "Kuti napempula shani CDF?", icon: "bank", prompt: "Kuti napempula shani indalama sha CDF ku ward yandi?" },
+    { label: "Finshi balefwaya pa UNZA?", icon: "cap", prompt: "Finshi balefwaya pa kuti banjelele pa UNZA nangu CBU?" },
+    { label: "Kuti nailemba shani NHIMA?", icon: "shield", prompt: "Kuti nailemba shani kuli NHIMA pa kuti ing'anda yandi ifwalwe ubumi?" },
+    { label: "Abalimi bapoka shani FISP?", icon: "plant", prompt: "Abalimi bapoka shani umufundo wa FISP no mbuto muli uno mwaka?" }
   ],
-  zw: [
-    { label: "ZIMSEC Results", icon: "doc", prompt: "How do I check my ZIMSEC results online?" },
-    { label: "Zimbabwe ID", icon: "card", prompt: "How do I apply for a Zimbabwe National Identity Card (ID)?" },
-    { label: "e-Passport", icon: "passport", prompt: "What are the requirements and fees for the Zimbabwe e-passport?" },
-    { label: "UZ Admission", icon: "cap", prompt: "What are the requirements for University of Zimbabwe (UZ) admission?" },
-    { label: "ZIMRA Tax", icon: "percent", prompt: "What are the 2024 ZIMRA PAYE tax thresholds and Aids Levy?" },
-    { label: "Health Guidance", icon: "shield", prompt: "How can I prevent cholera and malaria in Zimbabwe?" }
+  ny: [
+    { label: "Ndingatenge bwanji NRC?", icon: "card", prompt: "Kodi ndingatenge bwanji NRC yatsopano mu Zambia?" },
+    { label: "Ndingapemphe bwanji HELSB?", icon: "cap", prompt: "Ndingapemphe bwanji ngongole ya maphunziro ku HELSB?" },
+    { label: "Ndingapeze bwanji TPIN?", icon: "percent", prompt: "Ndingapeze bwanji TPIN kuchokera ku ZRA pa internet?" },
+    { label: "Ndingalipire bwanji madzi a LWSC?", icon: "doc", prompt: "Ndingalipire bwanji ma bill a madzi a LWSC ku Lusaka?" },
+    { label: "Katemera wa mwana?", icon: "shield", prompt: "Ndi katemera wanji wofunikira pa Under-5 clinic ya mwana?" },
+    { label: "Provisional license ya RTSA?", icon: "passport", prompt: "Ndingatenge bwanji provisional driver's license ku RTSA?" }
+  ],
+  sn: [
+    { label: "Ndingawana sei chitupa?", icon: "card", prompt: "Ndingawana sei chitupa chekuzvarwa muZimbabwe?" },
+    { label: "Passport yeZimbabwe?", icon: "passport", prompt: "Ndinganyorera sei passport yeZimbabwe uye inodhura marii?" },
+    { label: "ZIMSEC results?", icon: "doc", prompt: "Ndingaona sei mibairo yeZIMSEC pamhepo?" },
+    { label: "ZIMRA tax 2024?", icon: "percent", prompt: "Ndeapi mitero yeZIMRA PAYE ya2024?" },
+    { label: "UZ admission?", icon: "cap", prompt: "Ndezvipi zvinodiwa kuti ndipinde paYunivhesiti yeZimbabwe?" },
+    { label: "Kudzivirira kolera?", icon: "shield", prompt: "Ndingadzivirire sei kolera nemalarari muZimbabwe?" }
   ]
 };
+
+function getSuggestionItems(country, lang) {
+  if (lang === "en") {
+    const enSet = SUGGESTIONS.en || {};
+    return enSet[country] || enSet.zm || [];
+  }
+  return SUGGESTIONS[lang] || (SUGGESTIONS.en && SUGGESTIONS.en[country]) || [];
+}
 
 function escapeAttr(value) {
   return String(value)
@@ -278,9 +312,11 @@ function init() {
     submit(input.value);
   });
 
-  function renderSuggestions(country) {
+  function renderSuggestions() {
     if (!suggestionsGrid) return;
-    const items = SUGGESTIONS[country] || SUGGESTIONS.zm;
+    const country = currentCountry ? currentCountry.value : "zm";
+    const lang = currentLanguageSelect ? currentLanguageSelect.value : "en";
+    const items = getSuggestionItems(country, lang);
     suggestionsGrid.innerHTML = items
       .map(
         (item) => `
@@ -295,10 +331,14 @@ function init() {
       .join("");
   }
 
-  renderSuggestions(currentCountry ? currentCountry.value : "zm");
+  renderSuggestions();
 
   if (currentCountry) {
-    currentCountry.addEventListener("change", () => renderSuggestions(currentCountry.value));
+    currentCountry.addEventListener("change", renderSuggestions);
+  }
+
+  if (currentLanguageSelect) {
+    currentLanguageSelect.addEventListener("change", renderSuggestions);
   }
 
   if (suggestionsGrid) {

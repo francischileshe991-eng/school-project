@@ -1,15 +1,15 @@
 # NHIMA Zambia Official Guide (2026)
 
 ## 1. CONTRIBUTION COSTS (How much it costs)
-As of May 2026, the contribution rules are:
-- **Formal Sector Employees:** 1% of your **TOTAL GROSS MONTHLY SALARY**.
-- **Employers:** 1% of the employee's gross monthly salary.
-- **Total:** 2% of gross pay.
-- **NO SALARY CEILING:** You pay 1% on your entire salary, even if it is very high.
+As of 2026, the contribution rules are:
+- **Formal Sector Employees:** 1% of your **BASIC MONTHLY SALARY**.
+- **Employers:** 1% of the employee's basic monthly salary.
+- **Total:** 2% of basic pay.
+- **NO SALARY CEILING:** You pay 1% on your entire basic salary, even if it is very high.
 
 ## 2. INFORMAL SECTOR
-- Individuals and self-employed: Average **K50 per month** for a family of 7.
-- Senior Citizens (65+): Exempt/Free.
+- Individuals and self-employed: Contribute 1% of assessed monthly income through the eNHIMA system.
+- Senior Citizens (65+): Exempt/Free. VERIFY the specific flat informal contribution rate with NHIMA.
 
 ## 3. BENEFITS PACKAGE (Mapindu / Ifisuma)
 NHIMA members enjoy:

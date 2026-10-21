@@ -8,8 +8,9 @@
 The Small Claims Court is established under the **Small Claims Court Act (Cap 47 of the Laws of Zambia)**. It is a specialized, informal division of the Zambian Judiciary created to resolve commercial and civil financial disputes quickly, cheaply, and without bureaucratic delays.
 
 ### Key Features & Benefits:
-1. **Financial Jurisdiction (Up to K50,000):**
-   - The court handles monetary claims where the disputed amount does not exceed **K50,000 (Fifty Thousand Zambian Kwacha)**.
+1. **Financial Jurisdiction (Up to K75,000):**
+   - The court handles monetary claims where the disputed amount does not exceed **K75,000 (Seventy-Five Thousand Zambian Kwacha)**.
+   - The limit was raised from K50,000 to **K75,000** by the Small Claims Courts (Amendment) Act No. 15 of 2025.
 2. **Strictly No Lawyers Allowed (Level Playing Field):**
    - Under Section 14 of the Small Claims Court Act, **legal practitioners (private lawyers or advocates) are legally barred from appearing or representing parties in the Small Claims Court!**
    - Both the claimant (person suing) and the defendant (person being sued) must represent themselves in person before the presiding Commissioner.

@@ -4,7 +4,7 @@
 
 > [!TIP]
 > **Looking for the Complete End-to-End System Architecture (Version 2.0)?**  
-> See **[Source Code & System Architecture Guide v2.0](file:///docs/SOURCE_CODE_GUIDE_v2.0.md)** for the full documentation covering the RAG pipeline, multi-provider hybrid cascade, WhatsApp Web Gateway v2.0, empirical TAM evaluation database, and the glassmorphic web UI.  
+> See **[Source Code & System Architecture Guide v2.0](SOURCE_CODE_GUIDE_v2.0.md)** for the full documentation covering the RAG pipeline, multi-provider hybrid cascade, WhatsApp Web Gateway v2.0, empirical TAM evaluation database, and the glassmorphic web UI.  
 > *This document (v1.0) is preserved for historical Objective One milestone tracking.*
 
 This document provide the core implementation logic for Objective One, demonstrating the modular RAG architecture and native multilingual capabilities.
