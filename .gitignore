@@ -12,6 +12,8 @@ dist/
 build/
 chroma/
 vector_store/
+data/processed/**
+!data/processed/**/.gitkeep
 data/*.db
 *.db
 *.sqlite3
