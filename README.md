@@ -8,7 +8,7 @@
 [![ChromaDB](https://img.shields.io/badge/ChromaDB-0.6+-orange.svg)](https://www.trychroma.com/)
 [![Embedding](https://img.shields.io/badge/Embeddings-BAAI%2FBGE--M3-purple.svg)](https://huggingface.co/BAAI/bge-m3)
 [![Translation](https://img.shields.io/badge/Translation-Meta%20NLLB--200-green.svg)](https://huggingface.co/facebook/nllb-200-distilled-600M)
-[![Tests](https://img.shields.io/badge/Tests-21%2F21%20Passing%20(100%25)-brightgreen.svg)]()
+[![Tests](https://img.shields.io/badge/Tests-53%2F53%20Passing%20(100%25)-brightgreen.svg)]()
 
 [![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
@@ -262,8 +262,12 @@ Before starting the server, index the raw civic records into ChromaDB:
 python scripts/build_index.py --reset
 ```
 **Expected Output:**
-- **Zambia (`zm`)**: Exactly 99 chunks indexed across 20 source documents.
-- **Zimbabwe (`zw`)**: Exactly 16 chunks indexed across 4 source documents.
+- **Zambia (`zm`)**: 189 chunks indexed across 34 source files (33 `.txt` + 1 `.pdf`).
+- **Zimbabwe (`zw`)**: 22 chunks indexed across 6 source files.
+
+> The first run downloads the `BAAI/bge-m3` embedding model (~2.2 GB) and takes a
+> few minutes. The vector store is a generated artifact and is therefore **not**
+> included in this package — run this command once after cloning.
 
 ---
 
@@ -295,37 +299,29 @@ To test WhatsApp messaging on your personal smartphone:
 
 ## 8. Automated Test Suite
 
-The project includes an automated test suite verifying input validation, CORS compliance, database error handling, clean sentence truncation, language detection, and end-to-end RAG generation.
+The project includes an automated test suite verifying input validation, CORS compliance, database error handling, clean sentence truncation, language detection, greeting routing, refusal-consistency handling, and end-to-end RAG generation.
+
+> **Prerequisite:** build the vector index first (§6). `test_health_endpoint`
+> asserts the vector store reports `ready`, so it fails on a fresh clone until
+> `python scripts/build_index.py --reset` has been run.
 
 Run the test suite:
 ```powershell
 python -m pytest tests/ -v
 ```
 
-**Results (19/19 Passing, 100% Pass Rate):**
+**Results (53/53 Passing, 100% Pass Rate):**
 ```text
-tests/test_api.py::test_health_endpoint PASSED                           [  5%]
-tests/test_api.py::test_root_endpoint PASSED                             [ 10%]
-tests/test_api.py::test_stats_endpoint PASSED                            [ 15%]
-tests/test_api.py::test_chat_validation_invalid_country PASSED           [ 21%]
-tests/test_api.py::test_chat_validation_invalid_language PASSED          [ 26%]
-tests/test_api.py::test_chat_validation_message_length PASSED            [ 31%]
-tests/test_api.py::test_feedback_endpoint PASSED                         [ 36%]
-tests/test_api.py::test_whatsapp_test_endpoints PASSED                   [ 42%]
-tests/test_api.py::test_send_whatsapp_reply_safe_without_credentials PASSED [ 47%]
-tests/test_api.py::test_language_detector_no_cjk_artifacts PASSED        [ 52%]
-tests/test_evaluation.py::test_simple_accuracy PASSED                    [ 57%]
-tests/test_evaluation.py::test_retrieval_hit_rate PASSED                 [ 63%]
-tests/test_evaluation.py::test_retrieval_precision PASSED                [ 68%]
-tests/test_evaluation.py::test_answer_keyword_recall PASSED              [ 73%]
-tests/test_evaluation.py::test_compute_evaluation_summary PASSED         [ 78%]
-tests/test_rag.py::test_clean_truncate PASSED                            [ 84%]
-tests/test_rag.py::test_database_ping PASSED                             [ 89%]
-tests/test_rag.py::test_vector_store_invalid_country_validation PASSED   [ 94%]
-tests/test_rag.py::test_generate_reply_returns_answer_and_sources PASSED [100%]
+tests/test_api.py ......................................... 12 passed
+tests/test_evaluation.py .................................... 5 passed
+tests/test_greetings.py ..................................... 33 passed
+tests/test_rag.py ........................................... 4 passed
 
-================== 19 passed in 82.82s ==================
+================== 53 passed in 225.31s (0:03:45) ==================
 ```
+
+> The greeting suite is parameterised, so the 53 collected tests cover 12 API,
+> 5 evaluation-metric, 33 multilingual-greeting and 4 RAG scenarios.
 
 ---
 
@@ -334,13 +330,23 @@ tests/test_rag.py::test_generate_reply_returns_answer_and_sources PASSED [100%]
 The system was evaluated against two rigorous frameworks in accordance with the capstone proposal:
 
 ### 9.1 Information Retrieval (IR) Benchmark (Objective 2)
-An automated 40-query benchmark across 4 languages and 4 domains evaluated retrieval accuracy:
-- **Retrieval Hit Rate (Recall@3)**: **100.00%** (All 40 benchmark queries successfully retrieved their gold-standard document chunk in the top-3 results).
-- **Retrieval Precision@3**: **81.25%** (High concentration of relevant chunks per query).
-- **Keyword Grounding Recall**: **65.83%** (measured in grounded-excerpt fallback mode during a provider outage; see `docs/BENCHMARK_EVALUATION_REPORT.md`).
+An automated 40-query benchmark across 4 languages and 4 domains evaluated retrieval accuracy. **Two runs are shipped**, because the knowledge base was expanded between them:
 
-To reproduce the benchmark:
+| Metric | Run A — `data/benchmark_results.csv`<br>(18 Sep 2026, 69/7-chunk index) | Run B — `data/benchmark_results_live.csv`<br>(19 Oct 2026, 189/22-chunk index) |
+|:---|:---:|:---:|
+| **Retrieval Hit Rate (Recall@3)** | **100.00%** | **90.00%** |
+| **Retrieval Precision@3** | **81.25%** | **50.62%** |
+| **Keyword Grounding Recall** | **65.83%** | **65.71%** |
+| **Median Latency** | 34,736 ms | 7,698 ms |
+| **Mean Latency** | 27,368 ms | 11,028 ms |
+
+Run A is the figure reported in the dissertation and defense deck, and was measured against the curated 20-file knowledge base described in Table 4.1. Run B was measured against the **final as-submitted index** (§6), which adds the 2026 statutory guides.
+
+The precision drop between runs is an expected and explainable consequence of corpus growth: the expanded knowledge base contains several **near-duplicate document families** that compete for the same top-3 slots — `nrc_passport_guide` / `nrc_first_time_registration_guide`, `zra_tax_2024` / `zra_tax_2026`, `pacra_business_guide` / `pacra_business_guide_2026`, `napsa_pension_guide` / `napsa_pension_guide_2026`, `nhima_guide` / `_2024` / `_2026`, `zesco_tariffs_2024` / `_2026` and `zimra_tax_2024` / `_2026`. Hit rate remains high (90%), but the retrieved set now contains the correct *family* of documents more often than the exact gold chunk. The keyword-grounding recall is essentially unchanged (65.83% → 65.71%), confirming that answer grounding is unaffected by the corpus expansion.
+
+To reproduce the benchmark against the currently built index:
 ```powershell
+python scripts/build_index.py --reset
 python scripts/evaluate_system.py
 ```
 
@@ -365,7 +371,8 @@ python scripts/plot_benchmark_results.py
 Full documentation prepared for academic submission and examination:
 - 📖 [Complete Project Dissertation (6 Chapters, UNZA Format)](docs/FINAL_PROJECT_DISSERTATION.md)
 - 🎯 [Oral Defense Presentation Deck (13 Slides + Anticipated Q&A)](docs/FINAL_DEFENSE_PRESENTATION.md)
-- 📊 [Benchmark Evaluation Report (IR Metrics)](docs/BENCHMARK_EVALUATION_REPORT.md)
+- 📊 [Benchmark Evaluation Report (IR Metrics, evaluated index)](docs/BENCHMARK_EVALUATION_REPORT.md)
+- 📊 [Benchmark Evaluation Report (LIVE, final as-submitted index)](docs/BENCHMARK_EVALUATION_REPORT_LIVE.md)
 - 📈 [TAM Evaluation Report (Empirical Findings)](docs/TAM_EVALUATION_REPORT.md)
 - 📋 [TAM Questionnaire Instrument](docs/TAM_QUESTIONNAIRE_INSTRUMENT.md)
 - 📱 [WhatsApp Setup Guide v2.0 (Twilio + Node.js Gateway)](docs/WHATSAPP_SETUP_GUIDE_v2.0.md)

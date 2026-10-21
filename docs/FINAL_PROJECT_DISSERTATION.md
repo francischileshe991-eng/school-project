@@ -560,6 +560,8 @@ $$\mathbf{e} = \frac{f_{\text{BGE-M3}}(chunk)}{\|f_{\text{BGE-M3}}(chunk)\|_2}$$
 
 A total of **69 chunks** were indexed for Zambia across 20 source files, and **7 chunks** were indexed for Zimbabwe across 3 source files.
 
+> **Note on the as-submitted build.** The knowledge base was subsequently expanded with the 2026 statutory guides (CDF, FISP, labour minimum wage, RTSA, small claims, ZICTA mobile-money fraud, first-time NRC, ZIMRA 2026, NHIMA 2026, ZESCO 2026, e-passport and others), yielding **189 chunks across 34 source files for Zambia** and **22 chunks across 6 source files for Zimbabwe** in the final ingested index. The IR metrics reported in Table 4.4 were measured against the earlier 69/7-chunk index; the corresponding measurements against the expanded index are reported separately in `docs/BENCHMARK_EVALUATION_REPORT_LIVE.md` and `data/benchmark_results_live.csv`.
+
 ### Table 4.1: Zambian Knowledge Base Curated Domain Inventory
 
 | Domain | Key Statutory Documents Curated | Chunks Indexed | Primary Topics Covered |

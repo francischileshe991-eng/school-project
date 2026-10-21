@@ -68,8 +68,8 @@
 
 ## Slide 6: Country Modularity (Zambia & Zimbabwe)
 - **Strict Data Isolation**:
-  - Zambia (`zm`): 69 chunks across 20 documents.
-  - Zimbabwe (`zw`): 7 chunks across 3 documents.
+  - Zambia (`zm`): 69 chunks across 20 source files (189 chunks across 34 files in the final as-submitted index).
+  - Zimbabwe (`zw`): 7 chunks across 3 source files (22 chunks across 6 files in the final as-submitted index).
 - **Zero Pipeline Code Alteration**: Adding a country requires only adding a data directory and running `python scripts/build_index.py --country zw`.
 - **Country-Aware Domain Prioritization**: The retriever dynamically prioritizes domain terms (`zesco` vs. `zesa`, `zra` vs. `zimra`, `unza` vs. `uz`).
 
